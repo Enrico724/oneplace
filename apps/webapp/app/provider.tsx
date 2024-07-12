@@ -13,7 +13,7 @@ export function Providers({
       domain="one-place.eu.auth0.com"
       clientId="4LyHlFaTIZPeVnls0rpnM4vk4MhWdt5P"
       authorizationParams={{
-        redirect_uri: 'http://localhost:3000'
+        redirect_uri: 'http://localhost:3000/home'
       }}
     >
         {children}

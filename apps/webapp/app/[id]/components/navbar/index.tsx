@@ -3,6 +3,7 @@
 
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { UserDropdown } from "./userDropdown";
+import { Searchbar } from "./searchbar";
 
 export default function AppNavbar() {
   return (
@@ -15,13 +16,7 @@ export default function AppNavbar() {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link href="#" active>
-          Home
-        </Navbar.Link>
-        <Navbar.Link href="#">About</Navbar.Link>
-        <Navbar.Link href="#">Services</Navbar.Link>
-        <Navbar.Link href="#">Pricing</Navbar.Link>
-        <Navbar.Link href="#">Contact</Navbar.Link>
+        <Searchbar/>
       </Navbar.Collapse>
     </Navbar>
   );

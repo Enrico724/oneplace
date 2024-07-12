@@ -1,7 +1,7 @@
 
 "use client";
 
-import { Button, Navbar as UINavbar } from "flowbite-react";
+import { Navbar as UINavbar } from "flowbite-react";
 import LoginButton from "./loginButton";
 
 export function Navbar() {
