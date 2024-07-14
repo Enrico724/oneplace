@@ -1,24 +1,29 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user/user.entity';
-import { Folder } from './folder/folder.entity';
-import { File } from './file/file.entity';
 import { UserController } from './user/user.controller';
 import { FolderController } from './folder/folder.controller';
 import { FileController } from './file/file.controller';
 import { UserService } from './user/user.service';
 import { FolderService } from './folder/folder.service';
 import { FileService } from './file/file.service';
+import { User } from './user/user.entity';
+import { Folder } from './folder/folder.entity';
+import { File } from './file/file.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     TypeOrmModule.forRoot({
-      type: 'postgres',
+      type: 'mysql',
       host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'password',
-      database: 'test',
+      port: 3306,
+      username: 'test',
+      password: 'test',
+      database: 'oneplacedb',
       entities: [User, Folder, File],
       synchronize: true,
     }),

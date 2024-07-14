@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Delete, Req, Param, Body, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreateFileDto } from './dto/create-file.dto';
 import { FileService } from './file.service';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
+import { CreateFileDto } from './dto/create-file.dto';
 
 
 @ApiBearerAuth()
