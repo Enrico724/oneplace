@@ -1,12 +1,7 @@
 "use client";
 
 import { Configuration, FilesApi, FoldersApi } from "@/openapi";
-import {
-  Auth0Provider,
-  AuthorizationParams,
-  useAuth0,
-} from "@auth0/auth0-react";
-import { get } from "http";
+import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { createContext, useEffect, useState } from "react";
 
 interface ProviderInstance {
@@ -38,8 +33,7 @@ export function Providers({
 export function ClientProvider({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const TOKEN_KEY = "token";
-  const DOMAIN = "http://127.0.0.1:3001";
+  const DOMAIN = "http://localhost:3001";
 
   const initialCong = { basePath: DOMAIN };
   const [logged, setLogged] = useState<boolean>(false);
