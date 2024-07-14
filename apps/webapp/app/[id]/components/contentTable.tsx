@@ -1,8 +1,10 @@
 "use client";
 
 import { Checkbox, Table } from "flowbite-react";
+import { useContext } from "react";
 export function ContentTable() {
-    return (
+  const api = useContext(ApiContext);
+  return (
     <div className="overflow-x-auto py-3">
       <Table hoverable>
         <Table.Head>
@@ -23,13 +25,16 @@ export function ContentTable() {
               <Checkbox />
             </Table.Cell>
             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-              {'Web Programming'}
+              {"Web Programming"}
             </Table.Cell>
             <Table.Cell>31/01/2001</Table.Cell>
             <Table.Cell>124.5 MB</Table.Cell>
             <Table.Cell>Privato</Table.Cell>
             <Table.Cell>
-              <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+              <a
+                href="#"
+                className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+              >
                 Edit
               </a>
             </Table.Cell>

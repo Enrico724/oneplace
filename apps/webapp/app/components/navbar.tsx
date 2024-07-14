@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Navbar as UINavbar } from "flowbite-react";
@@ -8,10 +7,12 @@ export function Navbar() {
   return (
     <UINavbar fluid rounded>
       <UINavbar.Brand href="#">
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">OnePlace</span>
+        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+          OnePlace
+        </span>
       </UINavbar.Brand>
       <div className="flex md:order-2">
-        <LoginButton/>
+        <LoginButton />
         <UINavbar.Toggle />
       </div>
       <UINavbar.Collapse>

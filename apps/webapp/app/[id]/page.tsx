@@ -6,16 +6,16 @@ import AppSidebar from "./components/sidebar";
 import { Toolbar } from "./components/toolbar";
 
 export default function ContentPage() {
-    return (
-        <main>
-            <AppNavbar/>
-            <AppSidebar/>
-            <ContentSidebar/>
-            <div className="p-4 sm:mx-64">
-                <Toolbar/>
-                <AppBreadcrumb/>
-                <ContentTable/>
-            </div>
-        </main>
-    );
+  return (
+    <main>
+      <AppNavbar />
+      <AppSidebar />
+      <ContentSidebar />
+      <div className="p-4 sm:mx-64">
+        <Toolbar />
+        <AppBreadcrumb />
+        <ContentTable />
+      </div>
+    </main>
+  );
 }
