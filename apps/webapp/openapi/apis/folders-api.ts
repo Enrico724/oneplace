@@ -28,6 +28,7 @@ import {
   RequiredError,
 } from "../base";
 import { CreateFolderDto } from "../models";
+import { Folder } from "../models";
 /**
  * FoldersApi - axios parameter creator
  * @export
@@ -269,7 +270,10 @@ export const FoldersApiFp = function (configuration?: Configuration) {
     async folderControllerGetAllFolders(
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => Promise<AxiosResponse<Array<Folder>>>
     > {
       const localVarAxiosArgs =
         await FoldersApiAxiosParamCreator(
@@ -334,7 +338,7 @@ export const FoldersApiFactory = function (
      */
     async folderControllerGetAllFolders(
       options?: AxiosRequestConfig,
-    ): Promise<AxiosResponse<void>> {
+    ): Promise<AxiosResponse<Array<Folder>>> {
       return FoldersApiFp(configuration)
         .folderControllerGetAllFolders(options)
         .then((request) => request(axios, basePath));
@@ -387,7 +391,7 @@ export class FoldersApi extends BaseAPI {
    */
   public async folderControllerGetAllFolders(
     options?: AxiosRequestConfig,
-  ): Promise<AxiosResponse<void>> {
+  ): Promise<AxiosResponse<Array<Folder>>> {
     return FoldersApiFp(this.configuration)
       .folderControllerGetAllFolders(options)
       .then((request) => request(this.axios, this.basePath));

@@ -1,16 +1,22 @@
 "use client";
 
 import { ProviderContext } from "@/app/provider";
+import { Folder } from "@/openapi";
 import { Checkbox, Table } from "flowbite-react";
-import { use, useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+
 export function ContentTable() {
   const api = useContext(ProviderContext);
+  const [folders, setFolders] = useState<Folder[]>([]);
 
-  useEffect(() => {
-    api.folder.folderControllerGetAllFolders()
-      .then(console.log)
+  function fetchAllFolders() {
+    api.folder
+      .folderControllerGetAllFolders()
+      .then(({ data }) => setFolders(data))
       .catch(console.error);
-  }, []);
+  }
+
+  useEffect(fetchAllFolders, []);
 
   return (
     <div className="overflow-x-auto py-3">
@@ -28,25 +34,27 @@ export function ContentTable() {
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <Table.Cell className="p-4">
-              <Checkbox />
-            </Table.Cell>
-            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-              {"Web Programming"}
-            </Table.Cell>
-            <Table.Cell>31/01/2001</Table.Cell>
-            <Table.Cell>124.5 MB</Table.Cell>
-            <Table.Cell>Privato</Table.Cell>
-            <Table.Cell>
-              <a
-                href="#"
-                className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-              >
-                Edit
-              </a>
-            </Table.Cell>
-          </Table.Row>
+          {folders.map((folder) => (
+            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <Table.Cell className="p-4">
+                <Checkbox />
+              </Table.Cell>
+              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                {"Web Programming"}
+              </Table.Cell>
+              <Table.Cell>31/01/2001</Table.Cell>
+              <Table.Cell>124.5 MB</Table.Cell>
+              <Table.Cell>Privato</Table.Cell>
+              <Table.Cell>
+                <a
+                  href="#"
+                  className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                >
+                  Edit
+                </a>
+              </Table.Cell>
+            </Table.Row>
+          ))}
         </Table.Body>
       </Table>
     </div>

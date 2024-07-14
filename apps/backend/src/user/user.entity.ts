@@ -10,9 +10,6 @@ export class User {
   @Column()
   auth0Id: string;
 
-  @Column()
-  email: string;
-
   @OneToMany(() => Folder, folder => folder.user)
   folders: Folder[];
 

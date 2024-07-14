@@ -1,8 +1,9 @@
 import { Controller, Get, Post, Param, Delete, Body, UseGuards, Req } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FolderService } from './folder.service';
 import { CreateFolderDto } from './dto/create-folder.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { Folder } from './folder.entity';
 
 @ApiBearerAuth()
 @ApiTags('folders')
@@ -11,8 +12,9 @@ export class FolderController {
   constructor(private readonly folderService: FolderService) {}
 
   @UseGuards(AuthGuard('jwt'))
+  @ApiResponse({ status: 200, description: 'Get all folders', type: Folder, isArray: true })
   @Get()
-  getAllFolders(@Req() req) {
+  getAllFolders(@Req() req): Promise<Folder[]> {
     return this.folderService.findAll(req.user);
   }
 

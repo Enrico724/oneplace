@@ -7,15 +7,21 @@ import { Toolbar } from "./components/toolbar";
 
 export default function ContentPage() {
   return (
-    <main>
+    <main className=" h-screen">
       <AppNavbar />
-      <AppSidebar />
-      <ContentSidebar />
-      <div className="p-4 sm:mx-64">
+    <div className="flex">    
+      <div className="flex-none w-64">
+        <AppSidebar />
+      </div>
+      <div className="grow p-3">
         <Toolbar />
         <AppBreadcrumb />
         <ContentTable />
       </div>
+      <div className="flex-none w-64">
+        <ContentSidebar />
+      </div>
+    </div>
     </main>
   );
 }

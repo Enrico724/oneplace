@@ -23,6 +23,8 @@ export function Providers({
       clientId="4LyHlFaTIZPeVnls0rpnM4vk4MhWdt5P"
       authorizationParams={{
         redirect_uri: "http://localhost:3000/home",
+        audience: "http://localhost:3001/",
+        scope: "openid profile email",
       }}
     >
       <ClientProvider>{children}</ClientProvider>
@@ -49,6 +51,7 @@ export function ClientProvider({
   };
 
   const validate = (token: string) => {
+    console.log("[Provider] validating", token);
     updateConfiguration({
       ...initialCong,
       baseOptions: {
@@ -59,7 +62,7 @@ export function ClientProvider({
   };
 
   const invalidate = () => {
-    console.log("[privder] invalidating token");
+    console.log("[Provider] invalidating token");
     updateConfiguration(initialCong);
     goToLogin();
     setLogged(false);
@@ -73,8 +76,10 @@ export function ClientProvider({
   }
 
   useEffect(() => {
-    getAccessTokenSilently().then(validate).catch(invalidate);
-    setIsLoading(false);
+    getAccessTokenSilently()
+      .then(validate)
+      .catch(invalidate)
+      .finally(() => setIsLoading(false));
   }, []);
 
   const instance = {
