@@ -2,9 +2,16 @@
 
 import { ProviderContext } from "@/app/provider";
 import { Checkbox, Table } from "flowbite-react";
-import { useContext } from "react";
+import { use, useContext, useEffect } from "react";
 export function ContentTable() {
   const api = useContext(ProviderContext);
+
+  useEffect(() => {
+    api.folder.folderControllerGetAllFolders()
+      .then(console.log)
+      .catch(console.error);
+  }, []);
+
   return (
     <div className="overflow-x-auto py-3">
       <Table hoverable>

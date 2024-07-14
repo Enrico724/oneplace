@@ -10,6 +10,7 @@ import { User } from './user/user.entity';
 import { Folder } from './folder/folder.entity';
 import { File } from './file/file.entity';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ConfigModule } from '@nestjs/config';
       synchronize: true,
     }),
     TypeOrmModule.forFeature([User, Folder, File]),
+    AuthModule,
   ],
   controllers: [UserController, FolderController, FileController],
   providers: [UserService, FolderService, FileService],
