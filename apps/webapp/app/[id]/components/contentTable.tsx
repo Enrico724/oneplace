@@ -1,9 +1,10 @@
 "use client";
 
+import { ProviderContext } from "@/app/provider";
 import { Checkbox, Table } from "flowbite-react";
 import { useContext } from "react";
 export function ContentTable() {
-  const api = useContext(ApiContext);
+  const api = useContext(ProviderContext);
   return (
     <div className="overflow-x-auto py-3">
       <Table hoverable>

@@ -1,7 +1,8 @@
 "use client";
 
 import { Configuration, FilesApi, FoldersApi } from "@/openapi";
-import { Auth0Provider, AuthorizationParams } from "@auth0/auth0-react";
+import { Auth0Provider, AuthorizationParams, useAuth0 } from "@auth0/auth0-react";
+import { get } from "http";
 import { createContext, useEffect, useState } from "react";
 
 interface ProviderInstance {
@@ -13,16 +14,31 @@ interface ProviderInstance {
   setUpAuthClient: (token: string) => void;
 }
 
-export const ApiContext = createContext({} as ProviderInstance);
+export const ProviderContext = createContext({} as ProviderInstance);
 
-export function Providers({ children }: Readonly<{children: React.ReactNode }>) {
-
+export function Providers({ children }: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <Auth0Provider
+      domain="one-place.eu.auth0.com"
+      clientId="4LyHlFaTIZPeVnls0rpnM4vk4MhWdt5P"
+      authorizationParams={{
+        redirect_uri: "http://localhost:3000/home",
+      }}
+    >
+      <ClientProvider>
+        {children}
+      </ClientProvider>
+    </Auth0Provider>
+  );
+}
+export function ClientProvider({ children }: Readonly<{children: React.ReactNode }>) {
   const TOKEN_KEY = 'token';
   const DOMAIN = 'http://127.0.0.1:3001';
   
   const initialCong = { basePath: DOMAIN };
   const [logged, setLogged] = useState<boolean>(false);
   const [loading, setIsLoading] = useState<boolean>(true);
+  const { getAccessTokenSilently } = useAuth0();
   
   const [folder, setFolder] = useState<FoldersApi>(new FoldersApi(initialCong));
   const [file, setFile] = useState<FilesApi>(new FilesApi(initialCong));
@@ -61,25 +77,11 @@ export function Providers({ children }: Readonly<{children: React.ReactNode }>) 
   }
   
   useEffect(() => {
-      const token = window.localStorage.getItem(TOKEN_KEY);
-      const hasToken = !(token == null);
-      if (hasToken) {
-          console.log("[Provider] User has token", token);
-          setUpAuthClient(token);
-      } else {
-          console.log("[Provider] User has not token");
-          goToLogin();
-      }
-      setIsLoading(false)
+    getAccessTokenSilently()
+      .then(console.log)
+      .catch(console.error)
+    setIsLoading(false)
   }, []);
-
-  useEffect(() => {
-      if (loading) return;
-      validate();
-      // folder.albumControllerGetAll()
-      //     .then(validate)
-      //     .catch(invalidate);
-  }, [loading, logged])
 
   const instance = {
       DOMAIN,
@@ -94,14 +96,8 @@ export function Providers({ children }: Readonly<{children: React.ReactNode }>) 
 
 
   return (
-    <Auth0Provider
-      domain="one-place.eu.auth0.com"
-      clientId="4LyHlFaTIZPeVnls0rpnM4vk4MhWdt5P"
-      authorizationParams={{
-        redirect_uri: "http://localhost:3000/home",
-      }}
-    >
+    <ProviderContext.Provider value={instance}>
       {children}
-    </Auth0Provider>
+    </ProviderContext.Provider>
   );
 }
