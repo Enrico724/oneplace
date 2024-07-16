@@ -7,12 +7,6 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ unique: true })
   auth0Id: string;
-
-  @OneToMany(() => Folder, folder => folder.user)
-  folders: Folder[];
-
-  @OneToMany(() => File, file => file.user)
-  files: File[];
 }

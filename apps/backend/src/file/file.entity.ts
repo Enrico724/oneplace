@@ -1,6 +1,6 @@
 import { Folder } from 'src/folder/folder.entity';
 import { User } from 'src/user/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne } from 'typeorm';
 
 @Entity()
 export class File {
@@ -19,7 +19,7 @@ export class File {
   @Column()
   mimeType: string;
 
-  @ManyToOne(() => User, user => user.files)
+  @OneToOne(() => User)
   user: User;
 
   @ManyToOne(() => Folder, folder => folder.files, { nullable: true })

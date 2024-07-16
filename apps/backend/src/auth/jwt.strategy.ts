@@ -36,7 +36,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     try {
       return await this.userService.repository.findOneByOrFail(filter);
     } catch (error) {
-      const user = this.userService.repository.create(filter);
+      Logger.warn(`User not found: ${payload.sub}, creating new user`);
+      const user = await this.userService.create(payload.sub);
       return await this.userService.repository.save(user);
     }
   }

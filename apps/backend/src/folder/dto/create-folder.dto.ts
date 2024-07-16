@@ -4,6 +4,6 @@ export class CreateFolderDto {
   @ApiProperty()
   name: string;
 
-  @ApiProperty({ required: false })
-  parentFolderId?: string;
+  @ApiProperty({ required: true })
+  parentFolderId: string;
 }

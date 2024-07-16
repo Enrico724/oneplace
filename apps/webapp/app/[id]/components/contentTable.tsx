@@ -7,12 +7,12 @@ import { useContext, useEffect, useState } from "react";
 
 export function ContentTable() {
   const api = useContext(ProviderContext);
-  const [folders, setFolders] = useState<Folder[]>([]);
+  const [folder, setFolder] = useState<Folder>();
 
   function fetchAllFolders() {
     api.folder
-      .folderControllerGetAllFolders()
-      .then(({ data }) => setFolders(data))
+      .folderControllerGetRootFolder()
+      .then(({ data }) => setFolder(data))
       .catch(console.error);
   }
 
@@ -34,7 +34,7 @@ export function ContentTable() {
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {folders.map((folder) => (
+          {folder && folder.subfolders.map((folder) => (
             <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
               <Table.Cell className="p-4">
                 <Checkbox />

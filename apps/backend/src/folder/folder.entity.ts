@@ -1,24 +1,30 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, Tree, TreeChildren, TreeParent, ManyToOne } from 'typeorm';
 import { User } from 'src/user/user.entity';
 import { File } from 'src/file/file.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
+@Tree("closure-table")
 export class Folder {
+  @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @ApiProperty()
   @Column()
   name: string;
 
-  @ManyToOne(() => User, user => user.folders)
-  user: User;
+  @TreeParent()
+  parent: Folder;
 
-  @ManyToOne(() => Folder, folder => folder.subfolders, { nullable: true })
-  parentFolder: Folder;
+  @ManyToOne(() => User)
+  owner: User;
 
-  @OneToMany(() => Folder, folder => folder.parentFolder)
+  @ApiProperty()
+  @TreeChildren()
   subfolders: Folder[];
 
+  @ApiProperty()
   @OneToMany(() => File, file => file.folder)
   files: File[];
 }
