@@ -22,8 +22,8 @@ export function Providers({
       domain="one-place.eu.auth0.com"
       clientId="4LyHlFaTIZPeVnls0rpnM4vk4MhWdt5P"
       authorizationParams={{
-        redirect_uri: "http://localhost:3000/home",
-        audience: "http://localhost:3001/",
+        redirect_uri: process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI,
+        audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
         scope: "openid profile email",
       }}
     >
@@ -35,7 +35,7 @@ export function Providers({
 export function ClientProvider({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const DOMAIN = "http://localhost:3001";
+  const DOMAIN = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
   const initialCong = { basePath: DOMAIN };
   const [logged, setLogged] = useState<boolean>(false);
