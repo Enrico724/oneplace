@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Delete, Req, Param, Body, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FileService } from './file.service';
 import { CreateFileDto } from './dto/create-file.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -21,8 +21,12 @@ export class FileController {
   @UseGuards(AuthGuard('jwt'))
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@Req() req, @UploadedFile() file: Express.Multer.File, @Body() createFileDto: CreateFileDto) {
-    return this.fileService.upload(req.user, file, createFileDto);
+  @ApiConsumes('multipart/form-data')
+  uploadFile(
+    @Req() req: { body: CreateFileDto; user: any },
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.fileService.upload(req.user, file, req.body);
   }
 
   @UseGuards(AuthGuard('jwt'))

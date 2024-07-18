@@ -1,12 +1,12 @@
 "use client";
 
-import { Avatar, Dropdown, Navbar } from "flowbite-react";
+import { Navbar } from "flowbite-react";
 import { UserDropdown } from "./userDropdown";
 import { Searchbar } from "./searchbar";
 
 export default function AppNavbar() {
   return (
-    <Navbar fluid rounded>
+    <Navbar fluid>
       <Navbar.Brand href="https://flowbite-react.com">
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
           OnePlace

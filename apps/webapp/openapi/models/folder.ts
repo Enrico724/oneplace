@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+import { Folder } from './folder';
  /**
  * 
  *
@@ -33,14 +34,14 @@ export interface Folder {
     name: string;
 
     /**
-     * @type {Array<string>}
+     * @type {Array<Folder>}
      * @memberof Folder
      */
-    subfolders: Array<string>;
+    subfolders: Array<Folder>;
 
     /**
-     * @type {Array<string>}
+     * @type {Array<any>}
      * @memberof Folder
      */
-    files: Array<string>;
+    files: Array<any>;
 }

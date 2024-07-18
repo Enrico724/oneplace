@@ -17,7 +17,6 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
-import { CreateFileDto } from '../models';
 /**
  * FilesApi - axios parameter creator
  * @export
@@ -98,15 +97,10 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
-         * @param {CreateFileDto} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fileControllerUploadFile: async (body: CreateFileDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling fileControllerUploadFile.');
-            }
+        fileControllerUploadFile: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/files`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -118,8 +112,6 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
                 query.set(key, localVarQueryParameter[key]);
@@ -130,8 +122,6 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -174,12 +164,11 @@ export const FilesApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {CreateFileDto} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fileControllerUploadFile(body: CreateFileDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await FilesApiAxiosParamCreator(configuration).fileControllerUploadFile(body, options);
+        async fileControllerUploadFile(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await FilesApiAxiosParamCreator(configuration).fileControllerUploadFile(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -213,12 +202,11 @@ export const FilesApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          * 
-         * @param {CreateFileDto} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fileControllerUploadFile(body: CreateFileDto, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return FilesApiFp(configuration).fileControllerUploadFile(body, options).then((request) => request(axios, basePath));
+        async fileControllerUploadFile(options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return FilesApiFp(configuration).fileControllerUploadFile(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -251,12 +239,11 @@ export class FilesApi extends BaseAPI {
     }
     /**
      * 
-     * @param {CreateFileDto} body 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FilesApi
      */
-    public async fileControllerUploadFile(body: CreateFileDto, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return FilesApiFp(this.configuration).fileControllerUploadFile(body, options).then((request) => request(this.axios, this.basePath));
+    public async fileControllerUploadFile(options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return FilesApiFp(this.configuration).fileControllerUploadFile(options).then((request) => request(this.axios, this.basePath));
     }
 }

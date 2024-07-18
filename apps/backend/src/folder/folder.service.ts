@@ -11,10 +11,17 @@ export class FolderService {
     @InjectRepository(Folder)
     public readonly repository: TreeRepository<Folder>
   ) {}
+  
+  findFolder(user: User, id: string): Promise<Folder> {
+    return this.repository.findOneOrFail({
+      where: { owner: user, id },
+      relations: { files: true, subfolders: true },
+    });
+  }
 
   findRootFolder(user: User): Promise<Folder> {
     return this.repository.findOneOrFail({
-      where: { owner: user, parent: null },
+      where: { owner: user, name: 'root' },
       relations: { files: true, subfolders: true },
     });
   }
@@ -27,7 +34,8 @@ export class FolderService {
   }
 
   async create(user: User, createFolderDto: CreateFolderDto): Promise<Folder> {
-    const folder = this.repository.create({ ...createFolderDto, owner: user });
+    const { parentFolderId, name } = createFolderDto;
+    const folder = this.repository.create({ owner: user, name, parent: { id: parentFolderId } });
     return await this.repository.save(folder);
   }
 

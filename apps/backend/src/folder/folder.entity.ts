@@ -20,11 +20,11 @@ export class Folder {
   @ManyToOne(() => User)
   owner: User;
 
-  @ApiProperty()
+  @ApiProperty({ type: Folder, isArray: true })
   @TreeChildren()
   subfolders: Folder[];
 
-  @ApiProperty()
+  @ApiProperty({ type: File, isArray: true })
   @OneToMany(() => File, file => file.folder)
   files: File[];
 }

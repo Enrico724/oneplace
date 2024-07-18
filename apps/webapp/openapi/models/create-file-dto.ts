@@ -25,22 +25,4 @@ export interface CreateFileDto {
      * @memberof CreateFileDto
      */
     folderId: string;
-
-    /**
-     * @type {string}
-     * @memberof CreateFileDto
-     */
-    name: string;
-
-    /**
-     * @type {number}
-     * @memberof CreateFileDto
-     */
-    size: number;
-
-    /**
-     * @type {string}
-     * @memberof CreateFileDto
-     */
-    mimeType: string;
 }

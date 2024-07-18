@@ -13,9 +13,19 @@ export class FolderController {
 
   @UseGuards(AuthGuard('jwt'))
   @ApiResponse({ status: 200, description: 'Get root folder', type: Folder })
-  @Get()
+  @Get('/home')
   getRootFolder(@Req() req): Promise<Folder> {
     return this.folderService.findRootFolder(req.user);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @ApiResponse({ status: 200, description: 'Get Folder', type: Folder })
+  @Get(':id')
+  getFolder(
+    @Req() req,
+    @Param('id') id: string,
+  ): Promise<Folder> {
+    return this.folderService.findFolder(req.user, id);
   }
 
   @UseGuards(AuthGuard('jwt'))

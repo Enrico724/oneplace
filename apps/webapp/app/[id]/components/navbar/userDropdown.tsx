@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar, Dropdown } from "flowbite-react";
+import { Avatar, DarkThemeToggle, Dropdown } from "flowbite-react";
 
 export function UserDropdown() {
   const { user, isAuthenticated, isLoading, logout } = useAuth0();
@@ -22,7 +22,10 @@ export function UserDropdown() {
       </Dropdown.Header>
       <Dropdown.Item>Dashboard</Dropdown.Item>
       <Dropdown.Item>Settings</Dropdown.Item>
-      <Dropdown.Item>Earnings</Dropdown.Item>
+      <Dropdown.Item>
+        <DarkThemeToggle />
+        Tema
+      </Dropdown.Item>
       <Dropdown.Divider />
       <Dropdown.Item
         onClick={() =>
