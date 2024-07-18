@@ -5,7 +5,7 @@ import { File } from './file.entity';
 import { CreateFileDto } from './dto/create-file.dto';
 import { User } from '../user/user.entity';
 import { FolderService } from 'src/folder/folder.service';
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, unlinkSync, writeFileSync } from 'fs';
 
 @Injectable()
 export class FileService {
@@ -20,7 +20,7 @@ export class FileService {
   }
 
   async findAll(user: User) {
-    return this.fileRepository.find({ where: { user } });
+    return this.fileRepository.find();
   }
 
   async upload(user: User, file: Express.Multer.File, createFileDto: CreateFileDto) {
@@ -31,10 +31,14 @@ export class FileService {
   }
 
   async remove(user: User, id: string) {
-    const file = await this.fileRepository.findOne({ where: { id, user } });
+    const file = await this.fileRepository.findOne({
+      select: { id: true , folder: { id: true, owner: { id: true }}},
+      where: { id, folder: { owner: user } }, 
+      relations: { folder: { owner: true }} }
+    );
     if (file) {
-      return this.fileRepository.remove(file);
+      unlinkSync(`data/${file.id}`);
+      await this.fileRepository.remove(file);
     }
-    throw new Error('File not found or access denied');
   }
 }

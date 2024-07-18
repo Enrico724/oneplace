@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Delete, Req, Param, Body, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiParam, ApiTags } from '@nestjs/swagger';
 import { FileService } from './file.service';
 import { CreateFileDto } from './dto/create-file.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -31,6 +31,7 @@ export class FileController {
 
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
+  @ApiParam({ name: 'id' })
   deleteFile(@Req() req, @Param('id') id: string) {
     return this.fileService.remove(req.user, id);
   }
