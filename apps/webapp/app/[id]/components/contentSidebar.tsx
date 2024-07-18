@@ -1,21 +1,42 @@
 "use client";
 
 import { Sidebar } from "flowbite-react";
+import { useContext } from "react";
+import { SelectedFileContext } from "../provider";
+import Utils from "@/app/utils";
+import { HiDocumentText } from "react-icons/hi2";
 
 export function ContentSidebar() {
+  const { selectedFile } = useContext(SelectedFileContext);
   return (
-    <Sidebar
+    <div
       className="fixed right-0 h-screen w-64 -translate-x-full transition-transform sm:translate-x-0"
       aria-label="Default sidebar example"
     >
-      <Sidebar.Items>
-        <Sidebar.ItemGroup>
-          <Sidebar.Item>Informazione 1</Sidebar.Item>
-          <Sidebar.Item>Informazione 2</Sidebar.Item>
-          <Sidebar.Item>Informazione 3</Sidebar.Item>
-          <Sidebar.Item>Informazione 4</Sidebar.Item>
-        </Sidebar.ItemGroup>
-      </Sidebar.Items>
-    </Sidebar>
+      <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 justify-items-stretch">
+      {
+        selectedFile 
+        ? (
+          <ul className="space-y-2 font-medium">
+            <li className="flex">
+              <HiDocumentText className="w-6 h-6 mr-2"/>
+              <span className="font-semibold">{selectedFile.name}</span>
+              <HiDocumentText className="w-6 h-6" />
+            </li>
+            <li>{selectedFile.id}</li>
+            <li>{selectedFile.mimeType}</li>
+            <li>{Utils.formatBytes(selectedFile.size)}</li>
+          </ul>
+        )
+        : (
+          <ul className="space-y-2 font-medium">
+            <li>
+              <h2 className="text-lg font-semibold">Seleziona un file</h2>
+            </li>
+          </ul>
+        )
+      }
+      </div>
+    </div>
   );
 }

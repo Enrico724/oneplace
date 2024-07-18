@@ -1,14 +1,19 @@
+import { SelectedFileContext } from "@/app/[id]/provider";
 import Utils from "@/app/utils";
 import { ModelFile } from "@/openapi";
 import { Checkbox, Table } from "flowbite-react";
+import { useContext } from "react";
 
 interface FileTableRowProps {
     file: ModelFile;
 }
   
 export function FileTableRow({ file }: FileTableRowProps) { 
+  const { setSelectedFile } = useContext(SelectedFileContext);
+  const onClick = () => setSelectedFile(file);
+  
     return (
-      <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+      <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" onClick={onClick}>
         <Table.Cell className="p-4">
           <Checkbox />
         </Table.Cell>

@@ -10,6 +10,7 @@ import { Toolbar } from "./components/toolbar";
 import { ProviderContext } from "../provider";
 import { Folder } from "@/openapi";
 import { AxiosResponse } from "axios";
+import { SelectedFileProvider } from "./provider";
 
 interface ContentPageProps {
   params: {
@@ -40,21 +41,23 @@ export default function ContentPage({ params: { id } }: ContentPageProps) {
   return (
     <main className="h-screen">
       <AppNavbar />
-      <div className="flex">    
-        <div className="flex-none w-64">
-          <AppSidebar />
-        </div>
-        {folder && (
-          <div className="grow p-3">
-            <Toolbar folderId={folder.id} onCreated={fetchFolder}/>
-            <AppBreadcrumb folder={folder} />
-            <ContentTable folder={folder} onAction={fetchFolder} />
+      {folder && (
+        <SelectedFileProvider>
+          <div className="flex">    
+            <div className="flex-none w-64">
+              <AppSidebar />
+            </div>
+              <div className="grow p-3">
+                <Toolbar folderId={folder.id} onCreated={fetchFolder}/>
+                <AppBreadcrumb folder={folder} />
+                <ContentTable folder={folder} onAction={fetchFolder} />
+              </div>
+            <div className="flex-none w-64">
+              <ContentSidebar />
+            </div>
           </div>
-        )}
-        <div className="flex-none w-64">
-          <ContentSidebar />
-        </div>
-      </div>
+        </SelectedFileProvider>
+      )}
     </main>
   );
 }
