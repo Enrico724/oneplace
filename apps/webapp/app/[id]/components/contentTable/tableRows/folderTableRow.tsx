@@ -1,11 +1,14 @@
+import { ProviderContext } from "@/app/provider";
 import { Folder } from "@/openapi";
-import { Checkbox, Table } from "flowbite-react";
+import { Button, Checkbox, Table } from "flowbite-react";
+import { useContext } from "react";
 
 interface FolderTableRowProps {
     folder: Folder;
 }
 
 export function FolderTableRow({ folder }: FolderTableRowProps) { 
+    const api = useContext(ProviderContext);
     const onClick = () => window.location.href = `/${folder.id}`;
 
     return (
@@ -20,12 +23,23 @@ export function FolderTableRow({ folder }: FolderTableRowProps) {
         <Table.Cell>124.5 MB</Table.Cell>
         <Table.Cell>Privato</Table.Cell>
         <Table.Cell>
-            <a
-            href="#"
-            className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+            <Button
+                size="xs"
+                color="blue"
+                onClick={async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                    event.stopPropagation();
+                    const { data, headers } = await api.folder.folderControllerDownloadFolder(folder.id, { responseType: 'blob' });
+                    const imageUrlObject = URL.createObjectURL(data!);
+                    const link = document.createElement('a');
+                    link.href = imageUrlObject;
+                    console.log(headers);
+                    link.download = `${folder.name}.zip`;
+                    link.click();
+                    URL.revokeObjectURL(imageUrlObject);
+                }}
             >
-            Edit
-            </a>
+                Download
+            </Button>
         </Table.Cell>
         </Table.Row>
     );

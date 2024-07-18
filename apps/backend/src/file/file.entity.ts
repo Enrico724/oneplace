@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Folder } from 'src/folder/folder.entity';
-import { User } from 'src/user/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 
 @Entity()
 export class File {

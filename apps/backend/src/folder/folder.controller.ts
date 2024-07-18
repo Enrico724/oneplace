@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Delete, Body, UseGuards, Req, Logger } from '@nestjs/common';
+import { Controller, Get, Post, Param, Delete, Body, UseGuards, Req, Logger, StreamableFile, Res } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FolderService } from './folder.service';
 import { CreateFolderDto } from './dto/create-folder.dto';
@@ -42,5 +42,22 @@ export class FolderController {
   @Delete(':id')
   deleteFolder(@Req() req, @Param('id') id: string) {
     return this.folderService.remove(req.user, id);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @ApiParam({ name: 'id', required: true })
+  @ApiResponse({ status: 200, description: 'Download folder' })
+  @Get(':id/download')
+  async downloadFolder(
+    @Req() req,
+    @Res({ passthrough: true }) res,
+    @Param('id') id: string
+  ): Promise<StreamableFile> {
+    const data = await this.folderService.download(req.user, id);
+    res.set({
+      'Content-Type': 'application/zip',
+      'Content-Disposition': `attachment; inline; filename="${data.filename}"`,
+    });
+    return new StreamableFile(data.buffer);
   }
 }

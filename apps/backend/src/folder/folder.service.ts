@@ -4,6 +4,9 @@ import { Repository, TreeRepository } from 'typeorm';
 import { Folder } from './folder.entity';
 import { CreateFolderDto } from './dto/create-folder.dto';
 import { User } from '../user/user.entity';
+import * as JSZip from 'jszip';
+import { FolderUtils } from './folder.utils';
+import { write, writeFileSync } from 'fs';
 
 @Injectable()
 export class FolderService {
@@ -12,6 +15,16 @@ export class FolderService {
     public readonly repository: TreeRepository<Folder>
   ) {}
   
+  async download(user: User, id: string): Promise<{ filename: string, buffer: Buffer}> {
+    const folder = await this.findFolder(user, id);
+    const content = await this.repository.findDescendantsTree(folder, { relations: ['files'] });
+    const zip = new JSZip()
+    FolderUtils.createZipFolder(zip, content);
+    const buffer = await zip.generateAsync({ type: 'nodebuffer' });
+    const filename = `${folder.name}.zip`;
+    return { filename, buffer };
+  }
+
   findFolder(user: User, id: string): Promise<Folder> {
     return this.repository.findOneOrFail({
       where: { owner: user, id },

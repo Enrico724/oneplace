@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-import { User } from './user';
  /**
  * 
  *
@@ -44,10 +43,4 @@ export interface ModelFile {
      * @memberof ModelFile
      */
     mimeType: string;
-
-    /**
-     * @type {User}
-     * @memberof ModelFile
-     */
-    user: User;
 }
