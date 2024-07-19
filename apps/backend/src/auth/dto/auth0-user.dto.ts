@@ -1,0 +1,15 @@
+export interface Auth0User {
+    email: string,
+    name: string,
+    nickname: string,
+    family_name: string,
+    picture: string,
+    given_name: string,
+    email_verified: boolean,
+    updated_at: string,
+    user_id: string,
+    created_at: string,
+    last_login: string,
+    last_ip: string,
+    logins_count: number,
+}

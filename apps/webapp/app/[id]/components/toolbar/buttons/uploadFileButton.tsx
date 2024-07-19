@@ -1,7 +1,7 @@
 import { ProviderContext } from '@/app/provider';
 import { Button, FileInput, Label, Modal, TextInput } from 'flowbite-react';
 import React, { ChangeEvent, useContext, useState } from 'react';
-import { HiDocumentArrowUp } from 'react-icons/hi2';
+import { HiOutlineDocumentArrowUp } from 'react-icons/hi2';
 
 interface UploadFileButtonProps {
     folderId: string;
@@ -43,7 +43,7 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = (props) => {
     return (
         <>
             <Button onClick={showModal}>
-                <HiDocumentArrowUp className='h-6 w-6'/>
+                <HiOutlineDocumentArrowUp className='h-6 w-6'/>
             </Button>
             <Modal show={isModalVisible} onClose={closeModal}>
                 <Modal.Body>

@@ -47,12 +47,12 @@ export default function ContentPage({ params: { id } }: ContentPageProps) {
             <div className="flex-none w-64">
               <AppSidebar />
             </div>
-              <div className="grow p-3">
+              <div className="grow p-3 w-64">
                 <Toolbar folderId={folder.id} onCreated={fetchFolder}/>
                 <AppBreadcrumb folder={folder} />
                 <ContentTable folder={folder} onAction={fetchFolder} />
               </div>
-            <div className="flex-none w-64">
+            <div className="flex-none w-64 hidden xl:block">
               <ContentSidebar />
             </div>
           </div>

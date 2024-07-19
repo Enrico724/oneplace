@@ -5,12 +5,14 @@ import { passportJwtSecret } from "jwks-rsa";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { User } from "src/user/user.entity";
 import { UserService } from "src/user/user.service";
+import { AuthService } from "./auth.service";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private configService: ConfigService,
     private userService: UserService,
+    private authService: AuthService,
   ) {
     const issuer = configService.getOrThrow('AUTH0_ISSUER_URL');
     const audience = configService.getOrThrow('AUTH0_AUDIENCE');

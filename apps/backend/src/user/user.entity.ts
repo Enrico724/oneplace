@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Folder } from 'src/folder/folder.entity';
-import { File } from 'src/file/file.entity';
+import { UserPermission } from 'src/share/share.entity';
 
 @Entity()
 export class User {
@@ -9,4 +8,7 @@ export class User {
 
   @Column({ unique: true })
   auth0Id: string;
+
+  @OneToMany(() => UserPermission, permission => permission.user)
+  sharedPermission: UserPermission[];
 }

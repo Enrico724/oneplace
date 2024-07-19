@@ -2,7 +2,7 @@ import { ProviderContext } from '@/app/provider';
 import { CreateFolderDto } from '@/openapi';
 import { Button, Label, Modal, TextInput } from 'flowbite-react';
 import React, { useContext, useState } from 'react';
-import { HiFolderPlus } from 'react-icons/hi2';
+import { HiOutlineFolderPlus } from 'react-icons/hi2';
 
 interface CreateFolderButtonProps {
     folderId: string;
@@ -30,7 +30,7 @@ const CreateFolderButton: React.FC<CreateFolderButtonProps> = (props) => {
     return (
         <>
             <Button onClick={showModal}>
-                <HiFolderPlus className='h-6 w-6'/>
+                <HiOutlineFolderPlus className='h-6 w-6'/>
             </Button>
             <Modal show={isModalVisible} onClose={closeModal}>
                 <Modal.Body>
