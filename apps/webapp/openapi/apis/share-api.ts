@@ -27,23 +27,36 @@ import {
   BaseAPI,
   RequiredError,
 } from "../base";
+import { InvitableUser } from "../models";
 /**
- * UsersApi - axios parameter creator
+ * ShareApi - axios parameter creator
  * @export
  */
-export const UsersApiAxiosParamCreator = function (
+export const ShareApiAxiosParamCreator = function (
   configuration?: Configuration,
 ) {
   return {
     /**
      *
+     * @param {string} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    userControllerGetProfile: async (
+    shareControllerGetUsersForSharing: async (
+      id: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      const localVarPath = `/users/profile`;
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling shareControllerGetUsersForSharing.",
+        );
+      }
+      const localVarPath = `/share/folders/{id}/users/invitable`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, "https://example.com");
       let baseOptions;
@@ -84,25 +97,29 @@ export const UsersApiAxiosParamCreator = function (
 };
 
 /**
- * UsersApi - functional programming interface
+ * ShareApi - functional programming interface
  * @export
  */
-export const UsersApiFp = function (configuration?: Configuration) {
+export const ShareApiFp = function (configuration?: Configuration) {
   return {
     /**
      *
+     * @param {string} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async userControllerGetProfile(
+    async shareControllerGetUsersForSharing(
+      id: string,
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => Promise<AxiosResponse<Array<InvitableUser>>>
     > {
-      const localVarAxiosArgs =
-        await UsersApiAxiosParamCreator(configuration).userControllerGetProfile(
-          options,
-        );
+      const localVarAxiosArgs = await ShareApiAxiosParamCreator(
+        configuration,
+      ).shareControllerGetUsersForSharing(id, options);
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH,
@@ -118,10 +135,10 @@ export const UsersApiFp = function (configuration?: Configuration) {
 };
 
 /**
- * UsersApi - factory interface
+ * ShareApi - factory interface
  * @export
  */
-export const UsersApiFactory = function (
+export const ShareApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
   axios?: AxiosInstance,
@@ -129,37 +146,41 @@ export const UsersApiFactory = function (
   return {
     /**
      *
+     * @param {string} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async userControllerGetProfile(
+    async shareControllerGetUsersForSharing(
+      id: string,
       options?: AxiosRequestConfig,
-    ): Promise<AxiosResponse<void>> {
-      return UsersApiFp(configuration)
-        .userControllerGetProfile(options)
+    ): Promise<AxiosResponse<Array<InvitableUser>>> {
+      return ShareApiFp(configuration)
+        .shareControllerGetUsersForSharing(id, options)
         .then((request) => request(axios, basePath));
     },
   };
 };
 
 /**
- * UsersApi - object-oriented interface
+ * ShareApi - object-oriented interface
  * @export
- * @class UsersApi
+ * @class ShareApi
  * @extends {BaseAPI}
  */
-export class UsersApi extends BaseAPI {
+export class ShareApi extends BaseAPI {
   /**
    *
+   * @param {string} id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof UsersApi
+   * @memberof ShareApi
    */
-  public async userControllerGetProfile(
+  public async shareControllerGetUsersForSharing(
+    id: string,
     options?: AxiosRequestConfig,
-  ): Promise<AxiosResponse<void>> {
-    return UsersApiFp(this.configuration)
-      .userControllerGetProfile(options)
+  ): Promise<AxiosResponse<Array<InvitableUser>>> {
+    return ShareApiFp(this.configuration)
+      .shareControllerGetUsersForSharing(id, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

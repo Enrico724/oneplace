@@ -3,10 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FileService } from 'src/file/file.service';
 import { FolderService } from 'src/folder/folder.service';
 import { User } from 'src/user/user.entity';
-import { In, Not, Repository } from 'typeorm';
+import { FindOneOptions, In, Not, Repository } from 'typeorm';
 import { SharedFolderInput } from './dto/shared-folder.input';
 import { AuthService } from 'src/auth/auth.service';
 import { SharedFile, SharedFolder, UserPermission } from './share.entity';
+import { InvitableUser } from './dto/invitable-user.dto';
 
 @Injectable()
 export class ShareService {
@@ -22,19 +23,23 @@ export class ShareService {
         @InjectRepository(SharedFile)
         private readonly shareFilesRepo: Repository<SharedFile>,
     ) {}
-
-    async getInvitableUsers(owner: User, folderId: string) {
-        const extractAuth0IdFromPermission = (permission: UserPermission): string => permission.user.auth0Id;
-        
+    
+    async getUsersForSharing(owner: User, folderId): Promise<InvitableUser[]> {
         const folder = await this.folders.findByUUID(owner, folderId);
-        const options = { where: { folder }, relations: { permissions: true } };
+        const options: FindOneOptions<SharedFolder> = { where: { folder }, relations: { folder: true, permissions: true } };
         const sharedFolder = await this.sharedFoldersRepo.findOne(options);
         const allUsers = await this.authService.getUsers();
+        const hasBeenShared = !(sharedFolder == null);
 
-        const toBeExcluded = sharedFolder.permissions.map(extractAuth0IdFromPermission).concat(owner.auth0Id);
-        const invitableUsers = allUsers.filter(user => !toBeExcluded.includes(user.user_id));
-        console.log(invitableUsers);
-        return invitableUsers;
+        let toBeExcluded: string[] = [ owner.auth0Id ];
+        
+        if (hasBeenShared) {
+            const extractAuth0IdFromPermission = (permission: UserPermission): string => permission.user.auth0Id;
+            const alreadySharingUserIDs = sharedFolder.permissions.map(extractAuth0IdFromPermission);
+            toBeExcluded = [ ...alreadySharingUserIDs, owner.auth0Id ];
+        }
+        
+        return allUsers.filter(user => !toBeExcluded.includes(user.user_id));
     }
 
     async sharedFolder(owner: User, input: SharedFolderInput) {

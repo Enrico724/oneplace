@@ -15,7 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private authService: AuthService,
   ) {
     const issuer = configService.getOrThrow('AUTH0_ISSUER_URL');
-    const audience = configService.getOrThrow('AUTH0_AUDIENCE');
+    const audience = configService.getOrThrow('AUDIENCE');
     console.log(issuer, audience)
     super({
       secretOrKeyProvider: passportJwtSecret({

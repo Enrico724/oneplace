@@ -1,10 +1,15 @@
+import { File } from 'src/file/file.entity';
 import { Folder } from 'src/folder/folder.entity';
 import { User } from 'src/user/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne, OneToMany } from 'typeorm';
+import { Entity, Column, ManyToOne, OneToOne, OneToMany, PrimaryColumn, JoinColumn } from 'typeorm';
 
 @Entity()
 export class SharedFolder {
+    @PrimaryColumn()
+    id: string;
+
     @OneToOne(() => Folder)
+    @JoinColumn({ name: 'id' })
     folder: Folder;
 
     @OneToMany(() => UserPermission, userPermission => userPermission.user)
@@ -13,8 +18,12 @@ export class SharedFolder {
 
 @Entity()
 export class SharedFile {
-    @OneToOne(() => Folder)
-    folder: Folder;
+    @PrimaryColumn()
+    fileId: string;
+
+    @OneToOne(() => File)
+    @JoinColumn({ name: 'fileId' })
+    file: File;
 
     @OneToMany(() => UserPermission, userPermission => userPermission.user)
     permissions: UserPermission[];
@@ -27,6 +36,10 @@ export enum Permission {
 
 @Entity()
 export class UserPermission {
+    @PrimaryColumn()
+    userId: string;
+
+    @JoinColumn({ name: 'userId' })
     @ManyToOne(() => User)
     user: User;
 

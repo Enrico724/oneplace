@@ -9,14 +9,17 @@ interface FileTableRowProps {
   file: ModelFile;
   onDelete: () => void;
 }
-  
-export function FileTableRow({ file, onDelete }: FileTableRowProps) { 
+
+export function FileTableRow({ file, onDelete }: FileTableRowProps) {
   const api = useContext(ProviderContext);
   const { setSelectedFile, deselectFile } = useContext(SelectedFileContext);
   const onClick = () => setSelectedFile(file);
-  
+
   return (
-    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" onClick={onClick}>
+    <Table.Row
+      className="bg-white dark:border-gray-700 dark:bg-gray-800"
+      onClick={onClick}
+    >
       <Table.Cell className="p-4">
         <Checkbox />
       </Table.Cell>
@@ -24,16 +27,15 @@ export function FileTableRow({ file, onDelete }: FileTableRowProps) {
         {file.name}
       </Table.Cell>
       <Table.Cell>31/01/2001</Table.Cell>
-      <Table.Cell>
-          {Utils.formatBytes(file.size)}
-      </Table.Cell>
+      <Table.Cell>{Utils.formatBytes(file.size)}</Table.Cell>
       <Table.Cell>Privato</Table.Cell>
       <Table.Cell>
-        <Button 
+        <Button
           size="xs"
           color="red"
           onClick={() => {
-            api.file.fileControllerDeleteFile(file.id)
+            api.file
+              .fileControllerDeleteFile(file.id)
               .then(deselectFile)
               .then(onDelete);
           }}

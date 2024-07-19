@@ -13,8 +13,14 @@ export function Toolbar(props: ToolbarProps) {
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4 px-0">
         <div className="flex gap-2 ">
           <ShareFolderButton folderId={props.folderId} />
-          <CreateFolderButton folderId={props.folderId} onCreated={props.onCreated}  />
-          <UploadFileButton folderId={props.folderId} onUpload={props.onCreated} />
+          <CreateFolderButton
+            folderId={props.folderId}
+            onCreated={props.onCreated}
+          />
+          <UploadFileButton
+            folderId={props.folderId}
+            onUpload={props.onCreated}
+          />
         </div>
       </div>
     </nav>

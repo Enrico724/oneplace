@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useContext, useEffect, useState } from "react";
 import { AppBreadcrumb } from "./components/breadcrumb";
@@ -21,13 +21,13 @@ interface ContentPageProps {
 export default function ContentPage({ params: { id } }: ContentPageProps) {
   const api = useContext(ProviderContext);
   const [folder, setFolder] = useState<Folder | null>(null);
-  
+
   function apiFetchFolder(): Promise<AxiosResponse<Folder>> {
-    return (id === 'home')
+    return id === "home"
       ? api.folder.folderControllerGetRootFolder()
       : api.folder.folderControllerGetFolder(id);
   }
-  
+
   function fetchFolder() {
     apiFetchFolder()
       .then((response) => setFolder(response.data))
@@ -43,16 +43,16 @@ export default function ContentPage({ params: { id } }: ContentPageProps) {
       <AppNavbar />
       {folder && (
         <SelectedFileProvider>
-          <div className="flex">    
-            <div className="flex-none w-64">
+          <div className="flex">
+            <div className="w-64 flex-none">
               <AppSidebar />
             </div>
-              <div className="grow p-3 w-64">
-                <Toolbar folderId={folder.id} onCreated={fetchFolder}/>
-                <AppBreadcrumb folder={folder} />
-                <ContentTable folder={folder} onAction={fetchFolder} />
-              </div>
-            <div className="flex-none w-64 hidden xl:block">
+            <div className="w-64 grow p-3">
+              <Toolbar folderId={folder.id} onCreated={fetchFolder} />
+              <AppBreadcrumb folder={folder} />
+              <ContentTable folder={folder} onAction={fetchFolder} />
+            </div>
+            <div className="hidden w-64 flex-none xl:block">
               <ContentSidebar />
             </div>
           </div>

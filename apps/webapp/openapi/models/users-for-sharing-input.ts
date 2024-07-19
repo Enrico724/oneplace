@@ -16,30 +16,12 @@
  *
  *
  * @export
- * @interface ModelFile
+ * @interface UsersForSharingInput
  */
-export interface ModelFile {
+export interface UsersForSharingInput {
   /**
    * @type {string}
-   * @memberof ModelFile
+   * @memberof UsersForSharingInput
    */
-  id: string;
-
-  /**
-   * @type {string}
-   * @memberof ModelFile
-   */
-  name: string;
-
-  /**
-   * @type {number}
-   * @memberof ModelFile
-   */
-  size: number;
-
-  /**
-   * @type {string}
-   * @memberof ModelFile
-   */
-  mimeType: string;
+  folderId: string;
 }

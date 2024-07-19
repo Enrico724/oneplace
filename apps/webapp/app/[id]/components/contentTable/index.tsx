@@ -26,8 +26,12 @@ export function ContentTable(props: ContentTableProps) {
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          { subfolders.map((folder) => <FolderTableRow key={folder.id} folder={folder}/>) }
-          { files.map((file) => <FileTableRow key={file.id} file={file} onDelete={props.onAction}/>) }
+          {subfolders.map((folder) => (
+            <FolderTableRow key={folder.id} folder={folder} />
+          ))}
+          {files.map((file) => (
+            <FileTableRow key={file.id} file={file} onDelete={props.onAction} />
+          ))}
         </Table.Body>
       </Table>
     </div>

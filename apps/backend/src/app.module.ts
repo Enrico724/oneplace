@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserController } from './user/user.controller';
 import { FolderController } from './folder/folder.controller';
 import { FileController } from './file/file.controller';
 import { UserService } from './user/user.service';
@@ -10,8 +9,11 @@ import { User } from './user/user.entity';
 import { Folder } from './folder/folder.entity';
 import { File } from './file/file.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
 import { SharedFile, SharedFolder, UserPermission } from './share/share.entity';
+import { AuthModule } from './auth/auth.module';
+import { UserController } from './user/user.controller';
+import { ShareController } from './share/share.controller';
+import { ShareService } from './share/share.service';
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import { SharedFile, SharedFolder, UserPermission } from './share/share.entity';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        type: 'postgres',
+        type: 'mysql',
         host: configService.getOrThrow('DB_HOST'),
         port: configService.getOrThrow('DB_PORT'),
         username: configService.getOrThrow('DB_USERNAME'),
@@ -33,9 +35,10 @@ import { SharedFile, SharedFolder, UserPermission } from './share/share.entity';
       }),
       inject: [ConfigService],
     }),
+    TypeOrmModule.forFeature([User, Folder, File, UserPermission, SharedFolder, SharedFile]),
     AuthModule,
   ],
-  controllers: [UserController, FolderController, FileController],
-  providers: [UserService, FolderService, FileService],
+  controllers: [UserController, FolderController, FileController, ShareController],
+  providers: [UserService, FolderService, FileService, ShareService],
 })
 export class AppModule {}

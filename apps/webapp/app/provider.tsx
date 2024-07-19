@@ -1,6 +1,6 @@
 "use client";
 
-import { Configuration, FilesApi, FoldersApi } from "@/openapi";
+import { Configuration, FilesApi, FoldersApi, ShareApi } from "@/openapi";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { createContext, useEffect, useState } from "react";
 
@@ -10,6 +10,7 @@ interface ProviderInstance {
   loading: boolean;
   folder: FoldersApi;
   file: FilesApi;
+  share: ShareApi;
 }
 
 export const ProviderContext = createContext({} as ProviderInstance);
@@ -44,10 +45,12 @@ export function ClientProvider({
 
   const [folder, setFolder] = useState<FoldersApi>(new FoldersApi(initialCong));
   const [file, setFile] = useState<FilesApi>(new FilesApi(initialCong));
+  const [share, setShare] = useState<ShareApi>(new ShareApi(initialCong));
 
   const updateConfiguration = (conf: Configuration) => {
     setFolder(new FoldersApi(conf));
     setFile(new FilesApi(conf));
+    setShare(new ShareApi(conf));
   };
 
   const validate = (token: string) => {
@@ -86,8 +89,9 @@ export function ClientProvider({
     DOMAIN,
     logged,
     loading,
-    folder: folder,
-    file: file,
+    folder,
+    file,
+    share,
   };
 
   if (loading)

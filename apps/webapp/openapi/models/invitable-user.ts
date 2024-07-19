@@ -16,30 +16,30 @@
  *
  *
  * @export
- * @interface ModelFile
+ * @interface InvitableUser
  */
-export interface ModelFile {
+export interface InvitableUser {
   /**
    * @type {string}
-   * @memberof ModelFile
-   */
-  id: string;
-
-  /**
-   * @type {string}
-   * @memberof ModelFile
+   * @memberof InvitableUser
    */
   name: string;
 
   /**
-   * @type {number}
-   * @memberof ModelFile
+   * @type {string}
+   * @memberof InvitableUser
    */
-  size: number;
+  picture: string;
 
   /**
    * @type {string}
-   * @memberof ModelFile
+   * @memberof InvitableUser
    */
-  mimeType: string;
+  givenName: string;
+
+  /**
+   * @type {string}
+   * @memberof InvitableUser
+   */
+  userId: string;
 }
