@@ -6,11 +6,12 @@ import { User } from 'src/user/user.entity';
 import { FindOneOptions, In, Not, Repository } from 'typeorm';
 import { SharedFolderInput } from './dto/shared-folder.input';
 import { AuthService } from 'src/auth/auth.service';
-import { Permission, SharedFile, SharedFolder, FolderUserPermission } from './share.entity';
+import { SharedFile, SharedFolder } from './share.entity';
 import { InvitableUser } from './dto/invitable-user.dto';
 import { InvitedUser, InvitedUserData } from './dto/invited-user.dto';
 import { Auth0User } from 'src/auth/dto/auth0-user.dto';
 import { UserService } from 'src/user/user.service';
+import { FolderUserPermission, Permission } from './file-permission.entity';
 
 @Injectable()
 export class ShareService {

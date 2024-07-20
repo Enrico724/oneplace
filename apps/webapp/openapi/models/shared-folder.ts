@@ -12,11 +12,18 @@
  * Do not edit the class manually.
  */
 
+import { FolderUserPermission } from './folder-user-permission';
  /**
  * 
  *
  * @export
- * @interface User
+ * @interface SharedFolder
  */
-export interface User {
+export interface SharedFolder {
+
+    /**
+     * @type {Array<FolderUserPermission>}
+     * @memberof SharedFolder
+     */
+    permissions: Array<FolderUserPermission>;
 }

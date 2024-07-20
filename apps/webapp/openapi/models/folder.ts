@@ -13,6 +13,7 @@
  */
 
 import { Folder } from './folder';
+import { SharedFolder } from './shared-folder';
  /**
  * 
  *
@@ -44,4 +45,10 @@ export interface Folder {
      * @memberof Folder
      */
     files: Array<any>;
+
+    /**
+     * @type {SharedFolder}
+     * @memberof Folder
+     */
+    share: SharedFolder;
 }

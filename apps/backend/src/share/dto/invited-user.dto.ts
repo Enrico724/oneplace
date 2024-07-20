@@ -1,6 +1,5 @@
-import { ApiProperty, PickType } from '@nestjs/swagger';
-import { Auth0User } from 'src/auth/dto/auth0-user.dto';
-import { Permission } from '../share.entity';
+import { ApiProperty } from '@nestjs/swagger';
+import { Permission } from '../file-permission.entity';
 
 export class InvitedUserData {
     @ApiProperty()

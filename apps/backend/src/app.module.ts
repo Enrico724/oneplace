@@ -9,11 +9,12 @@ import { User } from './user/user.entity';
 import { Folder } from './folder/folder.entity';
 import { File } from './file/file.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { SharedFile, SharedFolder, FileUserPermission, FolderUserPermission } from './share/share.entity';
+import { SharedFile, SharedFolder } from './share/share.entity';
 import { AuthModule } from './auth/auth.module';
 import { UserController } from './user/user.controller';
 import { ShareController } from './share/share.controller';
 import { ShareService } from './share/share.service';
+import { FileUserPermission, FolderUserPermission } from './share/file-permission.entity';
 
 @Module({
   imports: [

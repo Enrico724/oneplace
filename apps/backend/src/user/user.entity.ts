@@ -1,5 +1,5 @@
+import { FolderUserPermission } from 'src/share/file-permission.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { FolderUserPermission } from 'src/share/share.entity';
 
 @Entity()
 export class User {

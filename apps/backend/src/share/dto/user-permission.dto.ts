@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Permission } from "../share.entity";
+import { Permission } from "../file-permission.entity";
 
 export class UserPermissionDto {
     @ApiProperty()

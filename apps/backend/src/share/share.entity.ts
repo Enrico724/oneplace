@@ -1,17 +1,20 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { File } from 'src/file/file.entity';
 import { Folder } from 'src/folder/folder.entity';
-import { User } from 'src/user/user.entity';
-import { Entity, Column, ManyToOne, OneToOne, OneToMany, PrimaryColumn, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, OneToOne, OneToMany, PrimaryColumn, JoinColumn } from 'typeorm';
+import { FolderUserPermission, FileUserPermission } from './file-permission.entity';
 
 @Entity()
 export class SharedFolder {
     @PrimaryColumn()
     id: string;
 
-    @OneToOne(() => Folder)
+    @JoinColumn({ name: 'id' })
+    @OneToOne(() => Folder, folder => folder.share)
     @JoinColumn({ name: 'id' })
     folder: Folder;
 
+    @ApiProperty({ type: () => FolderUserPermission, isArray: true })
     @OneToMany(() => FolderUserPermission, userPermission => userPermission.sharedFolder)
     permissions: FolderUserPermission[];
 }
@@ -27,49 +30,4 @@ export class SharedFile {
 
     @OneToMany(() => FileUserPermission, userPermission => userPermission.sharedFile)
     permissions: FileUserPermission[];
-}
-
-export enum Permission {
-    Read = 'read',
-    Write = 'write',
-}
-
-@Entity()
-export class FolderUserPermission {
-    @PrimaryColumn()
-    userId: string;
-
-    @PrimaryColumn()
-    sharedFolderId: string;
-
-    @JoinColumn({ name: 'userId' })
-    @OneToOne(() => User)
-    user: User;
-
-    @JoinColumn({ name: 'sharedFolderId' })
-    @ManyToOne(() => SharedFolder)
-    sharedFolder: SharedFolder;
-
-    @Column()
-    permission: Permission;
-}
-
-@Entity()
-export class FileUserPermission {
-    @PrimaryColumn()
-    userId: string;
-
-    @PrimaryColumn()
-    sharedFileId: string;
-
-    @JoinColumn({ name: 'userId' })
-    @OneToOne(() => User)
-    user: User;
-
-    @JoinColumn({ name: 'sharedFileId' })
-    @ManyToOne(() => SharedFile)
-    sharedFile: SharedFile;
-
-    @Column()
-    permission: Permission;
 }
