@@ -10,6 +10,7 @@ interface FolderTableRowProps {
 export function FolderTableRow({ folder }: FolderTableRowProps) {
   const api = useContext(ProviderContext);
   const onClick = () => (window.location.href = `/${folder.id}`);
+  const isShared = !(folder.share == null);
 
   return (
     <Table.Row
@@ -24,7 +25,7 @@ export function FolderTableRow({ folder }: FolderTableRowProps) {
       </Table.Cell>
       <Table.Cell>31/01/2001</Table.Cell>
       <Table.Cell>124.5 MB</Table.Cell>
-      <Table.Cell>Privato</Table.Cell>
+      <Table.Cell>{isShared ? "si" : "Privato"}</Table.Cell>
       <Table.Cell>
         <Button
           size="xs"

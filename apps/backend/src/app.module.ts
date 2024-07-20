@@ -1,20 +1,12 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { FolderController } from './folder/folder.controller';
-import { FileController } from './file/file.controller';
-import { UserService } from './user/user.service';
-import { FolderService } from './folder/folder.service';
-import { FileService } from './file/file.service';
-import { User } from './user/user.entity';
-import { Folder } from './folder/folder.entity';
-import { File } from './file/file.entity';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { SharedFile, SharedFolder } from './share/share.entity';
-import { AuthModule } from './auth/auth.module';
-import { UserController } from './user/user.controller';
-import { ShareController } from './share/share.controller';
-import { ShareService } from './share/share.service';
-import { FileUserPermission, FolderUserPermission } from './share/file-permission.entity';
+import { forwardRef, Module } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { PassportModule } from "@nestjs/passport";
+import { TypeOrmModule } from "@nestjs/typeorm";
+
+import { User, File, Folder, FileUserPermission, FolderUserPermission, SharedFolder, SharedFile } from "./entities";
+import { ShareService, AuthService, FileService, UserService, FolderService } from "./service";
+import { FolderController, FileController, ShareController, UserController } from "./controller";
+import { JwtStrategy } from "./strategy";
 
 @Module({
   imports: [
@@ -36,10 +28,31 @@ import { FileUserPermission, FolderUserPermission } from './share/file-permissio
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([User, Folder, File, FileUserPermission, FolderUserPermission, SharedFolder, SharedFile]),
-    AuthModule,
+    TypeOrmModule.forFeature([
+      User,
+      Folder,
+      File,
+      FileUserPermission,
+      FolderUserPermission,
+      SharedFolder,
+      SharedFile,
+    ]),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+
   ],
-  controllers: [UserController, FolderController, FileController, ShareController],
-  providers: [UserService, FolderService, FileService, ShareService],
+  providers: [
+    UserService,
+    JwtStrategy,
+    AuthService,
+    FileService,
+    FolderService,
+    ShareService,
+  ],
+  controllers: [
+    FolderController,
+    FileController,
+    ShareController,
+    UserController
+  ],
 })
 export class AppModule {}

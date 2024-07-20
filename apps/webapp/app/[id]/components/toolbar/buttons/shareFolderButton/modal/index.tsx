@@ -62,7 +62,12 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
               className="max-w divide-y divide-gray-200 dark:divide-gray-700"
             >
               {invitableUsers.map((user) => (
-                <InvitableUserListItem key={user.userId} user={user} folderId={props.folderId} onInvite={onInvite} />
+                <InvitableUserListItem
+                  key={user.userId}
+                  user={user}
+                  folderId={props.folderId}
+                  onInvite={onInvite}
+                />
               ))}
             </List>
           </div>

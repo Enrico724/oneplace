@@ -6,7 +6,7 @@ import { useContext } from "react";
 export interface InvitableUserListItemProps {
   user: InvitableUser;
   folderId: string;
-  onInvite: () => void
+  onInvite: () => void;
 }
 
 export function InvitableUserListItem({
@@ -15,15 +15,21 @@ export function InvitableUserListItem({
   onInvite,
 }: InvitableUserListItemProps) {
   const api = useContext(ProviderContext);
-console.log(user.userId, folderId)
+  console.log(user.userId, folderId);
   async function invite() {
-    const { data } = await api.share.shareControllerInviteUser(folderId, user.userId);
-    onInvite()
+    const { data } = await api.share.shareControllerInviteUser(
+      folderId,
+      user.userId,
+    );
+    onInvite();
     console.log(data);
   }
 
   return (
-    <List.Item className="group rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-700 sm:p-4" onClick={invite}>
+    <List.Item
+      className="group rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-700 sm:p-4"
+      onClick={invite}
+    >
       <div className="flex items-center space-x-4 rtl:space-x-reverse">
         <Avatar img={user.picture} alt={`${user.name}`} rounded size="sm" />
         <div className="min-w-0 flex-1">
