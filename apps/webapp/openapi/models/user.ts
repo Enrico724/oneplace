@@ -18,4 +18,22 @@
  * @export
  * @interface User
  */
-export interface User {}
+export interface User {
+  /**
+   * @type {string}
+   * @memberof User
+   */
+  id: string;
+
+  /**
+   * @type {string}
+   * @memberof User
+   */
+  name: string;
+
+  /**
+   * @type {string}
+   * @memberof User
+   */
+  picture: string;
+}

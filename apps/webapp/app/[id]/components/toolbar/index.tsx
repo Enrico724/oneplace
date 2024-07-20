@@ -1,6 +1,7 @@
 import CreateFolderButton from "./buttons/createFolderButton";
 import UploadFileButton from "./buttons/uploadFileButton";
 import ShareFolderButton from "./buttons/shareFolderButton";
+import { Banner } from "flowbite-react";
 
 interface ToolbarProps {
   folderId: string;
@@ -9,9 +10,9 @@ interface ToolbarProps {
 
 export function Toolbar(props: ToolbarProps) {
   return (
-    <nav className="border-gray-200 bg-white dark:bg-gray-900">
-      <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4 px-0">
-        <div className="flex gap-2 ">
+    <Banner>
+      <div className="my-2 flex rounded-lg border p-2">
+        <div className="flex gap-2">
           <ShareFolderButton folderId={props.folderId} />
           <CreateFolderButton
             folderId={props.folderId}
@@ -23,6 +24,6 @@ export function Toolbar(props: ToolbarProps) {
           />
         </div>
       </div>
-    </nav>
+    </Banner>
   );
 }

@@ -13,47 +13,40 @@
  */
 
 import { Folder } from "./folder";
-import { SharedFolder } from "./shared-folder";
 /**
  *
  *
  * @export
- * @interface Folder
+ * @interface FolderInfoDTO
  */
-export interface Folder {
+export interface FolderInfoDTO {
   /**
    * @type {string}
-   * @memberof Folder
+   * @memberof FolderInfoDTO
    */
   id: string;
 
   /**
    * @type {string}
-   * @memberof Folder
+   * @memberof FolderInfoDTO
    */
   name: string;
 
   /**
-   * @type {Folder}
-   * @memberof Folder
-   */
-  parent: Folder;
-
-  /**
    * @type {Array<Folder>}
-   * @memberof Folder
+   * @memberof FolderInfoDTO
    */
   subfolders: Array<Folder>;
 
   /**
    * @type {Array<Array>}
-   * @memberof Folder
+   * @memberof FolderInfoDTO
    */
   files: Array<Array>;
 
   /**
-   * @type {SharedFolder}
-   * @memberof Folder
+   * @type {Folder}
+   * @memberof FolderInfoDTO
    */
-  share: SharedFolder;
+  sharingTree: Folder;
 }

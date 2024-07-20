@@ -2,7 +2,7 @@ import { Controller, Get, Post, Param, Delete, Body, UseGuards, Req, StreamableF
 import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
-import { FolderInfoDTO, CreateFolderDto } from 'src/dto';
+import { CreateFolderDto } from 'src/dto';
 import { FolderService } from 'src/service';
 import { Folder } from 'src/entities';
 
@@ -21,12 +21,12 @@ export class FolderController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @ApiResponse({ status: 200, description: 'Get Folder', type: FolderInfoDTO })
+  @ApiResponse({ status: 200, description: 'Get Folder', type: Folder })
   @Get(':id')
   getFolder(
     @Req() req,
     @Param('id') id: string,
-  ): Promise<FolderInfoDTO> {
+  ): Promise<Folder> {
     return this.folderService.findFolder(req.user, id);
   }
 

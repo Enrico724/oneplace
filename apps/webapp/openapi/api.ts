@@ -14,4 +14,5 @@
 export * from "./apis/files-api";
 export * from "./apis/folders-api";
 export * from "./apis/share-api";
+export * from "./apis/shared-api";
 export * from "./apis/users-api";

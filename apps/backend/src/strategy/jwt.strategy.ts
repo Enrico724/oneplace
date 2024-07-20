@@ -36,6 +36,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     Logger.log(payload.sub)
     const filter = { auth0Id: payload.sub };
     try {
+      await this.userService.update(payload.sub);
       return await this.userService.users.findOneByOrFail(filter);
     } catch (error) {
       Logger.warn(`User not found: ${payload.sub}, creating new user`);

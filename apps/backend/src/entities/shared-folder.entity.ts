@@ -8,9 +8,9 @@ export class SharedFolder {
     @PrimaryColumn()
     id: string;
 
+    @ApiProperty({ type: () => Folder })
     @JoinColumn({ name: 'id' })
     @OneToOne(() => Folder, folder => folder.share)
-    @JoinColumn({ name: 'id' })
     folder: Folder;
 
     @ApiProperty({ type: () => FolderUserPermission, isArray: true })

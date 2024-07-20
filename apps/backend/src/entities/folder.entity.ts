@@ -16,6 +16,7 @@ export class Folder {
   @Column()
   name: string;
 
+  @ApiProperty({ type: Folder })
   @TreeParent()
   parent: Folder;
 

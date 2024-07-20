@@ -2,7 +2,7 @@
 
 import { Sidebar } from "flowbite-react";
 import { useContext } from "react";
-import { SelectedFileContext } from "../provider";
+import { SelectedFileContext } from "./provider";
 import Utils from "@/app/utils";
 import { HiDocumentText } from "react-icons/hi2";
 

@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import { Folder, User } from 'src/entities';
 import { FolderService } from './folder.service';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class UserService {
@@ -13,12 +14,28 @@ export class UserService {
     public users: Repository<User>,
     @InjectRepository(Folder)
     public folders: Repository<Folder>,
+    @Inject(AuthService)
+    private auth: AuthService
   ) {}
+
+  async update(auth0Id: string): Promise<User> {
+    try {
+      const { picture, name } = await this.auth.getUser(auth0Id);
+      const user = await this.users.findOneByOrFail({ auth0Id });
+      user.picture = picture;
+      user.name = name;
+      await this.users.save(user);
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async create(auth0Id: string): Promise<User> {
     try {
-      await this.users.insert({ auth0Id });
-      const user = await this.users.findOneByOrFail({ auth0Id });
+      const { picture, name } = await this.auth.getUser(auth0Id);
+      await this.users.insert({ auth0Id, name, picture });
+      const user = await this.users.findOneByOrFail({ auth0Id, picture, name });
       const folder = this.folders.create({ name: 'root', owner: user });
       await this.folders.save(folder);
       return user;

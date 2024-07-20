@@ -4,8 +4,8 @@ import { PassportModule } from "@nestjs/passport";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { User, File, Folder, FileUserPermission, FolderUserPermission, SharedFolder, SharedFile } from "./entities";
-import { ShareService, AuthService, FileService, UserService, FolderService } from "./service";
-import { FolderController, FileController, ShareController, UserController } from "./controller";
+import { ShareService, AuthService, FileService, UserService, FolderService, SharedService } from "./service";
+import { FolderController, FileController, ShareController, UserController, SharedController } from "./controller";
 import { JwtStrategy } from "./strategy";
 
 @Module({
@@ -47,11 +47,13 @@ import { JwtStrategy } from "./strategy";
     FileService,
     FolderService,
     ShareService,
+    SharedService,
   ],
   controllers: [
     FolderController,
     FileController,
     ShareController,
+    SharedController,
     UserController
   ],
 })

@@ -2,8 +2,9 @@ import { ApiBearerAuth, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Post, Req, UseGuards, Param } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import { InvitableUser, InvitedUser } from 'src/dto';
+import { InvitableUser, InvitedUser, UserPermissionDto } from 'src/dto';
 import { ShareService } from 'src/service';
+import { FolderUserPermission, User } from 'src/entities';
 
 @ApiBearerAuth()
 @ApiTags('share')
@@ -18,7 +19,7 @@ export class ShareController {
     getInvitableUsersForSharing(
         @Req() req,
         @Param('id') folderId: string,
-    ): Promise<InvitableUser[]> {
+    ): Promise<User[]> {
         return this.shareService.getUsersForSharing(req.user, folderId);
     }
 
@@ -29,7 +30,7 @@ export class ShareController {
     getInvitedUsers(
         @Req() req,
         @Param('id') folderId: string,
-    ): Promise<InvitedUser[]> {
+    ): Promise<FolderUserPermission[]> {
         return this.shareService.getInvitedUsers(req.user, folderId);
     }
 

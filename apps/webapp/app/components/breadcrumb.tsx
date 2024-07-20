@@ -8,13 +8,24 @@ interface AppBreadcrumbProps {
 }
 
 export function AppBreadcrumb({ folder }: AppBreadcrumbProps) {
+  const f: Folder[] = [];
+  let v: Folder = folder;
+  while (v.parent) {
+    console.log(v);
+    f.push(v);
+    v = v.parent;
+  }
   return (
     <Breadcrumb
       aria-label="Solid background breadcrumb example"
       className="bg-gray-50 px-5 py-3 dark:bg-gray-800"
     >
       <Breadcrumb.Item href="/home">Home</Breadcrumb.Item>
-      <Breadcrumb.Item>{folder.name}</Breadcrumb.Item>
+      {f.reverse().map((folder) => (
+        <Breadcrumb.Item key={folder.id} href={`/${folder.id}`}>
+          {folder.name}
+        </Breadcrumb.Item>
+      ))}
     </Breadcrumb>
   );
 }

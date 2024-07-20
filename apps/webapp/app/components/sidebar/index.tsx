@@ -10,10 +10,10 @@ export default function AppSidebar() {
     >
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          <Sidebar.Item href="#" icon={FolderIcon}>
+          <Sidebar.Item href="/home" icon={FolderIcon}>
             I Miei File
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={SharedIcon}>
+          <Sidebar.Item href="/shared" icon={SharedIcon}>
             Condivisi Con Me
           </Sidebar.Item>
           <Sidebar.Item href="#" icon={UsersIcon}>

@@ -34,7 +34,7 @@ const CreateFolderButton: React.FC<CreateFolderButtonProps> = (props) => {
 
   return (
     <>
-      <Button onClick={showModal}>
+      <Button outline onClick={showModal}>
         <HiOutlineFolderPlus className="h-6 w-6" />
       </Button>
       <Modal show={isModalVisible} onClose={closeModal}>

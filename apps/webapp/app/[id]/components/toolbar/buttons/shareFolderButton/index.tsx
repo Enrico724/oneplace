@@ -24,7 +24,7 @@ const ShareFolderButton: React.FC<ShareFolderButtonProps> = ({ folderId }) => {
 
   return (
     <>
-      <Button onClick={showModal}>
+      <Button outline onClick={showModal}>
         <HiOutlineShare className="h-6 w-6" />
       </Button>
       <ShareFolderModal

@@ -1,16 +1,16 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
-import { AppBreadcrumb } from "./components/breadcrumb";
-import { ContentSidebar } from "./components/contentSidebar";
+import { AppBreadcrumb } from "../components/breadcrumb";
+import { ContentSidebar } from "../components/contentSidebar";
 import { ContentTable } from "./components/contentTable";
-import AppNavbar from "./components/navbar";
-import AppSidebar from "./components/sidebar";
+import AppNavbar from "../components/navbar";
+import AppSidebar from "../components/sidebar";
 import { Toolbar } from "./components/toolbar";
 import { ProviderContext } from "../provider";
 import { Folder } from "@/openapi";
 import { AxiosResponse } from "axios";
-import { SelectedFileProvider } from "./provider";
+import { SelectedFileProvider } from "../components/provider";
 
 interface ContentPageProps {
   params: {
@@ -47,7 +47,7 @@ export default function ContentPage({ params: { id } }: ContentPageProps) {
             <div className="w-64 flex-none">
               <AppSidebar />
             </div>
-            <div className="w-64 grow p-3">
+            <div className="w-64 grow gap-2 p-3">
               <Toolbar folderId={folder.id} onCreated={fetchFolder} />
               <AppBreadcrumb folder={folder} />
               <ContentTable folder={folder} onAction={fetchFolder} />

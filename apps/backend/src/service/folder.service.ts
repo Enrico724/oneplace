@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TreeRepository } from 'typeorm';
 import * as JSZip from 'jszip';
 
-import { FolderInfoDTO, CreateFolderDto } from 'src/dto';
+import { CreateFolderDto } from 'src/dto';
 import { ShareService } from './share.service';
 import { Folder, User } from 'src/entities';
 import { FolderUtils } from 'src/utils';
@@ -28,18 +28,37 @@ export class FolderService {
     return { filename, buffer };
   }
 
-  async findFolder(user: User, id: string): Promise<FolderInfoDTO> {
+  async findFolder(user: User, id: string): Promise<Folder> {
     const folder = await this.repository.findOneOrFail({
+      select: {
+        id: true,
+        name: true,
+        parent: {
+          id: true,
+          name: true,
+          share: {
+            permissions: {
+              user: {
+                id: true,
+              },
+            },
+          }
+        },
+      },
       where: { owner: user, id },
       relations: {
-        files: true, 
+        files: true,
+        share: {
+          permissions: {
+            user: true,
+          },
+        },
         subfolders: { share: { permissions: { user: true } } },
         parent: { share: true }
       },
     });
 
-    const share = await this.shareService.getShareInfo(user, folder.id);
-    return { ...folder, share };
+    return await this.repository.findAncestorsTree(folder, { relations: ['share' , 'share.permissions'] });
   }
 
   findRootFolder(user: User): Promise<Folder> {

@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { InvitedUserData } from "./invited-user-data";
+import { User } from "./user";
 /**
  *
  *
@@ -27,10 +27,10 @@ export interface InvitedUser {
   permission: InvitedUserPermissionEnum;
 
   /**
-   * @type {InvitedUserData}
+   * @type {User}
    * @memberof InvitedUser
    */
-  user: InvitedUserData;
+  user: User;
 }
 
 /**

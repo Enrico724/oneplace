@@ -1,7 +1,6 @@
 "use client";
 
-import { DarkThemeToggle, Footer } from "flowbite-react";
-import { Navbar } from "./components/navbar";
+import { DarkThemeToggle, Footer, Navbar } from "flowbite-react";
 import {
   BsFacebook,
   BsInstagram,
@@ -9,11 +8,32 @@ import {
   BsGithub,
   BsDribbble,
 } from "react-icons/bs";
+import LoginButton from "./components/loginButton";
 
 export default function Home() {
   return (
     <main>
-      <Navbar />
+      <Navbar fluid rounded>
+        <Navbar.Brand href="#">
+          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+            OnePlace
+          </span>
+        </Navbar.Brand>
+        <div className="flex md:order-2">
+          <LoginButton />
+          <DarkThemeToggle />
+          <Navbar.Toggle />
+        </div>
+        <Navbar.Collapse>
+          <Navbar.Link href="#" active>
+            Home
+          </Navbar.Link>
+          <Navbar.Link href="#">About</Navbar.Link>
+          <Navbar.Link href="#">Services</Navbar.Link>
+          <Navbar.Link href="#">Pricing</Navbar.Link>
+          <Navbar.Link href="#">Contact</Navbar.Link>
+        </Navbar.Collapse>
+      </Navbar>
 
       <section className="bg-gray-700 bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/conference.jpg')] bg-center bg-no-repeat bg-blend-multiply">
         <div className="mx-auto max-w-screen-xl px-4 py-24 text-center lg:py-56">

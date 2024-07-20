@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+import { Folder } from "./folder";
 import { FolderUserPermission } from "./folder-user-permission";
 /**
  *
@@ -20,6 +21,12 @@ import { FolderUserPermission } from "./folder-user-permission";
  * @interface SharedFolder
  */
 export interface SharedFolder {
+  /**
+   * @type {Folder}
+   * @memberof SharedFolder
+   */
+  folder: Folder;
+
   /**
    * @type {Array<FolderUserPermission>}
    * @memberof SharedFolder

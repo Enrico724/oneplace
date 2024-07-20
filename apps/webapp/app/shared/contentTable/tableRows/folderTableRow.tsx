@@ -1,16 +1,16 @@
 import { ProviderContext } from "@/app/provider";
-import { Folder } from "@/openapi";
+import { Folder, SharedFolder } from "@/openapi";
 import { Button, Checkbox, Table } from "flowbite-react";
 import { useContext } from "react";
 
 interface FolderTableRowProps {
-  folder: Folder;
+  sharedFolder: SharedFolder;
 }
 
-export function FolderTableRow({ folder }: FolderTableRowProps) {
+export function FolderTableRow({ sharedFolder }: FolderTableRowProps) {
+  const { folder, permissions } = sharedFolder;
   const api = useContext(ProviderContext);
   const onClick = () => (window.location.href = `/${folder.id}`);
-  const isShared = !(folder.share == null);
 
   return (
     <Table.Row
@@ -26,35 +26,15 @@ export function FolderTableRow({ folder }: FolderTableRowProps) {
       <Table.Cell>31/01/2001</Table.Cell>
       <Table.Cell>124.5 MB</Table.Cell>
       <Table.Cell>
-        {isShared ? (
-          <div className="flex -space-x-4 rtl:space-x-reverse">
-            {folder.share.permissions.map(({ user }) => (
-              <img
-                className="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
-                src={user.picture}
-                alt=""
-              />
-            ))}
+        <div className="flex -space-x-4 rtl:space-x-reverse">
+          {permissions.map(({ user }) => (
             <img
               className="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
-              src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
+              src={user.picture}
               alt=""
             />
-            <img
-              className="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
-              src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-              alt=""
-            />
-            <a
-              className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white hover:bg-gray-600 dark:border-gray-800"
-              href="#"
-            >
-              +99
-            </a>
-          </div>
-        ) : (
-          "Privato"
-        )}
+          ))}
+        </div>
       </Table.Cell>
       <Table.Cell>
         <Button
