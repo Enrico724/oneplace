@@ -36,6 +36,12 @@ export class AuthService {
         const { data } = await this.client.request(options);
         return data;
     }
+
+    async getUser(userId: string): Promise<Auth0User> {
+        const options = { method: 'get', maxBodyLength: Infinity, url: `/users/${userId}` };
+        const { data } = await this.client.request(options);
+        return data;
+    }
     
     async askAuth0APIToken(): Promise<string> {
         const domain = this.configService.getOrThrow('AUTH0_DOMAIN');

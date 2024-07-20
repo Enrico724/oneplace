@@ -9,7 +9,7 @@ import { User } from './user/user.entity';
 import { Folder } from './folder/folder.entity';
 import { File } from './file/file.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { SharedFile, SharedFolder, UserPermission } from './share/share.entity';
+import { SharedFile, SharedFolder, FileUserPermission, FolderUserPermission } from './share/share.entity';
 import { AuthModule } from './auth/auth.module';
 import { UserController } from './user/user.controller';
 import { ShareController } from './share/share.controller';
@@ -30,12 +30,12 @@ import { ShareService } from './share/share.service';
         username: configService.getOrThrow('DB_USERNAME'),
         password: configService.getOrThrow('DB_PASSWORD'),
         database: configService.getOrThrow('DB_DATABASE'),
-        entities: [User, Folder, File, UserPermission, SharedFolder, SharedFile],
+        entities: [User, Folder, File, FileUserPermission, FolderUserPermission, SharedFolder, SharedFile],
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([User, Folder, File, UserPermission, SharedFolder, SharedFile]),
+    TypeOrmModule.forFeature([User, Folder, File, FileUserPermission, FolderUserPermission, SharedFolder, SharedFile]),
     AuthModule,
   ],
   controllers: [UserController, FolderController, FileController, ShareController],

@@ -1,4 +1,15 @@
-import { PickType } from '@nestjs/swagger';
-import { Auth0User } from 'src/auth/dto/auth0-user.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class InvitableUser extends PickType(Auth0User, ['user_id', 'given_name', 'name', 'picture'] as const) {};
+export class InvitableUser {
+    @ApiProperty()
+    userId: string;
+
+    @ApiProperty()
+    givenName: string;
+    
+    @ApiProperty()
+    name: string;
+    
+    @ApiProperty()
+    picture;
+}
