@@ -17,13 +17,17 @@ export class SharedService {
         private readonly sharedFolders: Repository<SharedFolder>,
     ) {}
 
-    getSharedFolders(user: User): Promise<SharedFolder[]> {
-        return this.sharedFolders.find({
+    async getSharedFolders(user: User): Promise<SharedFolder[]> {
+        const shared = await this.sharedFolders.find({
             where: { permissions: { user } },
             relations: {
-                folder: { owner: true }, 
+                folder: { owner: true, subfolders: true, files: true }, 
                 permissions: { user: true }
             }
         });
+        for (const folder of shared)
+            folder.folder = await this.folders.findDescendantsTree(folder.folder, { relations: ["owner", "subfolders", "files"] });
+
+        return shared;
     }
 }

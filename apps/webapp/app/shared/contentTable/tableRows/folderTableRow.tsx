@@ -10,7 +10,7 @@ interface FolderTableRowProps {
 export function FolderTableRow({ sharedFolder }: FolderTableRowProps) {
   const { folder, permissions } = sharedFolder;
   const api = useContext(ProviderContext);
-  const onClick = () => (window.location.href = `/${folder.id}`);
+  const onClick = () => (window.location.href = `/shared/${folder.id}`);
 
   return (
     <Table.Row
@@ -29,6 +29,7 @@ export function FolderTableRow({ sharedFolder }: FolderTableRowProps) {
         <div className="flex -space-x-4 rtl:space-x-reverse">
           {permissions.map(({ user }) => (
             <img
+              key={user.id}
               className="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
               src={user.picture}
               alt=""
