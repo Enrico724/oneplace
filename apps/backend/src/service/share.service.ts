@@ -65,8 +65,9 @@ export class ShareService {
             where: { folder: { owner, id: folderId } },
             relations: { folder: true, permissions: { user: true } }
         });
+        if (sharedFolder == null) return await this.users.find({ where: { id: Not(owner.id) } });
         const excludedIDs = sharedFolder.permissions.map(({ user }) => user.id).concat(owner.id);
-        return this.users.findBy({ id: Not(In(excludedIDs)) });
+        return await this.users.findBy({ id: Not(In(excludedIDs)) });
     }
 
     async sharedFolder(owner: User, input: SharedFolderInput) {
