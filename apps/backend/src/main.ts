@@ -20,7 +20,7 @@ async function bootstrap() {
     SwaggerModule.setup('api', app, document);
   } else {
     app.enableCors({
-      origin: 'http://api.oneplace.lol',
+      origin: 'http://oneplace.lol',
       credentials: true,
     });
   }
