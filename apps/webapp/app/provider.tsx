@@ -8,7 +8,7 @@ import {
   SharedApi,
 } from "@/openapi";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
-import { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 interface ProviderInstance {
   DOMAIN: string;
@@ -67,7 +67,7 @@ export function ClientProvider({
     setShared(new SharedApi(conf));
   };
 
-  const validate = useCallback((token: string) => {
+  const validate = (token: string) => {
     console.log("[Provider] validating", token);
     updateConfiguration({
       ...initialCong,
@@ -76,14 +76,14 @@ export function ClientProvider({
       },
     });
     setLogged(true);
-  }, [updateConfiguration]);
+  };
 
-  const invalidate = useCallback(() => {
+  const invalidate = () => {
     console.log("[Provider] invalidating token");
     updateConfiguration(initialCong);
     goToLogin();
     setLogged(false);
-  }, [updateConfiguration, goToLogin]);
+  };
 
   function goToLogin() {
     const url = "/";
@@ -97,7 +97,7 @@ export function ClientProvider({
       .then(validate)
       .catch(invalidate)
       .finally(() => setIsLoading(false));
-  }, [getAccessTokenSilently, validate, invalidate]);
+  }, [getAccessTokenSilently]);
 
   const instance = {
     DOMAIN,

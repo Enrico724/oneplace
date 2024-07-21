@@ -1,6 +1,6 @@
 import { Button, Label, List, Modal, TextInput } from "flowbite-react";
 import { InvitableUserListItem } from "./list/invitableUserListItem";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { InvitableUser, InvitedUser } from "@/openapi";
 import { ProviderContext } from "@/app/provider";
 import { InvitedUserListItem } from "./list/invitedUserListItem";
@@ -23,12 +23,11 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
     setInvitableUsers(data);
   }
 
-  const getInvitedUser = useCallback(async () => {
+  async function getInvitedUser() {
     const { folderId } = props;
     const { data } = await api.share.shareControllerGetInvitedUsers(folderId);
     setInvitedUsers(data);
-  }, [api.share, props.folderId]);
-
+  }
 
   async function onInvite() {
     await getInvitedUser();
@@ -38,7 +37,7 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
   useEffect(() => {
     if (api.loading) return;
     getInvitedUser();
-  }, [api.loading, getInvitedUser]);
+  }, [api.loading]);
 
   return (
     <Modal show={props.isModalVisible} onClose={props.closeModal}>
