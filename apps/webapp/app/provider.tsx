@@ -25,13 +25,14 @@ export const ProviderContext = createContext({} as ProviderInstance);
 export function Providers({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  alert(process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI)
+  alert(process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,)
   return (
     <Auth0Provider
       domain="one-place.eu.auth0.com"
       clientId="4LyHlFaTIZPeVnls0rpnM4vk4MhWdt5P"
       authorizationParams={{
         redirect_uri: process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI,
-        redirectUri: process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI,
         audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
         scope: "openid profile email",
       }}
