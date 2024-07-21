@@ -54,7 +54,7 @@ jobs:
           script: |
             source ${{ secrets.NODE_ENV }}
             cd ${{ secrets.BACKEND_APP_PATH }}
-            unzip -qq build.zip
+            unzip -qq -o build.zip
             rm build.zip
             npm ci
             mkdir tmp
