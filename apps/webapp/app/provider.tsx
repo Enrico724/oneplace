@@ -25,8 +25,8 @@ export const ProviderContext = createContext({} as ProviderInstance);
 export function Providers({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  alert(process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI)
-  alert(process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,)
+  console.log(process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI)
+  console.log(process.env.NEXT_PUBLIC_AUTH0_AUDIENCE)
   return (
     <Auth0Provider
       domain="one-place.eu.auth0.com"
