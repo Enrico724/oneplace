@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   
   if (process.env.NODE_ENV === 'development') {
     app.enableCors({
@@ -19,10 +19,11 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('api', app, document);
   } else {
-    app.enableCors({
-      origin: 'https://oneplace.lol',
-      credentials: true,
-    });
+    // app.enableCors({
+    //   allowedHeaders: "*",
+    //   origin: 'https://oneplace.lol',
+    //   credentials: true,
+    // });
   }
   
   await app.listen(3001);
