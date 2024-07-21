@@ -25,10 +25,10 @@ export const ProviderContext = createContext({} as ProviderInstance);
 export function Providers({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN || "" ;
-  const clientId = process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || "" ;
-  const redirect_uri = process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI || "" ;
-  const audience = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE || "" ;
+  const audience = "https://api.oneplace.lol/"
+  const domain = "one-place.eu.auth0.com";
+  const clientId = "4LyHlFaTIZPeVnls0rpnM4vk4MhWdt5P";
+  const redirect_uri = "https://oneplace.lol/home";
 
   console.log({ domain, clientId, redirect_uri, audience });
 
