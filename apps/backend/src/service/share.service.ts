@@ -2,7 +2,7 @@ import { Repository, FindOneOptions, TreeRepository, Not, In } from "typeorm";
 import { Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 
-import { InvitableUser, SharedFolderInput } from "src/dto";
+import { SharedFolderInput } from "src/dto";
 import { SharedFolder, SharedFile, FolderUserPermission, User, Folder } from "src/entities";
 import { AuthService } from "./auth.service";
 import { Permission } from "src/enum";
