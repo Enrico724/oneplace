@@ -8,11 +8,11 @@ import {
   SharedApi,
 } from "@/openapi";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 
 interface ProviderInstance {
   DOMAIN: string;
-  logged: boolean;
   loading: boolean;
   folder: FoldersApi;
   file: FilesApi;
@@ -39,6 +39,8 @@ export function Providers({
         audience,
         scope: "openid profile email",
       }}
+      useRefreshTokens={true}
+      cacheLocation="localstorage"
     >
       <ClientProvider>{children}</ClientProvider>
     </Auth0Provider>
@@ -51,57 +53,54 @@ export function ClientProvider({
   const DOMAIN = process.env.NEXT_PUBLIC_API_URL || "";
 
   const initialCong = { basePath: DOMAIN };
-  const [logged, setLogged] = useState<boolean>(false);
   const [loading, setIsLoading] = useState<boolean>(true);
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, isLoading, isAuthenticated } = useAuth0();
 
   const [folder, setFolder] = useState<FoldersApi>(new FoldersApi(initialCong));
   const [file, setFile] = useState<FilesApi>(new FilesApi(initialCong));
   const [share, setShare] = useState<ShareApi>(new ShareApi(initialCong));
   const [shared, setShared] = useState<SharedApi>(new SharedApi(initialCong));
 
-  const updateConfiguration = (conf: Configuration) => {
-    setFolder(new FoldersApi(conf));
-    setFile(new FilesApi(conf));
-    setShare(new ShareApi(conf));
-    setShared(new SharedApi(conf));
+  function updateConfiguration() {
+    setFolder(new FoldersApi({}, DOMAIN, axios));
+    setFile(new FilesApi({}, DOMAIN, axios));
+    setShare(new ShareApi({}, DOMAIN, axios));
+    setShared(new SharedApi({}, DOMAIN, axios));
   };
 
-  const validate = (token: string) => {
-    console.log("[Provider] validating", token);
-    updateConfiguration({
-      ...initialCong,
-      baseOptions: {
-        headers: { Authorization: `Bearer ${token}` },
-      },
+  function validate() {
+    axios.interceptors.request.use(async (config) => {
+      const token = await getAccessTokenSilently();
+      console.log("[Provider] setting token", token);
+      config.headers.Authorization = `Bearer ${token}`;
+      return config;
     });
-    setLogged(true);
+    updateConfiguration
+    setIsLoading(false);
   };
 
-  const invalidate = () => {
+  function invalidate() {
     console.log("[Provider] invalidating token");
-    updateConfiguration(initialCong);
+    updateConfiguration();
     goToLogin();
-    setLogged(false);
+    setIsLoading(false);
   };
 
   function goToLogin() {
     const url = "/";
     const { pathname } = window.location;
     if (pathname === url) return;
-    window.location.replace(url);
+    window.location.href = url;
   }
 
   useEffect(() => {
-    getAccessTokenSilently()
-      .then(validate)
-      .catch(invalidate)
-      .finally(() => setIsLoading(false));
-  }, [getAccessTokenSilently]);
+    if (isLoading) return;
+    if (isAuthenticated) return validate();
+    invalidate();
+  }, [isLoading]);
 
   const instance = {
     DOMAIN,
-    logged,
     loading,
     folder,
     file,
