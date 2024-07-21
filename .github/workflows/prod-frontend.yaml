@@ -41,7 +41,7 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: "apps/webapp/build.zip"
           target: "${{ secrets.FRONTEND_APP_PATH }}"
-          strip-components: 2
+          strip_components: 2
 
       - name: Setting Enviroment
         uses: appleboy/ssh-action@v1.0.3
