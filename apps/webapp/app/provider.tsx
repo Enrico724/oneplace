@@ -25,13 +25,20 @@ export const ProviderContext = createContext({} as ProviderInstance);
 export function Providers({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN || "" ;
+  const clientId = process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || "" ;
+  const redirect_uri = process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI || "" ;
+  const audience = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE || "" ;
+
+  console.log({ domain, clientId, redirect_uri, audience });
+
   return (
     <Auth0Provider
-      domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN || ""}
-      clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || ""}
+      domain={domain}
+      clientId={clientId}
       authorizationParams={{
-        redirect_uri: process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI,
-        audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
+        redirect_uri,
+        audience,
         scope: "openid profile email",
       }}
     >
