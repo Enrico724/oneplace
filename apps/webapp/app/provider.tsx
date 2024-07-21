@@ -8,7 +8,7 @@ import {
   SharedApi,
 } from "@/openapi";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 
 interface ProviderInstance {
   DOMAIN: string;
@@ -25,12 +25,10 @@ export const ProviderContext = createContext({} as ProviderInstance);
 export function Providers({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const audience = "https://api.oneplace.lol/"
-  const domain = "one-place.eu.auth0.com";
-  const clientId = "4LyHlFaTIZPeVnls0rpnM4vk4MhWdt5P";
-  const redirect_uri = "https://oneplace.lol/home";
-
-  console.log({ domain, clientId, redirect_uri, audience });
+  const domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN || "" ;
+  const clientId = process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || "" ;
+  const redirect_uri = process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI || "" ;
+  const audience = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE || "" ;
 
   return (
     <Auth0Provider
@@ -69,7 +67,7 @@ export function ClientProvider({
     setShared(new SharedApi(conf));
   };
 
-  const validate = (token: string) => {
+  const validate = useCallback((token: string) => {
     console.log("[Provider] validating", token);
     updateConfiguration({
       ...initialCong,
@@ -78,14 +76,14 @@ export function ClientProvider({
       },
     });
     setLogged(true);
-  };
+  }, [updateConfiguration]);
 
-  const invalidate = () => {
+  const invalidate = useCallback(() => {
     console.log("[Provider] invalidating token");
     updateConfiguration(initialCong);
     goToLogin();
     setLogged(false);
-  };
+  }, [updateConfiguration, goToLogin]);
 
   function goToLogin() {
     const url = "/";
@@ -99,7 +97,7 @@ export function ClientProvider({
       .then(validate)
       .catch(invalidate)
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [getAccessTokenSilently, validate, invalidate]);
 
   const instance = {
     DOMAIN,

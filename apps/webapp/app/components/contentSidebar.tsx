@@ -17,9 +17,9 @@ export function ContentSidebar() {
         {selectedFile ? (
           <ul className="space-y-2 font-medium">
             <li className="flex">
-              <HiDocumentText className="mr-2 h-6 w-6" />
+              <HiDocumentText className="mr-2 size-6" />
               <span className="font-semibold">{selectedFile.name}</span>
-              <HiDocumentText className="h-6 w-6" />
+              <HiDocumentText className="size-6" />
             </li>
             <li>{selectedFile.id}</li>
             <li>{selectedFile.mimeType}</li>

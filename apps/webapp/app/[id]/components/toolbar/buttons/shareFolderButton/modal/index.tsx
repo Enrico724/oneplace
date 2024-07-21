@@ -1,6 +1,6 @@
 import { Button, Label, List, Modal, TextInput } from "flowbite-react";
 import { InvitableUserListItem } from "./list/invitableUserListItem";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { InvitableUser, InvitedUser } from "@/openapi";
 import { ProviderContext } from "@/app/provider";
 import { InvitedUserListItem } from "./list/invitedUserListItem";
@@ -23,11 +23,12 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
     setInvitableUsers(data);
   }
 
-  async function getInvitedUser() {
+  const getInvitedUser = useCallback(async () => {
     const { folderId } = props;
     const { data } = await api.share.shareControllerGetInvitedUsers(folderId);
     setInvitedUsers(data);
-  }
+  }, [api.share, props.folderId]);
+
 
   async function onInvite() {
     await getInvitedUser();
@@ -37,7 +38,7 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
   useEffect(() => {
     if (api.loading) return;
     getInvitedUser();
-  }, [api.loading]);
+  }, [api.loading, getInvitedUser]);
 
   return (
     <Modal show={props.isModalVisible} onClose={props.closeModal}>
@@ -47,10 +48,10 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
             <Label>In Condivisione con</Label>
             <List
               unstyled
-              className="max-w divide-y divide-gray-200 dark:divide-gray-700"
+              className="divide-y divide-gray-200 dark:divide-gray-700"
             >
               {invitedUsers.map((user) => (
-                <InvitedUserListItem key={user.user.userId} user={user} />
+                <InvitedUserListItem key={user.user.id} user={user} />
               ))}
             </List>
           </div>
@@ -59,7 +60,7 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
             <TextInput onChange={getInvitableUser} placeholder="Cerca Utenti" />
             <List
               unstyled
-              className="max-w divide-y divide-gray-200 dark:divide-gray-700"
+              className="divide-y divide-gray-200 dark:divide-gray-700"
             >
               {invitableUsers.map((user) => (
                 <InvitableUserListItem

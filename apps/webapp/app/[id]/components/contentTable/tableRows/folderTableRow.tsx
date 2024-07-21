@@ -31,23 +31,23 @@ export function FolderTableRow({ folder }: FolderTableRowProps) {
             {folder.share.permissions.map(({ user }) => (
               <img
                 key={user.id}
-                className="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
+                className="size-10 rounded-full border-2 border-white dark:border-gray-800"
                 src={user.picture}
                 alt=""
               />
             ))}
             <img
-              className="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
+              className="size-10 rounded-full border-2 border-white dark:border-gray-800"
               src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
               alt=""
             />
             <img
-              className="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
+              className="size-10 rounded-full border-2 border-white dark:border-gray-800"
               src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
               alt=""
             />
             <a
-              className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white hover:bg-gray-600 dark:border-gray-800"
+              className="flex size-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white hover:bg-gray-600 dark:border-gray-800"
               href="#"
             >
               +99

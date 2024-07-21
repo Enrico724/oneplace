@@ -69,7 +69,7 @@ export default function Home() {
               className="mb-2 inline-flex items-center rounded-md bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-gray-700 dark:text-blue-400"
             >
               <svg
-                className="me-1.5 h-2.5 w-2.5"
+                className="me-1.5 size-2.5"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -100,7 +100,7 @@ export default function Home() {
                 className="mb-2 inline-flex items-center rounded-md bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-gray-700 dark:text-green-400"
               >
                 <svg
-                  className="me-1.5 h-2.5 w-2.5"
+                  className="me-1.5 size-2.5"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"

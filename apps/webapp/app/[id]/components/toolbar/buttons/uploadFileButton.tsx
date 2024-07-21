@@ -41,7 +41,7 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = (props) => {
   return (
     <>
       <Button outline onClick={showModal}>
-        <HiOutlineDocumentArrowUp className="h-6 w-6" />
+        <HiOutlineDocumentArrowUp className="size-6" />
       </Button>
       <Modal show={isModalVisible} onClose={closeModal}>
         <Modal.Body>

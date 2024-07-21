@@ -42,7 +42,7 @@ function AvatarSkeleton() {
   return (
     <div role="status" className="animate-pulse">
       <svg
-        className="me-4 h-8 w-8 text-gray-200 dark:text-gray-700"
+        className="me-4 size-8 text-gray-200 dark:text-gray-700"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
