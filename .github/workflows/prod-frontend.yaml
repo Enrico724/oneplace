@@ -17,7 +17,7 @@ jobs:
         run: rm package.json
 
       - name: NPM Install
-        run: cd apps/webapp && npm install && npm run build && zip -qq -r build.zip . -x *.git* node_modules/\* test/\* .Dockerfile docker-compose.yaml
+        run: cd apps/webapp && npm install && npm run build && zip -qq -r build.zip . -x *.git* node_modules/\* test/\* .env.development .Dockerfile docker-compose.yaml
 
       - name: Preparing Enviroment
         uses: appleboy/ssh-action@v1.0.3
@@ -57,6 +57,7 @@ jobs:
             unzip -qq build.zip
             rm build.zip
             npm ci
+            npm build
             mkdir tmp
             touch tmp/restart.txt
             exit
