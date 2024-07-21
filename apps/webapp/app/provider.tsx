@@ -31,6 +31,7 @@ export function Providers({
       clientId="4LyHlFaTIZPeVnls0rpnM4vk4MhWdt5P"
       authorizationParams={{
         redirect_uri: process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI,
+        redirectUri: process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI,
         audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
         scope: "openid profile email",
       }}
