@@ -25,14 +25,10 @@ export const ProviderContext = createContext({} as ProviderInstance);
 export function Providers({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  useEffect(() => {
-    console.log(process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI)
-    console.log(process.env.NEXT_PUBLIC_AUTH0_AUDIENCE)
-  }, []);
   return (
     <Auth0Provider
-      domain="one-place.eu.auth0.com"
-      clientId="4LyHlFaTIZPeVnls0rpnM4vk4MhWdt5P"
+      domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN || ""}
+      clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || ""}
       authorizationParams={{
         redirect_uri: process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI,
         audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
@@ -47,7 +43,7 @@ export function Providers({
 export function ClientProvider({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const DOMAIN = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+  const DOMAIN = process.env.NEXT_PUBLIC_API_URL || "";
 
   const initialCong = { basePath: DOMAIN };
   const [logged, setLogged] = useState<boolean>(false);
