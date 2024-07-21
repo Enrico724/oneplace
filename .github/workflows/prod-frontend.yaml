@@ -17,7 +17,7 @@ jobs:
         run: rm package.json
 
       - name: NPM Install
-        run: cd apps/webapp && npm install && npm run build && zip -qq -r build.zip . -x *.git* node_modules/\* test/\* .Dockerfile docker-compose.yaml
+        run: cd apps/webapp && npm install && npm run build && zip -qq -r build.zip apps/webapp -x *.git* node_modules/\* test/\* .Dockerfile docker-compose.yaml
 
       - name: Preparing Enviroment
         uses: appleboy/ssh-action@v1.0.3
@@ -39,7 +39,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          source: "build.zip"
+          source: "apps/webapp/build.zip"
           target: "${{ secrets.FRONTEND_APP_PATH }}"
 
       - name: Setting Enviroment
