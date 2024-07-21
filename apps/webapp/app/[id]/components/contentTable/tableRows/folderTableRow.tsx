@@ -30,6 +30,7 @@ export function FolderTableRow({ folder }: FolderTableRowProps) {
           <div className="flex -space-x-4 rtl:space-x-reverse">
             {folder.share.permissions.map(({ user }) => (
               <img
+                key={user.id}
                 className="h-10 w-10 rounded-full border-2 border-white dark:border-gray-800"
                 src={user.picture}
                 alt=""
