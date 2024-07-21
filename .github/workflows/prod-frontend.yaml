@@ -16,17 +16,8 @@ jobs:
       - name: Preventing Cache
         run: rm package.json
 
-      - name: CD to webapp
-        run: cd apps/webapp
-
       - name: NPM Install
-        run: npm install
-
-      - name: NPM Build
-        run: npm run build
-
-      - name: Zip Build
-        run: zip -qq -r build.zip . -x *.git* node_modules/\* test/\* .Dockerfile docker-compose.yaml
+        run: cd apps/webapp && npm install && npm run build && zip -qq -r build.zip . -x *.git* node_modules/\* test/\* .Dockerfile docker-compose.yaml
 
       - name: Preparing Enviroment
         uses: appleboy/ssh-action@v1.0.3
@@ -48,7 +39,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          source: "build.zip"
+          source: "apps/webapp/build.zip"
           target: "${{ secrets.FRONTEND_APP_PATH }}"
 
       - name: Setting Enviroment
