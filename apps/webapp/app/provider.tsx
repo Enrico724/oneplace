@@ -8,7 +8,7 @@ import {
   SharedApi,
 } from "@/openapi";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { createContext, useEffect, useState } from "react";
 
 interface ProviderInstance {
@@ -73,10 +73,7 @@ export function ClientProvider({
       const token = await getAccessTokenSilently();
       console.log("[Provider] setting token", token);
       config.headers.Authorization = `Bearer ${token}`;
-     // config.fetchOptions = { mode: 'cors' };
-      config.headers['Access-Control-Allow-Origin'] = '*';
-      config.headers['Access-Control-Allow-Headers'] = '*';
-      config.headers['Access-Control-Allow-Credentials'] = 'true';
+      config.withCredentials = true;
       return config;
     });
     updateConfiguration()
