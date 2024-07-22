@@ -73,9 +73,13 @@ export function ClientProvider({
       const token = await getAccessTokenSilently();
       console.log("[Provider] setting token", token);
       config.headers.Authorization = `Bearer ${token}`;
+      config.fetchOptions = { mode: 'cors' };
+      // config.headers['Access-Control-Allow-Origin'] = '*';
+      // config.headers['Access-Control-Allow-Headers'] = '*';
+      // config.headers['Access-Control-Allow-Credentials'] = 'true';
       return config;
     });
-    updateConfiguration
+    updateConfiguration()
     setIsLoading(false);
   };
 

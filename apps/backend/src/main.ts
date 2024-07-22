@@ -7,7 +7,6 @@ async function bootstrap() {
   app.enableCors({
     allowedHeaders: "*",
     origin: "*",
-    preflightContinue: true,
     credentials: true,
   });
   
