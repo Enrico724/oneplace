@@ -27,7 +27,7 @@ export class UserService {
       await this.users.save(user);
       return user;
     } catch (error) {
-      console.log(error);
+      console.log("Error updating user");
     }
   }
 
@@ -40,22 +40,11 @@ export class UserService {
       await this.folders.save(folder);
       return user;
     } catch (error) {
-      console.log(error);
+      console.log("Error creating user");
     }
   }
 
   async getUsers(user: User): Promise<User[]> {
-
-    var options = {
-      method: 'GET',
-      url: 'https://one-place.eu.auth0.com/api/v2/users',
-      params: {q: 'email:"jane@exampleco.com"', search_engine: 'v3'},
-      headers: {authorization: 'Bearer {yourMgmtApiAccessToken}'}
-    };
-    
-    const reponse = await axios.request(options);
-    console.log(reponse.data);
-    
     return await this.users.findBy({ id: Not(user.id) });
   }
 
