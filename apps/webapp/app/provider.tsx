@@ -9,6 +9,7 @@ import {
 } from "@/openapi";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import axios, { AxiosRequestConfig } from "axios";
+import { get } from "http";
 import { createContext, useEffect, useState } from "react";
 
 interface ProviderInstance {
@@ -41,6 +42,7 @@ export function Providers({
       }}
       useRefreshTokens={true}
       cacheLocation="localstorage"
+      useRefreshTokensFallback={true}
     >
       <ClientProvider>{children}</ClientProvider>
     </Auth0Provider>
@@ -54,7 +56,7 @@ export function ClientProvider({
 
   const initialCong = { basePath: DOMAIN };
   const [loading, setIsLoading] = useState<boolean>(true);
-  const { getAccessTokenSilently, isLoading, isAuthenticated } = useAuth0();
+  const { getAccessTokenSilently, isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
 
   const [folder, setFolder] = useState<FoldersApi>(new FoldersApi(initialCong));
   const [file, setFile] = useState<FilesApi>(new FilesApi(initialCong));
@@ -82,7 +84,6 @@ export function ClientProvider({
 
   function invalidate() {
     console.log("[Provider] invalidating token");
-    updateConfiguration();
     goToLogin();
     setIsLoading(false);
   };
@@ -95,9 +96,18 @@ export function ClientProvider({
   }
 
   useEffect(() => {
-    if (isLoading) return;
-    if (isAuthenticated) return validate();
-    invalidate();
+    const checkAuthSession = async () => {
+      console.log("[Provider] checking auth session, is loading", isLoading);
+      if (isLoading) return;
+      if (isAuthenticated) { 
+        console.log("[Provider] authenticated"); 
+        validate();
+      } else {
+        console.log("[Provider] not authenticated");
+        invalidate();
+      }
+    };
+    checkAuthSession();
   }, [isLoading]);
 
   const instance = {
@@ -120,3 +130,4 @@ export function ClientProvider({
     </ProviderContext.Provider>
   );
 }
+

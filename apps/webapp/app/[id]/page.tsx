@@ -11,6 +11,7 @@ import { ProviderContext } from "../provider";
 import { Folder } from "@/openapi";
 import { AxiosResponse } from "axios";
 import { SelectedFileProvider } from "../components/provider";
+import { Alert } from "flowbite-react";
 
 interface ContentPageProps {
   params: {
@@ -44,12 +45,19 @@ export default function ContentPage({ params: { id } }: ContentPageProps) {
       {folder && (
         <SelectedFileProvider>
           <div className="flex">
-            <div className="w-64 flex-none">
+            <div className="hidden md:block w-64 flex-none">
               <AppSidebar />
             </div>
             <div className="w-64 grow gap-2 p-3">
               <Toolbar folderId={folder.id} onCreated={fetchFolder} />
               <AppBreadcrumb folder={folder} />
+              { (folder.share?.permissions.length > 0) && (
+                <div className="py-3">
+                  <Alert color="info">
+                    <span className="font-medium">Cartella Attualmente in condivisione!</span>
+                  </Alert>
+                </div>
+              )}
               <ContentTable folder={folder} onAction={fetchFolder} />
             </div>
             <div className="hidden w-64 flex-none xl:block">

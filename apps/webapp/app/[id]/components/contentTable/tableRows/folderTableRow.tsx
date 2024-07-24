@@ -23,8 +23,8 @@ export function FolderTableRow({ folder }: FolderTableRowProps) {
       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
         {folder.name}
       </Table.Cell>
-      <Table.Cell>31/01/2001</Table.Cell>
-      <Table.Cell>124.5 MB</Table.Cell>
+      <Table.Cell className="hidden md:inherit">31/01/2001</Table.Cell>
+      <Table.Cell className="hidden md:inherit">124.5 MB</Table.Cell>
       <Table.Cell>
         {isShared ? (
           <div className="flex -space-x-4 rtl:space-x-reverse">
@@ -36,22 +36,6 @@ export function FolderTableRow({ folder }: FolderTableRowProps) {
                 alt=""
               />
             ))}
-            <img
-              className="size-10 rounded-full border-2 border-white dark:border-gray-800"
-              src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
-              alt=""
-            />
-            <img
-              className="size-10 rounded-full border-2 border-white dark:border-gray-800"
-              src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-              alt=""
-            />
-            <a
-              className="flex size-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white hover:bg-gray-600 dark:border-gray-800"
-              href="#"
-            >
-              +99
-            </a>
           </div>
         ) : (
           "Privato"

@@ -18,11 +18,11 @@ export function ContentTable(props: ContentTableProps) {
             <Checkbox />
           </Table.HeadCell>
           <Table.HeadCell>Nome</Table.HeadCell>
-          <Table.HeadCell>Ultima Modifica</Table.HeadCell>
-          <Table.HeadCell>Dimensione File</Table.HeadCell>
+          <Table.HeadCell className="hidden md:inherit">Ultima Modifica</Table.HeadCell>
+          <Table.HeadCell className="hidden md:inherit">Dimensione File</Table.HeadCell>
           <Table.HeadCell>Condivisione</Table.HeadCell>
           <Table.HeadCell>
-            <span className="sr-only">Edit</span>
+            <span className="sr-only">Actions</span>
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">

@@ -26,8 +26,8 @@ export function FileTableRow({ file, onDelete }: FileTableRowProps) {
       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
         {file.name}
       </Table.Cell>
-      <Table.Cell>31/01/2001</Table.Cell>
-      <Table.Cell>{Utils.formatBytes(file.size)}</Table.Cell>
+      <Table.Cell className="hidden md:inherit">31/01/2001</Table.Cell>
+      <Table.Cell className="hidden md:inherit">{Utils.formatBytes(file.size)}</Table.Cell>
       <Table.Cell>Privato</Table.Cell>
       <Table.Cell>
         <Button
