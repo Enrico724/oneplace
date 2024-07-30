@@ -3,6 +3,7 @@ import { ProviderContext } from "@/app/provider";
 import Utils from "@/app/utils";
 import { ModelFile } from "@/openapi";
 import { Button, Checkbox, Table } from "flowbite-react";
+import Link from "next/link";
 import { useContext } from "react";
 
 interface FileTableRowProps {
@@ -42,6 +43,23 @@ export function FileTableRow({ file, onDelete }: FileTableRowProps) {
         >
           Delete
         </Button>
+        <Button
+          size="xs"
+          color="red"
+          onClick={() => {
+            api.file
+              .fileControllerDeleteFile(file.id)
+              .then(deselectFile)
+              .then(onDelete);
+          }}
+        >
+          Condividi
+        </Button>
+        <Link href={`/documents/${file.id}`}>
+          <Button size="xs" color="blue">
+            Open
+          </Button>
+        </Link>
       </Table.Cell>
     </Table.Row>
   );

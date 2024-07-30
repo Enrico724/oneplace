@@ -31,7 +31,7 @@ export function InvitableUserListItem({
       onClick={invite}
     >
       <div className="flex items-center space-x-4 rtl:space-x-reverse">
-        <Avatar img={user.picture} alt={`${user.name}`} rounded size="sm" />
+      <img className="w-10 h-10 rounded-full" src={user.picture} alt={user.name} referrerPolicy="no-referrer"/>
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
             {user.name}

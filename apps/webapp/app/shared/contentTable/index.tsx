@@ -25,9 +25,7 @@ export function ContentTable({ folders, onAction }: ContentTableProps) {
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {folders.map((folder) => (
-            <FolderTableRow key={folder.folder.id} sharedFolder={folder} />
-          ))}
+          {folders.map((folder) => <FolderTableRow key={"usr-folder-"+folder.folder.id} sharedFolder={folder} /> )}
         </Table.Body>
       </Table>
     </div>

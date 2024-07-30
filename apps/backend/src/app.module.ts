@@ -4,9 +4,11 @@ import { PassportModule } from "@nestjs/passport";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { User, File, Folder, FileUserPermission, FolderUserPermission, SharedFolder, SharedFile } from "./entities";
-import { ShareService, AuthService, FileService, UserService, FolderService, SharedService } from "./service";
+import { ShareService, AuthService, FileService, UserService, FolderService, SharedService, SharedFileService } from "./service";
 import { FolderController, FileController, ShareController, UserController, SharedController } from "./controller";
 import { JwtStrategy } from "./strategy";
+import { EditorGateway } from "./gateway";
+import { JwtModule } from "@nestjs/jwt";
 
 @Module({
   imports: [
@@ -37,6 +39,7 @@ import { JwtStrategy } from "./strategy";
       SharedFolder,
       SharedFile,
     ]),
+    JwtModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
 
   ],
@@ -48,6 +51,8 @@ import { JwtStrategy } from "./strategy";
     FolderService,
     ShareService,
     SharedService,
+    SharedFileService,
+    EditorGateway,
   ],
   controllers: [
     FolderController,

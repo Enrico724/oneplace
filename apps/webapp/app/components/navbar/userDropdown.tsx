@@ -12,7 +12,7 @@ export function UserDropdown() {
     <Dropdown
       arrowIcon={false}
       inline
-      label={<Avatar alt="User settings" img={user?.picture} rounded />}
+      label={<img className="w-10 h-10 rounded-full" src={user?.picture} alt={user?.name} referrerPolicy="no-referrer"/>}
     >
       <Dropdown.Header>
         <span className="block text-sm">{user?.name}</span>

@@ -49,9 +49,7 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
               unstyled
               className="divide-y divide-gray-200 dark:divide-gray-700"
             >
-              {invitedUsers.map((user) => (
-                <InvitedUserListItem key={user.user.id} user={user} />
-              ))}
+              {invitedUsers.map((user) => <InvitedUserListItem key={"modal-invited-"+user.user.id} user={user} />)}
             </List>
           </div>
           <div className="space-y-2">
@@ -63,7 +61,7 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
             >
               {invitableUsers.map((user) => (
                 <InvitableUserListItem
-                  key={user.userId}
+                  key={"modal-invitable-"+user.userId}
                   user={user}
                   folderId={props.folderId}
                   onInvite={onInvite}
