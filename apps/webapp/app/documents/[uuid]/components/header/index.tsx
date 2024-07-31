@@ -1,6 +1,7 @@
 'user client';
 
 import { User } from '@/openapi';
+import { randomFillSync } from 'crypto';
 import React from 'react';
 
 type ConnectedUser = {
@@ -8,6 +9,7 @@ type ConnectedUser = {
     pointer: number;
     selectedText: number;
     socketId: string;
+    color: string
     user: User;
 };
 
@@ -20,8 +22,6 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({ title, isReadOnly, connectedUsers }) => {
     const handlePermissionChange = (userId: string, newPermission: string) => {
     };
-
-    console.log(connectedUsers);
 
     return (
         <header>
@@ -36,10 +36,11 @@ const Header: React.FC<HeaderProps> = ({ title, isReadOnly, connectedUsers }) =>
                             Connessi: {connectedUsers.length}
                         </span>
                         <div className="flex -space-x-4 rtl:space-x-reverse">
-                            {connectedUsers.map(({user}) => (
+                            {connectedUsers.map(({user, color}) => (
                                 <img 
-                                    key={"permission-usr-"+user.id}
-                                    className="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800"
+                                    key={"permission-usr-"+Math.random()}
+                                    className={`w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 p-0.5`}
+                                    style={{ backgroundColor: color }}
                                     src={user.picture} 
                                     alt={user.name}
                                     referrerPolicy="no-referrer"

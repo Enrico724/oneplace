@@ -15,14 +15,12 @@ export function InvitableUserListItem({
   onInvite,
 }: InvitableUserListItemProps) {
   const api = useContext(ProviderContext);
-  console.log(user.userId, folderId);
   async function invite() {
     const { data } = await api.share.shareControllerInviteUser(
       folderId,
       user.userId,
     );
     onInvite();
-    console.log(data);
   }
 
   return (

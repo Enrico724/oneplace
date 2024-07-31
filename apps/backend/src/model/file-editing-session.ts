@@ -7,4 +7,6 @@ export class FileEditingSession {
 
     // Connected Users
     users: ConnectedUser[];
+
+    content: string;
 }

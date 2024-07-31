@@ -6,6 +6,8 @@ export class ConnectedUser {
     user: User;
 
     socketId: string;
+
+    color: string;
     
     // numer of caracter where pointer is potioned
     pointer: number;

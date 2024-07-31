@@ -1,11 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { ChangeEventHandler, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAuth0 } from '@auth0/auth0-react';
-
 import { DocumentEditor, Header } from './components'
-import { connected } from 'process';
+import { ConnectedUser } from './lib/connectedUser';
 
 interface DocumentPageProps {
     params: {
@@ -17,9 +16,17 @@ export default function DocumentPage({ params: { uuid } }: DocumentPageProps) {
     const server = process.env.NEXT_PUBLIC_API_URL;
     const { getAccessTokenSilently, isLoading, isAuthenticated } = useAuth0();
     const [connectedUsers, setConnectedUsers] = useState([]);
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState();
+    const [socket, setSocket] = useState<Socket | null>(null);
 
-    const onConnectedUsers = (data: any) => setConnectedUsers(data.users);
-    const onEvent = (data: any) => console.log(data);
+    const onConnectedUsers = (data: any) => {
+        console.log("from connected_useres",data);
+        setTitle(data.file.name);
+        setContent(data.content);
+        setConnectedUsers(data.users);
+    }
+    const onEvent = (data: any) => console.log("event", data);
     
     async function initSocket() {
         console.log('init socket');
@@ -34,7 +41,8 @@ export default function DocumentPage({ params: { uuid } }: DocumentPageProps) {
         socket.on('user_connected', onConnectedUsers);
         socket.on('disconnect', onEvent);
 
-        socket.connect()
+        setSocket(socket);
+        socket.connect();
     }
 
     useEffect(() => {
@@ -42,14 +50,22 @@ export default function DocumentPage({ params: { uuid } }: DocumentPageProps) {
         initSocket();
     }, []);
 
+    if (!socket) return <div>Connecting...</div>;
+    if (!content) return <div>Loading...</div>;
+
     return (
         <main className='h-screen'>
             <Header 
-                title={"Documento Serio 123.md"} 
+                title={title} 
                 isReadOnly={true} 
                 connectedUsers={connectedUsers} 
             />
-            <DocumentEditor uuid={uuid} />
+            <DocumentEditor
+                uuid={uuid}
+                initialRawContent={content}
+                users={connectedUsers}
+                socket={socket}
+            />
         </main>
     );
 }

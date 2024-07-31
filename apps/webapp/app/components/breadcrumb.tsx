@@ -11,7 +11,6 @@ export function AppBreadcrumb({ folder }: AppBreadcrumbProps) {
   const f: Folder[] = [];
   let v: Folder = folder;
   while (v.parent) {
-    console.log(v);
     f.push(v);
     v = v.parent;
   }

@@ -53,7 +53,6 @@ export function FolderTableRow({ sharedFolder }: FolderTableRowProps) {
             const imageUrlObject = URL.createObjectURL(data!);
             const link = document.createElement("a");
             link.href = imageUrlObject;
-            console.log(headers);
             link.download = `${folder.name}.zip`;
             link.click();
             URL.revokeObjectURL(imageUrlObject);
