@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { InvitableUser, InvitedUser } from "@/openapi";
 import { ProviderContext } from "@/app/provider";
 import { InvitedUserListItem } from "./list/invitedUserListItem";
+import { HiClipboard, HiOutlineClipboard } from "react-icons/hi2";
 
 interface ShareFolderModalProps {
   folderId: string;
@@ -43,7 +44,25 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
     <Modal show={props.isModalVisible} onClose={props.closeModal}>
       <Modal.Body>
         <div className="space-y-4">
-          <div>
+          <div className="space-y-2">
+            <Label>Link di Condivisione</Label>
+            <div className="relative">
+              <input 
+                type="text" 
+                className="col-span-6 bg-gray-50 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                value={`https://.../shared/${props.folderId}`}
+                disabled 
+                readOnly 
+              />
+              <button className="absolute end-2.5 top-1/2 -translate-y-1/2 text-gray-900 dark:text-gray-400 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 rounded-lg py-2 px-2.5 inline-flex items-center justify-center bg-white border-gray-200 border">
+                <span className="inline-flex items-center">
+                  <HiOutlineClipboard className="w-4 h-4 mr-2" />
+                  <span className="text-xs font-semibold">Copia</span>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div className="space-y-2">
             <Label>In Condivisione con</Label>
             <List
               unstyled
