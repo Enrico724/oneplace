@@ -15,7 +15,7 @@ interface DocumentPageProps {
 export default function DocumentPage({ params: { uuid } }: DocumentPageProps) {
     const server = process.env.NEXT_PUBLIC_API_URL;
     const { getAccessTokenSilently, isLoading, isAuthenticated } = useAuth0();
-    const [connectedUsers, setConnectedUsers] = useState([]);
+    const [connectedUsers, setConnectedUsers] = useState<ConnectedUser[]>([]);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState();
     const [socket, setSocket] = useState<Socket | null>(null);
@@ -53,12 +53,17 @@ export default function DocumentPage({ params: { uuid } }: DocumentPageProps) {
     if (!socket) return <div>Connecting...</div>;
     if (!content) return <div>Loading...</div>;
 
+    const me = connectedUsers.find((u) => u.socketId == socket.id);
+
+    if (me == null) return <div>Invalid me State</div>
+
     return (
         <main className='h-screen'>
             <Header 
-                title={title} 
-                isReadOnly={true} 
-                connectedUsers={connectedUsers} 
+                title={title}
+                connectedUsers={connectedUsers}
+                me={me}
+                socket={socket} 
             />
             <DocumentEditor
                 uuid={uuid}

@@ -51,7 +51,8 @@ export class EditorGateway implements OnGatewayConnection, OnGatewayInit, OnGate
             const color = '#' + Math.floor(Math.random()*16777215).toString(16);
             const connectedUser: ConnectedUser = { user, permission, pointer: 0, selectedText: 0, socketId, color };
             session.users.push(connectedUser);
-            this.server.emit('user_connected', session);
+            for (const user of session.users)
+                this.server.to(user.socketId).emit('user_connected', session);
         } catch(error) {
             console.error(error)
             client.disconnect();
@@ -64,7 +65,8 @@ export class EditorGateway implements OnGatewayConnection, OnGatewayInit, OnGate
         const session = this.sessions.find(session => session.file.id === uuid);
         const filtered = session.users.filter(user => user.socketId !== socketId);
         session.users = filtered;
-        this.server.emit('user_connected', session);
+        for (const user of session.users)
+            this.server.to(user.socketId).emit('user_connected', session);
     }
 
     @SubscribeMessage('edit')

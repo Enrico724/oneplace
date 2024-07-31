@@ -29,7 +29,8 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             cd ${{ secrets.BACKEND_APP_PATH }}
-            rm -rdf *
+            shopt -s extglob
+            rm -rd !(data)
 
       - name: Sending build.zip on cPanel
         uses: appleboy/scp-action@master

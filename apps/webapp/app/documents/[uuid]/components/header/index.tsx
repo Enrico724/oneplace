@@ -1,8 +1,8 @@
 'user client';
 
 import { User } from '@/openapi';
-import { randomFillSync } from 'crypto';
 import React from 'react';
+import { Socket } from 'socket.io-client';
 
 type ConnectedUser = {
     permission: "write" | "read";
@@ -15,13 +15,16 @@ type ConnectedUser = {
 
 type HeaderProps = {
     title: string;
-    isReadOnly: boolean;
+    socket: Socket;
     connectedUsers: ConnectedUser[];
+    me: ConnectedUser;
 };
 
-const Header: React.FC<HeaderProps> = ({ title, isReadOnly, connectedUsers }) => {
+const Header: React.FC<HeaderProps> = ({ title, connectedUsers, socket }) => {
     const handlePermissionChange = (userId: string, newPermission: string) => {
     };
+
+    const isReadOnly = me?.permission == "read";
 
     return (
         <header>
