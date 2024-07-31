@@ -1,7 +1,9 @@
 import { ProviderContext } from "@/app/provider";
 import { Folder } from "@/openapi";
-import { Button, Checkbox, Table } from "flowbite-react";
+import { AxiosRequestConfig } from "axios";
+import { Button, Checkbox, Dropdown, Table } from "flowbite-react";
 import { useContext } from "react";
+import { HiEllipsisHorizontal } from "react-icons/hi2";
 
 interface FolderTableRowProps {
   folder: Folder;
@@ -42,28 +44,26 @@ export function FolderTableRow({ folder }: FolderTableRowProps) {
           "Privato"
         )}
       </Table.Cell>
-      <Table.Cell>
-        <Button
-          size="xs"
-          color="blue"
-          onClick={async (
-            event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-          ) => {
-            event.stopPropagation();
-            const { data, headers } =
-              await api.folder.folderControllerDownloadFolder(folder.id, {
-                responseType: "blob",
-              });
-            const imageUrlObject = URL.createObjectURL(data!);
-            const link = document.createElement("a");
-            link.href = imageUrlObject;
-            link.download = `${folder.name}.zip`;
-            link.click();
-            URL.revokeObjectURL(imageUrlObject);
-          }}
-        >
-          Download
-        </Button>
+      <Table.Cell onClick={(event) => event.stopPropagation()} className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+        <Dropdown placement="bottom-start" label="" dismissOnClick={false} renderTrigger={() => <span><HiEllipsisHorizontal className="size-6"/></span>}>
+          <Dropdown.Item>
+            <button
+              onClick={async (event: any) => {
+                event.stopPropagation();
+                const options: AxiosRequestConfig = { responseType: "blob" };
+                const { data, headers } = await api.folder.folderControllerDownloadFolder(folder.id, options);
+                const imageUrlObject = URL.createObjectURL(data!);
+                const link = document.createElement("a");
+                link.href = imageUrlObject;
+                link.download = `${folder.name}.zip`;
+                link.click();
+                URL.revokeObjectURL(imageUrlObject);
+              }}
+            >
+              Download
+            </button>
+          </Dropdown.Item>
+        </Dropdown>
       </Table.Cell>
     </Table.Row>
   );

@@ -21,7 +21,7 @@ export function ContentTable(props: ContentTableProps) {
           <Table.HeadCell className="hidden md:inherit">Ultima Modifica</Table.HeadCell>
           <Table.HeadCell className="hidden md:inherit">Dimensione File</Table.HeadCell>
           <Table.HeadCell>Condivisione</Table.HeadCell>
-          <Table.HeadCell>
+          <Table.HeadCell className="px-4 py-3 flex items-center justify-end">
             <span className="sr-only">Actions</span>
           </Table.HeadCell>
         </Table.Head>

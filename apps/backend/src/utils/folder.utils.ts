@@ -4,13 +4,16 @@ import { readFileSync } from "fs";
 
 export class FolderUtils {
     static createZipFolder(zip: JSZip, folder: Folder) {
-        folder.files.forEach((file) => {
-            const data = readFileSync(`data/${file.id}`);
-            zip.file(file.name, data);
-        });
-        folder.subfolders.forEach((subfolder) => {
-            const subZip = zip.folder(subfolder.name);
-            this.createZipFolder(subZip, subfolder);
-        });
+        const { files, subfolders } = folder;
+        if (files)
+            files.forEach((file) => {
+                const data = readFileSync(`data/${file.id}`);
+                zip.file(file.name, data);
+            });
+        if (subfolders)
+            subfolders.forEach((subfolder) => {
+                const subZip = zip.folder(subfolder.name);
+                this.createZipFolder(subZip, subfolder);
+            });
     }
 }
