@@ -10,6 +10,9 @@ interface ContentTableProps {
 
 export function ContentTable(props: ContentTableProps) {
   const { subfolders, files } = props.folder;
+
+  const isEmpty = subfolders.length === 0 && files.length === 0;
+
   return (
     <div className="overflow-x-auto py-3">
       <Table hoverable>
@@ -26,6 +29,13 @@ export function ContentTable(props: ContentTableProps) {
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
+          { isEmpty && (
+            <Table.Row>
+              <Table.Cell colSpan={6} className="text-center py-4">
+                Questa Cartella è vuota.<br />Aggiungi dei file o delle cartelle
+              </Table.Cell>
+            </Table.Row>
+          )}
           {subfolders.map((folder) => (
             <FolderTableRow key={"sub-"+folder.id} folder={folder} />
           ))}
