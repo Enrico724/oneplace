@@ -36,7 +36,7 @@ export default function ContentPage({ params: { id } }: ContentPageProps) {
       {folders && (
         <SelectedFileProvider>
           <div className="flex">
-            <div className="hidden md:block w-64 flex-none">
+            <div className="hidden w-64 flex-none md:block">
               <AppSidebar />
             </div>
             <div className="w-64 grow gap-2 p-3">

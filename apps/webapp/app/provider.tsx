@@ -26,10 +26,10 @@ export const ProviderContext = createContext({} as ProviderInstance);
 export function Providers({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN || "" ;
-  const clientId = process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || "" ;
-  const redirect_uri = process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI || "" ;
-  const audience = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE || "" ;
+  const domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN || "";
+  const clientId = process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || "";
+  const redirect_uri = process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI || "";
+  const audience = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE || "";
 
   return (
     <Auth0Provider
@@ -56,7 +56,12 @@ export function ClientProvider({
 
   const initialCong = { basePath: DOMAIN };
   const [loading, setIsLoading] = useState<boolean>(true);
-  const { getAccessTokenSilently, isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
+  const {
+    getAccessTokenSilently,
+    isLoading,
+    isAuthenticated,
+    loginWithRedirect,
+  } = useAuth0();
 
   const [folder, setFolder] = useState<FoldersApi>(new FoldersApi(initialCong));
   const [file, setFile] = useState<FilesApi>(new FilesApi(initialCong));
@@ -68,7 +73,7 @@ export function ClientProvider({
     setFile(new FilesApi({}, DOMAIN, axios));
     setShare(new ShareApi({}, DOMAIN, axios));
     setShared(new SharedApi({}, DOMAIN, axios));
-  };
+  }
 
   function validate() {
     axios.interceptors.request.use(async (config) => {
@@ -78,15 +83,15 @@ export function ClientProvider({
       config.withCredentials = true;
       return config;
     });
-    updateConfiguration()
+    updateConfiguration();
     setIsLoading(false);
-  };
+  }
 
   function invalidate() {
     console.log("[Provider] invalidating token");
     goToLogin();
     setIsLoading(false);
-  };
+  }
 
   function goToLogin() {
     const url = "/";
@@ -99,8 +104,8 @@ export function ClientProvider({
     const checkAuthSession = async () => {
       console.log("[Provider] checking auth session, is loading", isLoading);
       if (isLoading) return;
-      if (isAuthenticated) { 
-        console.log("[Provider] authenticated"); 
+      if (isAuthenticated) {
+        console.log("[Provider] authenticated");
         validate();
       } else {
         console.log("[Provider] not authenticated");
@@ -130,4 +135,3 @@ export function ClientProvider({
     </ProviderContext.Provider>
   );
 }
-

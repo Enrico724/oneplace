@@ -23,7 +23,7 @@ export interface InvitableUser {
    * @type {string}
    * @memberof InvitableUser
    */
-  userId: string;
+  id: string;
 
   /**
    * @type {string}

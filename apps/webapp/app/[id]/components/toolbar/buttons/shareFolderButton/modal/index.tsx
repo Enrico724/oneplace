@@ -1,4 +1,4 @@
-import { Button, Label, List, Modal, TextInput } from "flowbite-react";
+import { Alert, Button, Label, List, Modal, TextInput } from "flowbite-react";
 import { InvitableUserListItem } from "./list/invitableUserListItem";
 import { useContext, useEffect, useState } from "react";
 import { InvitableUser, InvitedUser } from "@/openapi";
@@ -47,16 +47,16 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
           <div className="space-y-2">
             <Label>Link di Condivisione</Label>
             <div className="relative">
-              <input 
-                type="text" 
-                className="col-span-6 bg-gray-50 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+              <input
+                type="text"
+                className="col-span-6 block w-full rounded-lg border border-gray-300 bg-gray-50 px-2.5 py-4 text-sm text-gray-500 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 value={`https://.../shared/${props.folderId}`}
-                disabled 
-                readOnly 
+                disabled
+                readOnly
               />
-              <button className="absolute end-2.5 top-1/2 -translate-y-1/2 text-gray-900 dark:text-gray-400 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 rounded-lg py-2 px-2.5 inline-flex items-center justify-center bg-white border-gray-200 border">
+              <button className="absolute end-2.5 top-1/2 inline-flex -translate-y-1/2 items-center justify-center rounded-lg border border-gray-200 bg-white px-2.5 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700">
                 <span className="inline-flex items-center">
-                  <HiOutlineClipboard className="w-4 h-4 mr-2" />
+                  <HiOutlineClipboard className="mr-2 h-4 w-4" />
                   <span className="text-xs font-semibold">Copia</span>
                 </span>
               </button>
@@ -68,7 +68,18 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
               unstyled
               className="divide-y divide-gray-200 dark:divide-gray-700"
             >
-              {invitedUsers.map((user) => <InvitedUserListItem key={"modal-invited-"+user.user.id} user={user} />)}
+              {invitedUsers.length === 0 && (
+                <Alert color="info">
+                  <span className="font-medium">Stato Condivisione</span>:
+                  Nessun utente ha accesso a questa cartella
+                </Alert>
+              )}
+              {invitedUsers.map((user) => (
+                <InvitedUserListItem
+                  key={"modal-invited-" + user.user.id}
+                  user={user}
+                />
+              ))}
             </List>
           </div>
           <div className="space-y-2">
@@ -80,7 +91,7 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
             >
               {invitableUsers.map((user) => (
                 <InvitableUserListItem
-                  key={"modal-invitable-"+user.userId}
+                  key={"modal-invitable-" + user.id}
                   user={user}
                   folderId={props.folderId}
                   onInvite={onInvite}

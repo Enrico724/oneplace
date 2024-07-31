@@ -28,11 +28,22 @@ export function FileTableRow({ file, onDelete }: FileTableRowProps) {
       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
         {file.name}
       </Table.Cell>
-      <Table.Cell className="hidden md:inherit">31/01/2001</Table.Cell>
-      <Table.Cell className="hidden md:inherit">{Utils.formatBytes(file.size)}</Table.Cell>
+      <Table.Cell className="md:inherit hidden">31/01/2001</Table.Cell>
+      <Table.Cell className="md:inherit hidden">
+        {Utils.formatBytes(file.size)}
+      </Table.Cell>
       <Table.Cell>Privato</Table.Cell>
-      <Table.Cell className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-        <Dropdown placement="left" label="" dismissOnClick={false} renderTrigger={() => <span><HiEllipsisHorizontal className="size-6"/></span>}>
+      <Table.Cell className="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0">
+        <Dropdown
+          placement="left"
+          label=""
+          dismissOnClick={false}
+          renderTrigger={() => (
+            <span>
+              <HiEllipsisHorizontal className="size-6" />
+            </span>
+          )}
+        >
           <Dropdown.Item
             onClick={() => {
               api.file
@@ -54,9 +65,7 @@ export function FileTableRow({ file, onDelete }: FileTableRowProps) {
             Condividi
           </Dropdown.Item>
           <Dropdown.Item>
-            <Link href={`/documents/${file.id}`}>
-              Open
-            </Link>    
+            <Link href={`/documents/${file.id}`}>Open</Link>
           </Dropdown.Item>
         </Dropdown>
       </Table.Cell>

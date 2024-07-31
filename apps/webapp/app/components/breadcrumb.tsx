@@ -21,7 +21,7 @@ export function AppBreadcrumb({ folder }: AppBreadcrumbProps) {
     >
       <Breadcrumb.Item href="/home">Home</Breadcrumb.Item>
       {f.reverse().map((folder) => (
-        <Breadcrumb.Item key={"breadcrumb-"+folder.id} href={`/${folder.id}`}>
+        <Breadcrumb.Item key={"breadcrumb-" + folder.id} href={`/${folder.id}`}>
           {folder.name}
         </Breadcrumb.Item>
       ))}

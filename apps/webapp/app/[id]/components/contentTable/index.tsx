@@ -21,26 +21,36 @@ export function ContentTable(props: ContentTableProps) {
             <Checkbox />
           </Table.HeadCell>
           <Table.HeadCell>Nome</Table.HeadCell>
-          <Table.HeadCell className="hidden md:inherit">Ultima Modifica</Table.HeadCell>
-          <Table.HeadCell className="hidden md:inherit">Dimensione File</Table.HeadCell>
+          <Table.HeadCell className="md:inherit hidden">
+            Ultima Modifica
+          </Table.HeadCell>
+          <Table.HeadCell className="md:inherit hidden">
+            Dimensione File
+          </Table.HeadCell>
           <Table.HeadCell>Condivisione</Table.HeadCell>
-          <Table.HeadCell className="px-4 py-3 flex items-center justify-end">
+          <Table.HeadCell className="flex items-center justify-end px-4 py-3">
             <span className="sr-only">Actions</span>
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          { isEmpty && (
+          {isEmpty && (
             <Table.Row>
-              <Table.Cell colSpan={6} className="text-center py-4">
-                Questa Cartella è vuota.<br />Aggiungi dei file o delle cartelle
+              <Table.Cell colSpan={6} className="py-4 text-center">
+                Questa Cartella è vuota.
+                <br />
+                Aggiungi dei file o delle cartelle
               </Table.Cell>
             </Table.Row>
           )}
           {subfolders.map((folder) => (
-            <FolderTableRow key={"sub-"+folder.id} folder={folder} />
+            <FolderTableRow key={"sub-" + folder.id} folder={folder} />
           ))}
           {files.map((file) => (
-            <FileTableRow key={"file-"+file.id} file={file} onDelete={props.onAction} />
+            <FileTableRow
+              key={"file-" + file.id}
+              file={file}
+              onDelete={props.onAction}
+            />
           ))}
         </Table.Body>
       </Table>

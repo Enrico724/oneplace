@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class InvitableUser {
     @ApiProperty()
-    userId: string;
+    id: string;
 
     @ApiProperty()
     givenName: string;
