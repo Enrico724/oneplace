@@ -11,6 +11,7 @@ type DocumentEditorProps = {
     initialRawContent: RawDraftContentState;
     users: ConnectedUser[];
     socket: Socket;
+    isReadOnly: boolean;
 };
 
 type Cursor = {
@@ -18,7 +19,7 @@ type Cursor = {
     color: string;
 };
 
-const DocumentEditor = ({ uuid, initialRawContent, users, socket }: DocumentEditorProps) => { 
+const DocumentEditor = ({ uuid, initialRawContent, users, socket, isReadOnly }: DocumentEditorProps) => { 
     let initial;
     try {
         initial = convertFromRaw(initialRawContent);
@@ -57,6 +58,7 @@ const DocumentEditor = ({ uuid, initialRawContent, users, socket }: DocumentEdit
                 <Editor
                     editorState={editorState}
                     onChange={onChanges}
+                    readOnly={isReadOnly}
                 />
             </div>
         </div>

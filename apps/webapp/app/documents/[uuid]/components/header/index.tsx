@@ -17,14 +17,12 @@ type HeaderProps = {
     title: string;
     socket: Socket;
     connectedUsers: ConnectedUser[];
-    me: ConnectedUser;
+    isReadOnly: boolean;
 };
 
-const Header: React.FC<HeaderProps> = ({ title, connectedUsers, socket }) => {
+const Header: React.FC<HeaderProps> = ({ title, connectedUsers, isReadOnly }) => {
     const handlePermissionChange = (userId: string, newPermission: string) => {
     };
-
-    const isReadOnly = me?.permission == "read";
 
     return (
         <header>

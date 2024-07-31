@@ -56,13 +56,14 @@ export default function DocumentPage({ params: { uuid } }: DocumentPageProps) {
     const me = connectedUsers.find((u) => u.socketId == socket.id);
 
     if (me == null) return <div>Invalid me State</div>
+    const isReadOnly = me?.permission == "read";
 
     return (
         <main className='h-screen'>
             <Header 
                 title={title}
                 connectedUsers={connectedUsers}
-                me={me}
+                isReadOnly={isReadOnly}
                 socket={socket} 
             />
             <DocumentEditor
@@ -70,6 +71,7 @@ export default function DocumentPage({ params: { uuid } }: DocumentPageProps) {
                 initialRawContent={content}
                 users={connectedUsers}
                 socket={socket}
+                isReadOnly={isReadOnly}
             />
         </main>
     );
