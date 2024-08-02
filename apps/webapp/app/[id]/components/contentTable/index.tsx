@@ -11,6 +11,8 @@ interface ContentTableProps {
 export function ContentTable(props: ContentTableProps) {
   const { subfolders, files } = props.folder;
 
+  const isParentShare = !(props.folder.share == null)
+
   const isEmpty = subfolders.length === 0 && files.length === 0;
 
   return (
@@ -21,8 +23,8 @@ export function ContentTable(props: ContentTableProps) {
             <Checkbox />
           </Table.HeadCell>
           <Table.HeadCell>Nome</Table.HeadCell>
-          <Table.HeadCell className="md:inherit hidden">
-            Ultima Modifica
+          <Table.HeadCell>
+            Data Creazione
           </Table.HeadCell>
           <Table.HeadCell className="md:inherit hidden">
             Dimensione File
@@ -43,7 +45,7 @@ export function ContentTable(props: ContentTableProps) {
             </Table.Row>
           )}
           {subfolders.map((folder) => (
-            <FolderTableRow key={"sub-" + folder.id} folder={folder} />
+            <FolderTableRow key={"sub-" + folder.id} folder={folder} isParentShare={isParentShare} />
           ))}
           {files.map((file) => (
             <FileTableRow

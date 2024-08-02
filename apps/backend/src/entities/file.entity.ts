@@ -13,6 +13,10 @@ export class File {
   name: string;
 
   @ApiProperty()
+  @Column({ type: "timestamp", default: () => "now()" })
+  createdAt: Date;
+
+  @ApiProperty()
   @Column()
   size: number;
 

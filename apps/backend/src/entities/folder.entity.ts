@@ -16,6 +16,10 @@ export class Folder {
   @Column()
   name: string;
 
+  @ApiProperty()
+  @Column({ type: "timestamp", default: () => "now()" })
+  createdAt: Date;
+
   @ApiProperty({ type: Folder })
   @TreeParent()
   parent: Folder;

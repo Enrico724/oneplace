@@ -64,7 +64,7 @@ export class FolderService {
   findRootFolder(user: User): Promise<Folder> {
     return this.repository.findOneOrFail({
       where: { owner: user, name: 'root' },
-      relations: { files: true, subfolders: true },
+      relations: { files: true, share: { permissions: { user: true } }, subfolders: { share: { permissions: { user: true } } } },
     });
   }
 

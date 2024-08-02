@@ -7,9 +7,10 @@ import { HiEllipsisHorizontal } from "react-icons/hi2";
 
 interface FolderTableRowProps {
   folder: Folder;
+  isParentShare: boolean;
 }
 
-export function FolderTableRow({ folder }: FolderTableRowProps) {
+export function FolderTableRow({ folder, isParentShare }: FolderTableRowProps) {
   const api = useContext(ProviderContext);
   const onClick = () => (window.location.href = `/${folder.id}`);
   const isShared = !(folder.share == null);
@@ -25,7 +26,7 @@ export function FolderTableRow({ folder }: FolderTableRowProps) {
       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
         {folder.name}
       </Table.Cell>
-      <Table.Cell className="md:inherit hidden">31/01/2001</Table.Cell>
+      <Table.Cell>{folder.createdAt.toString().split('T')[0]}</Table.Cell>
       <Table.Cell className="md:inherit hidden">124.5 MB</Table.Cell>
       <Table.Cell>
         {isShared ? (
@@ -41,7 +42,7 @@ export function FolderTableRow({ folder }: FolderTableRowProps) {
             ))}
           </div>
         ) : (
-          "Privato"
+          isParentShare ? "Condiviso" : "Privato"
         )}
       </Table.Cell>
       <Table.Cell

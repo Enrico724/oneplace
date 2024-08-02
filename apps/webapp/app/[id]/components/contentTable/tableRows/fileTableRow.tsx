@@ -1,10 +1,11 @@
 import { SelectedFileContext } from "@/app/components/provider";
 import { ProviderContext } from "@/app/provider";
 import Utils from "@/app/utils";
-import { ModelFile } from "@/openapi";
+import { ModelFile } from "@/openapi/models/model-file";
 import { Button, Checkbox, Dropdown, Table } from "flowbite-react";
 import Link from "next/link";
 import { useContext } from "react";
+import { FileIcon } from "react-file-icon";
 import { HiEllipsisHorizontal, HiPencil } from "react-icons/hi2";
 
 interface FileTableRowProps {
@@ -26,9 +27,12 @@ export function FileTableRow({ file, onDelete }: FileTableRowProps) {
         <Checkbox />
       </Table.Cell>
       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+        <span className="relative px-5">
+          <FileIcon extension={file.name.split('.')[-1]} />
+        </span>
         {file.name}
       </Table.Cell>
-      <Table.Cell className="md:inherit hidden">31/01/2001</Table.Cell>
+      <Table.Cell>{file.createdAt.toString().split('T')[0]}</Table.Cell>
       <Table.Cell className="md:inherit hidden">
         {Utils.formatBytes(file.size)}
       </Table.Cell>

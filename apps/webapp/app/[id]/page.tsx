@@ -51,7 +51,7 @@ export default function ContentPage({ params: { id } }: ContentPageProps) {
             <div className="w-64 grow gap-2 p-3">
               <Toolbar folderId={folder.id} onCreated={fetchFolder} />
               <AppBreadcrumb folder={folder} />
-              {folder.share?.permissions.length > 0 && (
+              { folder.share && (
                 <div className="py-3">
                   <Alert color="info">
                     <span className="font-medium">

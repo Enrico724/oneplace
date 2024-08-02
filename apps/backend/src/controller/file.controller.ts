@@ -1,10 +1,11 @@
 import { Controller, Get, Post, Delete, Req, Param, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
-import { ApiBearerAuth, ApiConsumes, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '@nestjs/passport';
 
 import { CreateFileDto } from 'src/dto';
 import { FileService } from 'src/service';
+import { File } from 'src/entities';
 
 @ApiBearerAuth()
 @ApiTags('files')
@@ -14,7 +15,8 @@ export class FileController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  getAllFiles(@Req() req) {
+  @ApiResponse({ type: File, isArray: true })
+  getAllFiles(@Req() req): Promise<File[]> {
     return this.fileService.findAll(req.user);
   }
 
