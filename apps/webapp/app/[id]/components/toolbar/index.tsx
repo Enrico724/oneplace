@@ -5,6 +5,7 @@ import { Banner } from "flowbite-react";
 
 interface ToolbarProps {
   folderId: string;
+  isRoot: boolean;
   onCreated: () => void;
 }
 
@@ -13,7 +14,7 @@ export function Toolbar(props: ToolbarProps) {
     <Banner>
       <div className="my-2 flex rounded-lg border p-2">
         <div className="flex gap-2">
-          <ShareFolderButton folderId={props.folderId} />
+          { !props.isRoot && <ShareFolderButton folderId={props.folderId} /> }
           <CreateFolderButton
             folderId={props.folderId}
             onCreated={props.onCreated}

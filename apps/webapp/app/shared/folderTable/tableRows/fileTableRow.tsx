@@ -2,7 +2,7 @@ import { SelectedFileContext } from "@/app/components/provider";
 import { ProviderContext } from "@/app/provider";
 import Utils from "@/app/utils";
 import { ModelFile } from "@/openapi";
-import { Button, Checkbox, Table } from "flowbite-react";
+import { Accordion, Button, Checkbox, Table } from "flowbite-react";
 import { useContext } from "react";
 
 interface FileTableRowProps {

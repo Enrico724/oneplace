@@ -1,14 +1,14 @@
-import { Folder, SharedFolder } from "@/openapi";
+import { Folder, SharedFile, SharedFolder } from "@/openapi";
 import { Checkbox, Table } from "flowbite-react";
 import { FolderTableRow } from "./tableRows/folderTableRow";
 import { FileTableRow } from "./tableRows/fileTableRow";
 
 interface ContentTableProps {
-  folders: SharedFolder[];
+  files: SharedFile[];
   onAction: () => void;
 }
 
-export function ContentTable({ folders, onAction }: ContentTableProps) {
+export function FileTable({ files, onAction }: ContentTableProps) {
   return (
     <div className="overflow-x-auto py-3">
       <Table hoverable>
@@ -25,10 +25,11 @@ export function ContentTable({ folders, onAction }: ContentTableProps) {
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {folders.map((folder) => (
-            <FolderTableRow
-              key={"usr-folder-" + folder.folder.id}
-              sharedFolder={folder}
+          {files.map((file) => (
+            <FileTableRow
+              key={"usr-folder-" + file.fileId}
+              file={file.file}
+              onDelete={onAction}
             />
           ))}
         </Table.Body>

@@ -3,6 +3,7 @@ import { Entity, PrimaryColumn, JoinColumn, OneToOne, ManyToOne, Column } from "
 import { SharedFile } from "./shared-file.entity";
 import { Permission } from "src/enum";
 import { User } from "./user.entity";
+import { ApiProperty } from "@nestjs/swagger";
 
 @Entity()
 export class FileUserPermission {
@@ -12,6 +13,7 @@ export class FileUserPermission {
     @PrimaryColumn()
     sharedFileId: string;
     
+    @ApiProperty({ type: () => User })
     @JoinColumn({ name: 'userId' })
     @OneToOne(() => User)
     user: User;
@@ -20,6 +22,7 @@ export class FileUserPermission {
     @ManyToOne(() => SharedFile)
     sharedFile: SharedFile;
     
+    @ApiProperty({ enum: Permission })
     @Column()
     permission: Permission;
 }

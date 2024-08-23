@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+import { FolderUserPermission } from './folder-user-permission';
  /**
  * 
  *
@@ -37,4 +38,10 @@ export interface User {
      * @memberof User
      */
     picture: string;
+
+    /**
+     * @type {Array<FolderUserPermission>}
+     * @memberof User
+     */
+    sharedPermission: Array<FolderUserPermission>;
 }

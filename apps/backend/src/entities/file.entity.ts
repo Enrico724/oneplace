@@ -24,6 +24,7 @@ export class File {
   @Column()
   mimeType: string;
 
+  @ApiProperty({ type: () => Folder })
   @ManyToOne(() => Folder, folder => folder.files, { nullable: true })
   folder: Folder;
 }

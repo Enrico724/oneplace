@@ -17,6 +17,7 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { SharedFile } from '../models';
 import { SharedFolder } from '../models';
 /**
  * SharedApi - axios parameter creator
@@ -29,8 +30,8 @@ export const SharedApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sharedControllerGetSharedFolder: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/shared`;
+        sharedControllerGetSharedFiles: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/shared/files`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -38,6 +39,117 @@ export const SharedApiAxiosParamCreator = function (configuration?: Configuratio
                 baseOptions = configuration.baseOptions;
             }
             const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sharedControllerGetSharedFolders: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/shared/folders`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sharedControllerLeaveSharedFile: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling sharedControllerLeaveSharedFile.');
+            }
+            const localVarPath = `/shared/files/{id}/leave`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sharedControllerLeaveSharedFolder: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling sharedControllerLeaveSharedFolder.');
+            }
+            const localVarPath = `/shared/folders/{id}/leave`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -71,8 +183,46 @@ export const SharedApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sharedControllerGetSharedFolder(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<SharedFolder>>>> {
-            const localVarAxiosArgs = await SharedApiAxiosParamCreator(configuration).sharedControllerGetSharedFolder(options);
+        async sharedControllerGetSharedFiles(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<SharedFile>>>> {
+            const localVarAxiosArgs = await SharedApiAxiosParamCreator(configuration).sharedControllerGetSharedFiles(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sharedControllerGetSharedFolders(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<SharedFolder>>>> {
+            const localVarAxiosArgs = await SharedApiAxiosParamCreator(configuration).sharedControllerGetSharedFolders(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sharedControllerLeaveSharedFile(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SharedApiAxiosParamCreator(configuration).sharedControllerLeaveSharedFile(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sharedControllerLeaveSharedFolder(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SharedApiAxiosParamCreator(configuration).sharedControllerLeaveSharedFolder(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -92,8 +242,34 @@ export const SharedApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sharedControllerGetSharedFolder(options?: AxiosRequestConfig): Promise<AxiosResponse<Array<SharedFolder>>> {
-            return SharedApiFp(configuration).sharedControllerGetSharedFolder(options).then((request) => request(axios, basePath));
+        async sharedControllerGetSharedFiles(options?: AxiosRequestConfig): Promise<AxiosResponse<Array<SharedFile>>> {
+            return SharedApiFp(configuration).sharedControllerGetSharedFiles(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sharedControllerGetSharedFolders(options?: AxiosRequestConfig): Promise<AxiosResponse<Array<SharedFolder>>> {
+            return SharedApiFp(configuration).sharedControllerGetSharedFolders(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sharedControllerLeaveSharedFile(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SharedApiFp(configuration).sharedControllerLeaveSharedFile(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sharedControllerLeaveSharedFolder(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SharedApiFp(configuration).sharedControllerLeaveSharedFolder(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -111,7 +287,36 @@ export class SharedApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SharedApi
      */
-    public async sharedControllerGetSharedFolder(options?: AxiosRequestConfig) : Promise<AxiosResponse<Array<SharedFolder>>> {
-        return SharedApiFp(this.configuration).sharedControllerGetSharedFolder(options).then((request) => request(this.axios, this.basePath));
+    public async sharedControllerGetSharedFiles(options?: AxiosRequestConfig) : Promise<AxiosResponse<Array<SharedFile>>> {
+        return SharedApiFp(this.configuration).sharedControllerGetSharedFiles(options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SharedApi
+     */
+    public async sharedControllerGetSharedFolders(options?: AxiosRequestConfig) : Promise<AxiosResponse<Array<SharedFolder>>> {
+        return SharedApiFp(this.configuration).sharedControllerGetSharedFolders(options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SharedApi
+     */
+    public async sharedControllerLeaveSharedFile(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SharedApiFp(this.configuration).sharedControllerLeaveSharedFile(id, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SharedApi
+     */
+    public async sharedControllerLeaveSharedFolder(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SharedApiFp(this.configuration).sharedControllerLeaveSharedFolder(id, options).then((request) => request(this.axios, this.basePath));
     }
 }

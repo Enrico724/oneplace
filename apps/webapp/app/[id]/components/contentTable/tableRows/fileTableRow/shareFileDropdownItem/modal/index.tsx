@@ -1,33 +1,31 @@
 import { Alert, Button, Label, List, Modal, TextInput } from "flowbite-react";
 import { InvitableUserListItem } from "./list/invitableUserListItem";
 import { useContext, useEffect, useState } from "react";
-import { InvitableUser, InvitedUser } from "@/openapi";
+import { FileUserPermission, InvitableUser, InvitedUser } from "@/openapi";
 import { ProviderContext } from "@/app/provider";
 import { InvitedUserListItem } from "./list/invitedUserListItem";
 import { HiClipboard, HiOutlineClipboard } from "react-icons/hi2";
 
-interface ShareFolderModalProps {
-  folderId: string;
+interface ShareFileModalProps {
+  fileId: string;
   isModalVisible: boolean;
   closeModal: () => void;
 }
 
-export function ShareFolderModal(props: ShareFolderModalProps) {
+export function ShareFileModal({ fileId, isModalVisible, closeModal }: ShareFileModalProps) {
   const APP_BASE_URL = process.env.NEXT_PUBLIC_APP_URL;
   const api = useContext(ProviderContext);
   const [invitableUsers, setInvitableUsers] = useState<InvitableUser[]>([]);
-  const [invitedUsers, setInvitedUsers] = useState<InvitedUser[]>([]);
+  const [invitedUsers, setInvitedUsers] = useState<FileUserPermission[]>([]);
 
   async function getInvitableUser() {
-    const { folderId } = props;
     const { data } =
-      await api.share.shareControllerGetInvitableUsersForSharingFolder(folderId);
+      await api.share.shareControllerGetInvitableUsersForSharingFile(fileId);
     setInvitableUsers(data);
   }
 
   async function getInvitedUser() {
-    const { folderId } = props;
-    const { data } = await api.share.shareControllerGetInvitedUsersForFolder(folderId);
+    const { data } = await api.share.shareControllerGetInvitedUsersForFile(fileId);
     setInvitedUsers(data);
   }
 
@@ -42,7 +40,7 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
   }, [api.loading]);
 
   return (
-    <Modal show={props.isModalVisible} onClose={props.closeModal}>
+    <Modal show={isModalVisible} onClose={closeModal}>
       <Modal.Body>
         <div className="space-y-4">
           <div className="space-y-2">
@@ -51,7 +49,7 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
               <input
                 type="text"
                 className="col-span-6 block w-full rounded-lg border border-gray-300 bg-gray-50 px-2.5 py-4 text-sm text-gray-500 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                value={`${APP_BASE_URL}/shared/${props.folderId}`}
+                value={`${APP_BASE_URL}/shared/${fileId}`}
                 disabled
                 readOnly
               />
@@ -78,7 +76,7 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
               {invitedUsers.map((user) => (
                 <InvitedUserListItem
                   key={"modal-invited-" + user.user.id}
-                  user={user}
+                  userPermission={user}
                 />
               ))}
             </List>
@@ -94,7 +92,7 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
                 <InvitableUserListItem
                   key={"modal-invitable-" + user.id}
                   user={user}
-                  folderId={props.folderId}
+                  fileId={fileId}
                   onInvite={onInvite}
                 />
               ))}
@@ -103,7 +101,7 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.closeModal}>Cancel</Button>
+        <Button onClick={closeModal}>Cancel</Button>
         <Button>Save</Button>
       </Modal.Footer>
     </Modal>

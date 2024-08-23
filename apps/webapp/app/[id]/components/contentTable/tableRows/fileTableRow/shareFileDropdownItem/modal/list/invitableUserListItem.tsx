@@ -5,19 +5,19 @@ import { useContext } from "react";
 
 export interface InvitableUserListItemProps {
   user: InvitableUser;
-  folderId: string;
+  fileId: string;
   onInvite: () => void;
 }
 
 export function InvitableUserListItem({
   user,
-  folderId,
+  fileId,
   onInvite,
 }: InvitableUserListItemProps) {
   const api = useContext(ProviderContext);
   async function invite() {
-    const { data } = await api.share.shareControllerInviteUser(
-      folderId,
+    const { data } = await api.share.shareControllerInviteUserForFile(
+      fileId,
       user.id,
     );
     onInvite();

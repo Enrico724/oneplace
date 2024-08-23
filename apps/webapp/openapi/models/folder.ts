@@ -53,10 +53,10 @@ export interface Folder {
     subfolders: Array<Folder>;
 
     /**
-     * @type {Array<Array>}
+     * @type {Array<any>}
      * @memberof Folder
      */
-    files: Array<Array>;
+    files: Array<any>;
 
     /**
      * @type {SharedFolder}

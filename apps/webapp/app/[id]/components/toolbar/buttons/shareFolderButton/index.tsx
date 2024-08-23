@@ -1,15 +1,5 @@
-import { ProviderContext } from "@/app/provider";
-import { InvitableUser } from "@/openapi";
-import {
-  Avatar,
-  Button,
-  FileInput,
-  Label,
-  List,
-  Modal,
-  TextInput,
-} from "flowbite-react";
-import React, { useContext } from "react";
+import { Button } from "flowbite-react";
+import React from "react";
 import { HiOutlineShare } from "react-icons/hi2";
 import { ShareFolderModal } from "./modal";
 

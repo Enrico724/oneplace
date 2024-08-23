@@ -1,13 +1,15 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
-import { SharedFolder } from "@/openapi";
+import { Folder, SharedFile, SharedFolder } from "@/openapi";
 import AppNavbar from "../components/navbar";
 import { SelectedFileProvider } from "../components/provider";
 import AppSidebar from "../components/sidebar";
 import { ContentSidebar } from "../components/contentSidebar";
 import { ProviderContext } from "../provider";
-import { ContentTable } from "./contentTable";
+import { FolderTable } from "./folderTable";
+import { FileTable } from "./fileTable";
+import { Button } from "flowbite-react";
 
 interface ContentPageProps {
   params: {
@@ -17,17 +19,26 @@ interface ContentPageProps {
 
 export default function ContentPage({ params: { id } }: ContentPageProps) {
   const api = useContext(ProviderContext);
-  const [folders, setFolders] = useState<SharedFolder[]>([]);
+  const [folders, setFolders] = useState<Folder[]>([]);
+  const [files, setFiles] = useState<SharedFile[]>([]);
 
   function fetchFolders() {
     api.shared
-      .sharedControllerGetSharedFolder()
-      .then((response) => setFolders(response.data))
+      .sharedControllerGetSharedFolders()
+      .then((response) => setFolders(response.data.map((sharedFolder) => sharedFolder.folder)))
+      .catch(console.error);
+  }
+
+  function fetchFiles() {
+    api.shared
+      .sharedControllerGetSharedFiles()
+      .then((response) => setFiles(response.data))
       .catch(console.error);
   }
 
   useEffect(() => {
     fetchFolders();
+    fetchFiles();
   }, [id]);
 
   return (
@@ -40,7 +51,21 @@ export default function ContentPage({ params: { id } }: ContentPageProps) {
               <AppSidebar />
             </div>
             <div className="w-64 grow gap-2 p-3">
-              <ContentTable folders={folders} onAction={fetchFolders} />
+              <h1>Cartelle</h1>
+              <ul>
+                {folders.map((folder) => (
+                  <li key={folder.id} className="inline">
+                    <span>{folder.name}
+                    <Button
+                      onClick={() => api.shared.sharedControllerLeaveSharedFolder(folder.id).then(fetchFolders)}
+                    >Esci Condivisione</Button>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <FolderTable folders={folders} onAction={fetchFolders} />
+              <h1>File</h1>
+              <FileTable files={files} onAction={fetchFiles} />
             </div>
             <div className="hidden w-64 flex-none xl:block">
               <ContentSidebar />

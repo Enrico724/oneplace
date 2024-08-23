@@ -19,6 +19,7 @@ export class User {
   @Column()
   picture: string;
 
+  @ApiProperty({ type: () => FolderUserPermission, isArray: true })
   @OneToMany(() => FolderUserPermission, permission => permission.user)
   sharedPermission: FolderUserPermission[];
 }

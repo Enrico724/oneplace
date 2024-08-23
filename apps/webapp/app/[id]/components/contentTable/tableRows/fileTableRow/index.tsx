@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useContext } from "react";
 import { FileIcon } from "react-file-icon";
 import { HiEllipsisHorizontal, HiPencil } from "react-icons/hi2";
+import ShareFileDropdownItem from "./shareFileDropdownItem";
 
 interface FileTableRowProps {
   file: ModelFile;
@@ -17,6 +18,7 @@ export function FileTableRow({ file, onDelete }: FileTableRowProps) {
   const api = useContext(ProviderContext);
   const { setSelectedFile, deselectFile } = useContext(SelectedFileContext);
   const onClick = () => setSelectedFile(file);
+  const ext = file.name.split('.').pop();
 
   return (
     <Table.Row
@@ -26,10 +28,10 @@ export function FileTableRow({ file, onDelete }: FileTableRowProps) {
       <Table.Cell className="p-4">
         <Checkbox />
       </Table.Cell>
-      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-        <span className="relative px-5">
-          <FileIcon extension={file.name.split('.')[-1]} />
-        </span>
+      <Table.Cell className="flex gap-2 items-center whitespace-nowrap font-medium text-gray-900 dark:text-white">
+        <div className="w-[30px] m-[1px]">
+          <FileIcon color='lavender' extension={ext} />
+        </div>
         {file.name}
       </Table.Cell>
       <Table.Cell>{file.createdAt.toString().split('T')[0]}</Table.Cell>
@@ -38,40 +40,15 @@ export function FileTableRow({ file, onDelete }: FileTableRowProps) {
       </Table.Cell>
       <Table.Cell>Privato</Table.Cell>
       <Table.Cell className="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0">
-        <Dropdown
-          placement="left"
-          label=""
-          dismissOnClick={false}
-          renderTrigger={() => (
-            <span>
-              <HiEllipsisHorizontal className="size-6" />
-            </span>
-          )}
-        >
-          <Dropdown.Item
-            onClick={() => {
-              api.file
-                .fileControllerDeleteFile(file.id)
-                .then(deselectFile)
-                .then(onDelete);
-            }}
-          >
+        <ul>
+          <li>
             Delete
-          </Dropdown.Item>
-          <Dropdown.Item
-            onClick={() => {
-              api.file
-                .fileControllerDeleteFile(file.id)
-                .then(deselectFile)
-                .then(onDelete);
-            }}
-          >
-            Condividi
-          </Dropdown.Item>
-          <Dropdown.Item>
+          </li>
+          <ShareFileDropdownItem fileId={file.id} />
+          <li>
             <Link href={`/documents/${file.id}`}>Open</Link>
-          </Dropdown.Item>
-        </Dropdown>
+          </li>
+        </ul>
       </Table.Cell>
     </Table.Row>
   );

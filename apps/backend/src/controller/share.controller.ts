@@ -2,9 +2,9 @@ import { ApiBearerAuth, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Controller, Get, Post, Req, UseGuards, Param } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import { InvitableUser, InvitedUser, UserPermissionDto } from 'src/dto';
+import { InvitableUser, InvitedUser } from 'src/dto';
 import { ShareService } from 'src/service';
-import { FolderUserPermission, User } from 'src/entities';
+import { FileUserPermission, FolderUserPermission, User } from 'src/entities';
 
 @ApiBearerAuth()
 @ApiTags('share')
@@ -16,22 +16,44 @@ export class ShareController {
     @ApiParam({ name: 'id', required: true })
     @ApiResponse({ status: 200, description: 'Get users or sharing', type: InvitableUser, isArray: true })
     @Get('/folders/:id/users/invitable')
-    getInvitableUsersForSharing(
+    getInvitableUsersForSharingFolder(
         @Req() req,
         @Param('id') folderId: string,
     ): Promise<User[]> {
-        return this.shareService.getUsersForSharing(req.user, folderId);
+        return this.shareService.getUsersForSharingFolder(req.user, folderId);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @ApiParam({ name: 'id', required: true })
+    @ApiResponse({ status: 200, description: 'Get users or sharing', type: InvitableUser, isArray: true })
+    @Get('/files/:id/users/invitable')
+    getInvitableUsersForSharingFile(
+        @Req() req,
+        @Param('id') folderId: string,
+    ): Promise<User[]> {
+        return this.shareService.getUsersForSharingFile(req.user, folderId);
     }
 
     @UseGuards(AuthGuard('jwt'))
     @ApiParam({ name: 'id', required: true })
     @ApiResponse({ status: 200, description: 'Get invited users', type: InvitedUser, isArray: true })
     @Post('/folders/:id/users/invited')
-    getInvitedUsers(
+    getInvitedUsersForFolder(
         @Req() req,
         @Param('id') folderId: string,
     ): Promise<FolderUserPermission[]> {
-        return this.shareService.getInvitedUsers(req.user, folderId);
+        return this.shareService.getInvitedUsersForFolder(req.user, folderId);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @ApiParam({ name: 'id', required: true })
+    @ApiResponse({ status: 200, description: 'Get invited users', type: FileUserPermission, isArray: true })
+    @Post('/files/:id/users/invited')
+    getInvitedUsersForFile(
+        @Req() req,
+        @Param('id') folderId: string,
+    ): Promise<FileUserPermission[]> {
+        return this.shareService.getInvitedUsersForFile(req.user, folderId);
     }
 
     @UseGuards(AuthGuard('jwt'))
@@ -39,11 +61,24 @@ export class ShareController {
     @ApiParam({ name: 'folderId', required: true })
     @ApiParam({ name: 'userId', required: true })
     @Post('/folders/:folderId/invite/:userId')
-    inviteUser(
+    inviteUserForFolder(
         @Req() req,
         @Param('folderId') folderId: string,
         @Param('userId') userId: string,
     ): Promise<InvitedUser> {
-        return this.shareService.inviteUser(req.user, folderId, userId);
+        return this.shareService.inviteUserForFolder(req.user, folderId, userId);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @ApiResponse({ type: InvitedUser })
+    @ApiParam({ name: 'fileId', required: true })
+    @ApiParam({ name: 'userId', required: true })
+    @Post('/files/:fileId/invite/:userId')
+    inviteUserForFile(
+        @Req() req,
+        @Param('fileId') fileId: string,
+        @Param('userId') userId: string,
+    ): Promise<InvitedUser> {
+        return this.shareService.inviteUserForFile(req.user, fileId, userId);
     }
 }

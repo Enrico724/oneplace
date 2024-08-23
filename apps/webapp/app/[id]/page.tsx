@@ -20,11 +20,13 @@ interface ContentPageProps {
 }
 
 export default function ContentPage({ params: { id } }: ContentPageProps) {
+  const isRoot = id === "home";
+
   const api = useContext(ProviderContext);
   const [folder, setFolder] = useState<Folder | null>(null);
 
   function apiFetchFolder(): Promise<AxiosResponse<Folder>> {
-    return id === "home"
+    return isRoot
       ? api.folder.folderControllerGetRootFolder()
       : api.folder.folderControllerGetFolder(id);
   }
@@ -49,7 +51,7 @@ export default function ContentPage({ params: { id } }: ContentPageProps) {
               <AppSidebar />
             </div>
             <div className="w-64 grow gap-2 p-3">
-              <Toolbar folderId={folder.id} onCreated={fetchFolder} />
+              <Toolbar isRoot={isRoot} folderId={folder.id} onCreated={fetchFolder} />
               <AppBreadcrumb folder={folder} />
               { folder.share && (
                 <div className="py-3">

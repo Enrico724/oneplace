@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+import { Folder } from './folder';
  /**
  * 
  *
@@ -49,4 +50,10 @@ export interface ModelFile {
      * @memberof ModelFile
      */
     mimeType: string;
+
+    /**
+     * @type {Folder}
+     * @memberof ModelFile
+     */
+    folder: Folder;
 }

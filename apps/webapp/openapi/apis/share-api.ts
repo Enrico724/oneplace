@@ -17,6 +17,7 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { FileUserPermission } from '../models';
 import { InvitableUser } from '../models';
 import { InvitedUser } from '../models';
 /**
@@ -31,10 +32,49 @@ export const ShareApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        shareControllerGetInvitableUsersForSharing: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        shareControllerGetInvitableUsersForSharingFile: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling shareControllerGetInvitableUsersForSharing.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling shareControllerGetInvitableUsersForSharingFile.');
+            }
+            const localVarPath = `/share/files/{id}/users/invitable`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        shareControllerGetInvitableUsersForSharingFolder: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling shareControllerGetInvitableUsersForSharingFolder.');
             }
             const localVarPath = `/share/folders/{id}/users/invitable`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -70,13 +110,97 @@ export const ShareApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        shareControllerGetInvitedUsers: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        shareControllerGetInvitedUsersForFile: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling shareControllerGetInvitedUsers.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling shareControllerGetInvitedUsersForFile.');
+            }
+            const localVarPath = `/share/files/{id}/users/invited`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        shareControllerGetInvitedUsersForFolder: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling shareControllerGetInvitedUsersForFolder.');
             }
             const localVarPath = `/share/folders/{id}/users/invited`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} fileId 
+         * @param {string} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        shareControllerInviteUserForFile: async (fileId: string, userId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'fileId' is not null or undefined
+            if (fileId === null || fileId === undefined) {
+                throw new RequiredError('fileId','Required parameter fileId was null or undefined when calling shareControllerInviteUserForFile.');
+            }
+            // verify required parameter 'userId' is not null or undefined
+            if (userId === null || userId === undefined) {
+                throw new RequiredError('userId','Required parameter userId was null or undefined when calling shareControllerInviteUserForFile.');
+            }
+            const localVarPath = `/share/files/{fileId}/invite/{userId}`
+                .replace(`{${"fileId"}}`, encodeURIComponent(String(fileId)))
+                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -110,14 +234,14 @@ export const ShareApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        shareControllerInviteUser: async (folderId: string, userId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        shareControllerInviteUserForFolder: async (folderId: string, userId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'folderId' is not null or undefined
             if (folderId === null || folderId === undefined) {
-                throw new RequiredError('folderId','Required parameter folderId was null or undefined when calling shareControllerInviteUser.');
+                throw new RequiredError('folderId','Required parameter folderId was null or undefined when calling shareControllerInviteUserForFolder.');
             }
             // verify required parameter 'userId' is not null or undefined
             if (userId === null || userId === undefined) {
-                throw new RequiredError('userId','Required parameter userId was null or undefined when calling shareControllerInviteUser.');
+                throw new RequiredError('userId','Required parameter userId was null or undefined when calling shareControllerInviteUserForFolder.');
             }
             const localVarPath = `/share/folders/{folderId}/invite/{userId}`
                 .replace(`{${"folderId"}}`, encodeURIComponent(String(folderId)))
@@ -163,8 +287,8 @@ export const ShareApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async shareControllerGetInvitableUsersForSharing(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<InvitableUser>>>> {
-            const localVarAxiosArgs = await ShareApiAxiosParamCreator(configuration).shareControllerGetInvitableUsersForSharing(id, options);
+        async shareControllerGetInvitableUsersForSharingFile(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<InvitableUser>>>> {
+            const localVarAxiosArgs = await ShareApiAxiosParamCreator(configuration).shareControllerGetInvitableUsersForSharingFile(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -176,8 +300,48 @@ export const ShareApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async shareControllerGetInvitedUsers(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<InvitedUser>>>> {
-            const localVarAxiosArgs = await ShareApiAxiosParamCreator(configuration).shareControllerGetInvitedUsers(id, options);
+        async shareControllerGetInvitableUsersForSharingFolder(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<InvitableUser>>>> {
+            const localVarAxiosArgs = await ShareApiAxiosParamCreator(configuration).shareControllerGetInvitableUsersForSharingFolder(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async shareControllerGetInvitedUsersForFile(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<FileUserPermission>>>> {
+            const localVarAxiosArgs = await ShareApiAxiosParamCreator(configuration).shareControllerGetInvitedUsersForFile(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async shareControllerGetInvitedUsersForFolder(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<InvitedUser>>>> {
+            const localVarAxiosArgs = await ShareApiAxiosParamCreator(configuration).shareControllerGetInvitedUsersForFolder(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {string} fileId 
+         * @param {string} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async shareControllerInviteUserForFile(fileId: string, userId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<InvitedUser>>> {
+            const localVarAxiosArgs = await ShareApiAxiosParamCreator(configuration).shareControllerInviteUserForFile(fileId, userId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -190,8 +354,8 @@ export const ShareApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async shareControllerInviteUser(folderId: string, userId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<InvitedUser>>> {
-            const localVarAxiosArgs = await ShareApiAxiosParamCreator(configuration).shareControllerInviteUser(folderId, userId, options);
+        async shareControllerInviteUserForFolder(folderId: string, userId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<InvitedUser>>> {
+            const localVarAxiosArgs = await ShareApiAxiosParamCreator(configuration).shareControllerInviteUserForFolder(folderId, userId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -212,8 +376,8 @@ export const ShareApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async shareControllerGetInvitableUsersForSharing(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<InvitableUser>>> {
-            return ShareApiFp(configuration).shareControllerGetInvitableUsersForSharing(id, options).then((request) => request(axios, basePath));
+        async shareControllerGetInvitableUsersForSharingFile(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<InvitableUser>>> {
+            return ShareApiFp(configuration).shareControllerGetInvitableUsersForSharingFile(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -221,8 +385,36 @@ export const ShareApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async shareControllerGetInvitedUsers(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<InvitedUser>>> {
-            return ShareApiFp(configuration).shareControllerGetInvitedUsers(id, options).then((request) => request(axios, basePath));
+        async shareControllerGetInvitableUsersForSharingFolder(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<InvitableUser>>> {
+            return ShareApiFp(configuration).shareControllerGetInvitableUsersForSharingFolder(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async shareControllerGetInvitedUsersForFile(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<FileUserPermission>>> {
+            return ShareApiFp(configuration).shareControllerGetInvitedUsersForFile(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async shareControllerGetInvitedUsersForFolder(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<InvitedUser>>> {
+            return ShareApiFp(configuration).shareControllerGetInvitedUsersForFolder(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} fileId 
+         * @param {string} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async shareControllerInviteUserForFile(fileId: string, userId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<InvitedUser>> {
+            return ShareApiFp(configuration).shareControllerInviteUserForFile(fileId, userId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -231,8 +423,8 @@ export const ShareApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async shareControllerInviteUser(folderId: string, userId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<InvitedUser>> {
-            return ShareApiFp(configuration).shareControllerInviteUser(folderId, userId, options).then((request) => request(axios, basePath));
+        async shareControllerInviteUserForFolder(folderId: string, userId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<InvitedUser>> {
+            return ShareApiFp(configuration).shareControllerInviteUserForFolder(folderId, userId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -251,8 +443,8 @@ export class ShareApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ShareApi
      */
-    public async shareControllerGetInvitableUsersForSharing(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Array<InvitableUser>>> {
-        return ShareApiFp(this.configuration).shareControllerGetInvitableUsersForSharing(id, options).then((request) => request(this.axios, this.basePath));
+    public async shareControllerGetInvitableUsersForSharingFile(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Array<InvitableUser>>> {
+        return ShareApiFp(this.configuration).shareControllerGetInvitableUsersForSharingFile(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -261,8 +453,39 @@ export class ShareApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ShareApi
      */
-    public async shareControllerGetInvitedUsers(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Array<InvitedUser>>> {
-        return ShareApiFp(this.configuration).shareControllerGetInvitedUsers(id, options).then((request) => request(this.axios, this.basePath));
+    public async shareControllerGetInvitableUsersForSharingFolder(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Array<InvitableUser>>> {
+        return ShareApiFp(this.configuration).shareControllerGetInvitableUsersForSharingFolder(id, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ShareApi
+     */
+    public async shareControllerGetInvitedUsersForFile(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Array<FileUserPermission>>> {
+        return ShareApiFp(this.configuration).shareControllerGetInvitedUsersForFile(id, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ShareApi
+     */
+    public async shareControllerGetInvitedUsersForFolder(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Array<InvitedUser>>> {
+        return ShareApiFp(this.configuration).shareControllerGetInvitedUsersForFolder(id, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @param {string} fileId 
+     * @param {string} userId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ShareApi
+     */
+    public async shareControllerInviteUserForFile(fileId: string, userId: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<InvitedUser>> {
+        return ShareApiFp(this.configuration).shareControllerInviteUserForFile(fileId, userId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -272,7 +495,7 @@ export class ShareApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ShareApi
      */
-    public async shareControllerInviteUser(folderId: string, userId: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<InvitedUser>> {
-        return ShareApiFp(this.configuration).shareControllerInviteUser(folderId, userId, options).then((request) => request(this.axios, this.basePath));
+    public async shareControllerInviteUserForFolder(folderId: string, userId: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<InvitedUser>> {
+        return ShareApiFp(this.configuration).shareControllerInviteUserForFolder(folderId, userId, options).then((request) => request(this.axios, this.basePath));
     }
 }

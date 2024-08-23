@@ -20,22 +20,22 @@ export class Folder {
   @Column({ type: "timestamp", default: () => "now()" })
   createdAt: Date;
 
-  @ApiProperty({ type: Folder })
+  @ApiProperty({ type: () => Folder })
   @TreeParent()
   parent: Folder;
 
   @ManyToOne(() => User)
   owner: User;
 
-  @ApiProperty({ type: Folder, isArray: true })
+  @ApiProperty({ type: () => Folder, isArray: true })
   @TreeChildren()
   subfolders: Folder[];
 
-  @ApiProperty({ type: File, isArray: true })
+  @ApiProperty({ type: () => File, isArray: true })
   @OneToMany(() => File, file => file.folder)
   files: File[];
 
-  @ApiProperty({ type: SharedFolder })
+  @ApiProperty({ type: () => SharedFolder })
   @OneToOne(() =>  SharedFolder, share => share.folder)
   share: SharedFolder
 }
