@@ -5,6 +5,7 @@ import { FileUserPermission, InvitableUser, InvitedUser } from "@/openapi";
 import { ProviderContext } from "@/app/provider";
 import { InvitedUserListItem } from "./list/invitedUserListItem";
 import { HiClipboard, HiOutlineClipboard } from "react-icons/hi2";
+import { CopyButton } from "@/app/components/copyButton";
 
 interface ShareFileModalProps {
   fileId: string;
@@ -39,6 +40,8 @@ export function ShareFileModal({ fileId, isModalVisible, closeModal }: ShareFile
     getInvitedUser();
   }, [api.loading]);
 
+  const shareableLink = `${APP_BASE_URL}/shared/${fileId}`;
+
   return (
     <Modal show={isModalVisible} onClose={closeModal}>
       <Modal.Body>
@@ -49,16 +52,11 @@ export function ShareFileModal({ fileId, isModalVisible, closeModal }: ShareFile
               <input
                 type="text"
                 className="col-span-6 block w-full rounded-lg border border-gray-300 bg-gray-50 px-2.5 py-4 text-sm text-gray-500 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                value={`${APP_BASE_URL}/shared/${fileId}`}
+                value={shareableLink}
                 disabled
                 readOnly
               />
-              <button className="absolute end-2.5 top-1/2 inline-flex -translate-y-1/2 items-center justify-center rounded-lg border border-gray-200 bg-white px-2.5 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700">
-                <span className="inline-flex items-center">
-                  <HiOutlineClipboard className="mr-2 h-4 w-4" />
-                  <span className="text-xs font-semibold">Copia</span>
-                </span>
-              </button>
+              <CopyButton copyLink={shareableLink} />
             </div>
           </div>
           <div className="space-y-2">
