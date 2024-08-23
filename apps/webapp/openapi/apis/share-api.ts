@@ -20,6 +20,7 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 import { FileUserPermission } from '../models';
 import { InvitableUser } from '../models';
 import { InvitedUser } from '../models';
+import { UpdateUserFilePermissionInput } from '../models';
 import { UpdateUserFolderPermissionInput } from '../models';
 /**
  * ShareApi - axios parameter creator
@@ -365,6 +366,60 @@ export const ShareApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
+         * @param {UpdateUserFilePermissionInput} body 
+         * @param {string} fileId 
+         * @param {string} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        shareControllerUpdateUserForFile: async (body: UpdateUserFilePermissionInput, fileId: string, userId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling shareControllerUpdateUserForFile.');
+            }
+            // verify required parameter 'fileId' is not null or undefined
+            if (fileId === null || fileId === undefined) {
+                throw new RequiredError('fileId','Required parameter fileId was null or undefined when calling shareControllerUpdateUserForFile.');
+            }
+            // verify required parameter 'userId' is not null or undefined
+            if (userId === null || userId === undefined) {
+                throw new RequiredError('userId','Required parameter userId was null or undefined when calling shareControllerUpdateUserForFile.');
+            }
+            const localVarPath = `/share/files/{fileId}/invite/{userId}/permission`
+                .replace(`{${"fileId"}}`, encodeURIComponent(String(fileId)))
+                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {UpdateUserFolderPermissionInput} body 
          * @param {string} folderId 
          * @param {string} userId 
@@ -536,6 +591,21 @@ export const ShareApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {UpdateUserFilePermissionInput} body 
+         * @param {string} fileId 
+         * @param {string} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async shareControllerUpdateUserForFile(body: UpdateUserFilePermissionInput, fileId: string, userId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await ShareApiAxiosParamCreator(configuration).shareControllerUpdateUserForFile(body, fileId, userId, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @param {UpdateUserFolderPermissionInput} body 
          * @param {string} folderId 
          * @param {string} userId 
@@ -633,6 +703,17 @@ export const ShareApiFactory = function (configuration?: Configuration, basePath
          */
         async shareControllerRemoveUserForFolder(folderId: string, userId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
             return ShareApiFp(configuration).shareControllerRemoveUserForFolder(folderId, userId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {UpdateUserFilePermissionInput} body 
+         * @param {string} fileId 
+         * @param {string} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async shareControllerUpdateUserForFile(body: UpdateUserFilePermissionInput, fileId: string, userId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return ShareApiFp(configuration).shareControllerUpdateUserForFile(body, fileId, userId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -738,6 +819,18 @@ export class ShareApi extends BaseAPI {
      */
     public async shareControllerRemoveUserForFolder(folderId: string, userId: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
         return ShareApiFp(this.configuration).shareControllerRemoveUserForFolder(folderId, userId, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @param {UpdateUserFilePermissionInput} body 
+     * @param {string} fileId 
+     * @param {string} userId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ShareApi
+     */
+    public async shareControllerUpdateUserForFile(body: UpdateUserFilePermissionInput, fileId: string, userId: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return ShareApiFp(this.configuration).shareControllerUpdateUserForFile(body, fileId, userId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

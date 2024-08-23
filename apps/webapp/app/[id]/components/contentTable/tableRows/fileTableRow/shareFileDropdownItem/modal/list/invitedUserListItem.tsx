@@ -1,5 +1,6 @@
 import { ProviderContext } from "@/app/provider";
-import { FileUserPermission, InvitableUser, InvitedUser } from "@/openapi";
+import { FileUserPermission, FileUserPermissionPermissionEnum, InvitableUser, InvitedUser, UpdateUserFilePermissionInput, UpdateUserFilePermissionInputPermissionEnum } from "@/openapi";
+import { Select } from "@headlessui/react";
 import { Button, List } from "flowbite-react";
 import { useContext } from "react";
 
@@ -29,7 +30,17 @@ export function InvitedUserListItem({ userPermission, fileId, onRemoved }: Invit
             {user.id}
           </p>
         </div>
-        <div>{permission}</div>
+        <Select
+          onChange={(event) => {
+            const permission = event.target.value as UpdateUserFilePermissionInputPermissionEnum;
+            const input: UpdateUserFilePermissionInput = { permission };
+            api.share.shareControllerUpdateUserForFile(input ,fileId, user.id).then(onRemoved);
+          }}
+          defaultValue={permission}
+        >
+          <option value={FileUserPermissionPermissionEnum.Read}>Lettura</option>
+          <option value={FileUserPermissionPermissionEnum.Write}>Scrittura</option>
+        </Select>
         <Button size="xs" color="red" onClick={() => api.share.shareControllerRemoveUserForFile(fileId, user.id).then(onRemoved)}>
           Remove
         </Button>

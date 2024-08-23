@@ -7,5 +7,6 @@ export * from './invited-user';
 export * from './model-file';
 export * from './shared-file';
 export * from './shared-folder';
+export * from './update-user-file-permission-input';
 export * from './update-user-folder-permission-input';
 export * from './user';

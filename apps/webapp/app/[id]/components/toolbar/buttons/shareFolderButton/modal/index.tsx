@@ -78,18 +78,19 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
                   key={"modal-invited-" + user.user.id}
                   user={user}
                   folderId={props.folderId}
-                  onRemoved={getInvitedUser}
+                  onRemoved={onInvite}
                 />
               ))}
             </List>
           </div>
           <div className="space-y-2">
             <Label>Invita</Label>
-            <TextInput onChange={getInvitableUser} placeholder="Cerca Utenti" />
+            {/* <TextInput onChange={getInvitableUser} placeholder="Cerca Utenti" /> */}
             <List
               unstyled
               className="divide-y divide-gray-200 dark:divide-gray-700"
             >
+              {invitableUsers.length === 0 && "Nessun Utente da poter invitare"}
               {invitableUsers.map((user) => (
                 <InvitableUserListItem
                   key={"modal-invitable-" + user.id}
@@ -103,8 +104,7 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.closeModal}>Cancel</Button>
-        <Button>Save</Button>
+        <Button onClick={props.closeModal}>Chiudi</Button>
       </Modal.Footer>
     </Modal>
   );

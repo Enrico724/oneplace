@@ -129,6 +129,17 @@ export class ShareService {
         }
     }
 
+    async updateUserForFile(owner: User, fileId: string, userId: string, permission: Permission): Promise<void> {
+        const sharedFile = await this.sharedFilesRepo.findOne({
+            where: { file: { folder: { owner }, }, fileId },
+            relations: { file: { folder: { owner: true } }, permissions: { user: true } }
+        });
+        if (sharedFile == null) throw new NotFoundException();
+        const filePermission = await this.fileUserPermission.findOneBy({ userId, sharedFileId: sharedFile.fileId });
+        filePermission.permission = permission;
+        await this.fileUserPermission.save(filePermission);
+    }
+
     async removeUserForFile(owner: User, fileId: string, userId: string): Promise<void> {
         const sharedFile = await this.sharedFilesRepo.findOne({
             where: { file: { folder: { owner }, }, fileId },

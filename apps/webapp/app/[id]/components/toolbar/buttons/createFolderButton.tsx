@@ -43,8 +43,8 @@ const CreateFolderButton: React.FC<CreateFolderButtonProps> = (props) => {
           <TextInput value={folderName} onChange={onChange} />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={closeModal}>Cancel</Button>
-          <Button onClick={createFolder}>Save</Button>
+          <Button onClick={closeModal}>Annulla</Button>
+          <Button onClick={createFolder}>Crea Cartella</Button>
         </Modal.Footer>
       </Modal>
     </>

@@ -2,7 +2,7 @@ import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse, ApiTags } from '@nestjs/
 import { Controller, Get, Post, Req, UseGuards, Param, Delete, Patch, Body } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import { InvitableUser, InvitedUser, UpdateUserFolderPermissionInput } from 'src/dto';
+import { InvitableUser, InvitedUser, UpdateUserFilePermissionInput, UpdateUserFolderPermissionInput } from 'src/dto';
 import { ShareService } from 'src/service';
 import { FileUserPermission, Folder, FolderUserPermission, User } from 'src/entities';
 
@@ -106,6 +106,20 @@ export class ShareController {
         @Param('userId') userId: string,
     ): Promise<InvitedUser> {
         return this.shareService.inviteUserForFile(req.user, fileId, userId);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBody({ type: UpdateUserFilePermissionInput })
+    @ApiParam({ name: 'fileId', required: true })
+    @ApiParam({ name: 'userId', required: true })
+    @Post('/files/:fileId/invite/:userId/permission')
+    updateUserForFile(
+        @Req() req,
+        @Param('fileId') fileId: string,
+        @Param('userId') userId: string,
+        @Body() body: UpdateUserFilePermissionInput,
+    ): Promise<void> {
+        return this.shareService.updateUserForFile(req.user, fileId, userId, body.permission);
     }
 
     @UseGuards(AuthGuard('jwt'))

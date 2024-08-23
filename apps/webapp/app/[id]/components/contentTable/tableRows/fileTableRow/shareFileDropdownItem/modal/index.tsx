@@ -37,6 +37,7 @@ export function ShareFileModal({ fileId, isModalVisible, closeModal }: ShareFile
 
   useEffect(() => {
     if (api.loading) return;
+    getInvitableUser();
     getInvitedUser();
   }, [api.loading]);
 
@@ -76,18 +77,19 @@ export function ShareFileModal({ fileId, isModalVisible, closeModal }: ShareFile
                   key={"modal-invited-" + user.user.id}
                   userPermission={user}
                   fileId={fileId}
-                  onRemoved={getInvitedUser}
+                  onRemoved={onInvite}
                 />
               ))}
             </List>
           </div>
           <div className="space-y-2">
             <Label>Invita</Label>
-            <TextInput onChange={getInvitableUser} placeholder="Cerca Utenti" />
+            {/* <TextInput onChange={getInvitableUser} placeholder="Cerca Utenti" /> */}
             <List
               unstyled
               className="divide-y divide-gray-200 dark:divide-gray-700"
             >
+              {invitableUsers.length === 0 && "Nessun Utente da poter invitare"}
               {invitableUsers.map((user) => (
                 <InvitableUserListItem
                   key={"modal-invitable-" + user.id}
@@ -101,8 +103,7 @@ export function ShareFileModal({ fileId, isModalVisible, closeModal }: ShareFile
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={closeModal}>Cancel</Button>
-        <Button>Save</Button>
+        <Button onClick={closeModal}>Chiudi</Button>
       </Modal.Footer>
     </Modal>
   );

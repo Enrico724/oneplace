@@ -58,8 +58,8 @@ const UploadFileButton: React.FC<UploadFileButtonProps> = (props) => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={closeModal}>Cancel</Button>
-          <Button onClick={upload}>Save</Button>
+          <Button onClick={closeModal}>Annulla</Button>
+          <Button onClick={upload} disabled={files.length==0}>Carica File</Button>
         </Modal.Footer>
       </Modal>
     </>

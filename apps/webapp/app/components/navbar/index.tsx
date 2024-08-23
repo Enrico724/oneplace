@@ -17,7 +17,7 @@ export default function AppNavbar() {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Searchbar />
+        {/* <Searchbar /> */}
       </Navbar.Collapse>
     </Navbar>
   );

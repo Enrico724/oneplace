@@ -6,3 +6,4 @@ export * from './invited-user.dto';
 export * from './shared-folder.input';
 export * from './user-permission.dto';
 export * from './update-user-folder-permission.input';
+export * from './update-user-file-permission.input';

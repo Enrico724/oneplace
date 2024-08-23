@@ -1,45 +1,71 @@
-import { Button } from "flowbite-react";
+import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from "@headlessui/react";
+import { ChevronDownIcon, CheckIcon } from "@heroicons/react/20/solid";
+import { useState } from "react";
+
+import clsx from "clsx";
+
+interface Person {
+  id: number;
+  name: string;
+}
 
 export function Searchbar() {
+  const people: Person[] = [
+    { id: 1, name: 'Tom Cook' },
+    { id: 2, name: 'Wade Cooper' },
+    { id: 3, name: 'Tanya Fox' },
+    { id: 4, name: 'Arlene Mccoy' },
+    { id: 5, name: 'Devon Webb' },
+  ];
+
+  const [query, setQuery] = useState('')
+  const [selected, setSelected] = useState<Person>(people[1])
+
+  const filteredPeople =
+    query === ''
+      ? people
+      : people.filter((person) => {
+          return person.name.toLowerCase().includes(query.toLowerCase())
+        })
+
   return (
-    <form className="mx-auto flex max-w-sm items-center">
-      <label htmlFor="simple-search" className="sr-only">
-        Search
-      </label>
-      <div className="relative w-full">
-        <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="size-5"
-          >
-            <path d="M3.75 3A1.75 1.75 0 0 0 2 4.75v3.26a3.235 3.235 0 0 1 1.75-.51h12.5c.644 0 1.245.188 1.75.51V6.75A1.75 1.75 0 0 0 16.25 5h-4.836a.25.25 0 0 1-.177-.073L9.823 3.513A1.75 1.75 0 0 0 8.586 3H3.75ZM3.75 9A1.75 1.75 0 0 0 2 10.75v4.5c0 .966.784 1.75 1.75 1.75h12.5A1.75 1.75 0 0 0 18 15.25v-4.5A1.75 1.75 0 0 0 16.25 9H3.75Z" />
-          </svg>
-        </div>
-        <input
-          type="text"
-          id="simple-search"
-          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-          placeholder="Search branch name..."
-          required
-        />
-      </div>
-      <Button className=" ms-2 rounded-lg border text-sm font-medium focus:outline-none focus:ring-4">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="size-5"
-        >
-          <path
-            fillRule="evenodd"
-            d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
-            clipRule="evenodd"
+    <div className="w-52">
+      <Combobox value={selected} onChange={(value: Person) => setSelected(value)} onClose={() => setQuery('')}>
+        <div className="relative">
+          <ComboboxInput
+            className={clsx(
+              'w-full rounded-lg border py-1.5 pr-8 pl-3 text-sm/6',
+              'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2'
+            )}
+            displayValue={(person: Person) => person?.name}
+            placeholder="Search"
+            onChange={(event) => setQuery(event.target.value)}
           />
-        </svg>
-        <span className="sr-only">Search</span>
-      </Button>
-    </form>
+          <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+            <ChevronDownIcon className="size-4" />
+          </ComboboxButton>
+        </div>
+
+        <ComboboxOptions
+          anchor="bottom"
+          transition
+          className={clsx(
+            'w-[var(--input-width)] rounded-xl border p-1 [--anchor-gap:var(--spacing-1)] empty:invisible',
+            'transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0'
+          )}
+        >
+          {filteredPeople.map((person) => (
+            <ComboboxOption
+              key={person.id}
+              value={person}
+              className="group flex cursor-default items-center gap-2 rounded-lg py-1.5 px-3 select-none"
+            >
+              <CheckIcon className="invisible size-4 group-data-[selected]:visible" />
+              <div className="text-sm/6">{person.name}</div>
+            </ComboboxOption>
+          ))}
+        </ComboboxOptions>
+      </Combobox>
+    </div>
   );
 }
