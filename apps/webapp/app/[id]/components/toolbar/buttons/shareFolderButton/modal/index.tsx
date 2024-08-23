@@ -77,6 +77,8 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
                 <InvitedUserListItem
                   key={"modal-invited-" + user.user.id}
                   user={user}
+                  folderId={props.folderId}
+                  onRemoved={getInvitedUser}
                 />
               ))}
             </List>

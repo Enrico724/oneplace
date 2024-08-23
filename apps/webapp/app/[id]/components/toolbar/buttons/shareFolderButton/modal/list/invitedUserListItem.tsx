@@ -1,8 +1,20 @@
-import { InvitableUser, InvitedUser } from "@/openapi";
-import { Avatar, List } from "flowbite-react";
+import { ProviderContext } from "@/app/provider";
+import { FolderUserPermissionPermissionEnum, InvitedUser, UpdateUserFolderPermissionInput, UpdateUserFolderPermissionInputPermissionEnum } from "@/openapi";
+import { Button, List } from "flowbite-react";
+import { ChangeEvent, useContext } from "react";
 
-export function InvitedUserListItem({ user: invited }: { user: InvitedUser }) {
+import { Description, Field, Label, Menu, MenuButton, MenuItem, MenuItems, Select } from '@headlessui/react'
+import { HiChevronDown } from 'react-icons/hi2'
+
+interface InvitedUserListItemProps {
+  user: InvitedUser;
+  folderId: string;
+  onRemoved: () => void;
+};
+
+export function InvitedUserListItem({ user: invited, folderId, onRemoved }: InvitedUserListItemProps) {
   const { user, permission } = invited;
+  const api = useContext(ProviderContext);
   return (
     <List.Item className="group rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-700 sm:p-4">
       <div className="flex items-center space-x-4 rtl:space-x-reverse">
@@ -20,7 +32,24 @@ export function InvitedUserListItem({ user: invited }: { user: InvitedUser }) {
             {user.id}
           </p>
         </div>
-        <div>{permission}</div>
+        <Select
+          onChange={(event) => {
+            const permission = event.target.value as UpdateUserFolderPermissionInputPermissionEnum;
+            const input: UpdateUserFolderPermissionInput = { permission };
+            api.share.shareControllerUpdateUserForFolder(input ,folderId, user.id).then(onRemoved);
+          }}
+          defaultValue={permission}
+        >
+          <option value={FolderUserPermissionPermissionEnum.Read}>Lettura</option>
+          <option value={FolderUserPermissionPermissionEnum.Write}>Scrittura</option>
+        </Select>
+        <Button
+          size="xs"
+          color="red"
+          onClick={() => api.share.shareControllerRemoveUserForFolder(folderId, user.id).then(onRemoved)}
+        >
+          Remove
+        </Button>
       </div>
     </List.Item>
   );

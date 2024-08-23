@@ -5,3 +5,4 @@ export * from './invitable-user.dto';
 export * from './invited-user.dto';
 export * from './shared-folder.input';
 export * from './user-permission.dto';
+export * from './update-user-folder-permission.input';

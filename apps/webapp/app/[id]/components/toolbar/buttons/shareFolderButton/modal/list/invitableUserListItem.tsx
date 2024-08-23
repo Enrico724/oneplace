@@ -16,7 +16,7 @@ export function InvitableUserListItem({
 }: InvitableUserListItemProps) {
   const api = useContext(ProviderContext);
   async function invite() {
-    const { data } = await api.share.shareControllerInviteUser(
+    const { data } = await api.share.shareControllerInviteUserForFolder(
       folderId,
       user.id,
     );

@@ -75,6 +75,8 @@ export function ShareFileModal({ fileId, isModalVisible, closeModal }: ShareFile
                 <InvitedUserListItem
                   key={"modal-invited-" + user.user.id}
                   userPermission={user}
+                  fileId={fileId}
+                  onRemoved={getInvitedUser}
                 />
               ))}
             </List>

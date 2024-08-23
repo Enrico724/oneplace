@@ -1,10 +1,10 @@
-import { ApiBearerAuth, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Post, Req, UseGuards, Param } from '@nestjs/common';
+import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Post, Req, UseGuards, Param, Delete, Patch, Body } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import { InvitableUser, InvitedUser } from 'src/dto';
+import { InvitableUser, InvitedUser, UpdateUserFolderPermissionInput } from 'src/dto';
 import { ShareService } from 'src/service';
-import { FileUserPermission, FolderUserPermission, User } from 'src/entities';
+import { FileUserPermission, Folder, FolderUserPermission, User } from 'src/entities';
 
 @ApiBearerAuth()
 @ApiTags('share')
@@ -70,6 +70,32 @@ export class ShareController {
     }
 
     @UseGuards(AuthGuard('jwt'))
+    @ApiBody({ type: UpdateUserFolderPermissionInput })
+    @ApiParam({ name: 'folderId', required: true })
+    @ApiParam({ name: 'userId', required: true })
+    @Post('/folders/:folderId/invite/:userId/permission')
+    updateUserForFolder(
+        @Req() req,
+        @Param('folderId') folderId: string,
+        @Param('userId') userId: string,
+        @Body() body: UpdateUserFolderPermissionInput,
+    ): Promise<void> {
+        return this.shareService.updateUserForFolder(req.user, folderId, userId, body.permission);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @ApiParam({ name: 'folderId', required: true })
+    @ApiParam({ name: 'userId', required: true })
+    @Delete('/folders/:folderId/invite/:userId')
+    removeUserForFolder(
+        @Req() req,
+        @Param('folderId') folderId: string,
+        @Param('userId') userId: string,
+    ): Promise<void> {
+        return this.shareService.removeUserForFolder(req.user, folderId, userId);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
     @ApiResponse({ type: InvitedUser })
     @ApiParam({ name: 'fileId', required: true })
     @ApiParam({ name: 'userId', required: true })
@@ -80,5 +106,17 @@ export class ShareController {
         @Param('userId') userId: string,
     ): Promise<InvitedUser> {
         return this.shareService.inviteUserForFile(req.user, fileId, userId);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @ApiParam({ name: 'fileId', required: true })
+    @ApiParam({ name: 'userId', required: true })
+    @Delete('/files/:fileId/invite/:userId')
+    removeUserForFile(
+        @Req() req,
+        @Param('fileId') fileId: string,
+        @Param('userId') userId: string,
+    ): Promise<void> {
+        return this.shareService.removeUserForFile(req.user, fileId, userId);
     }
 }

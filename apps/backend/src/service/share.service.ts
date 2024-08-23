@@ -1,5 +1,5 @@
 import { Repository, FindOneOptions, TreeRepository, Not, In, Entity, EntityNotFoundError, EntityPropertyNotFoundError } from "typeorm";
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 
 import { SharedFolderInput } from "src/dto";
@@ -93,6 +93,27 @@ export class ShareService {
         }
     }
 
+    async updateUserForFolder(owner: User, folderId: string, userId: string, permission: Permission): Promise<void> {
+        const sharedFolder = await this.sharedFoldersRepo.findOne({
+            where: { folder: { owner, id: folderId } },
+            relations: { folder: true, permissions: { user: true } }
+        });
+        if (sharedFolder == null) throw new NotFoundException();
+        const folderPermission = await this.folderUserPermission.findOneBy({ userId, sharedFolderId: sharedFolder.id });
+        folderPermission.permission = permission;
+        await this.folderUserPermission.save(folderPermission);
+    }
+
+    async removeUserForFolder(owner: User, folderId: string, userId: string): Promise<void> {
+        const sharedFolder = await this.sharedFoldersRepo.findOne({
+            where: { folder: { owner, id: folderId } },
+            relations: { folder: true, permissions: { user: true } }
+        });
+        if (sharedFolder == null) throw new NotFoundException();
+        const permission = await this.folderUserPermission.findOneBy({ userId, sharedFolderId: sharedFolder.id });
+        await this.folderUserPermission.delete(permission);
+    }
+
     async inviteUserForFile(owner: User, fileId: string, userId: string): Promise<FileUserPermission> {
         const sharedFile = await this.sharedFilesRepo.findOne({
             where: { file: { folder: { owner }, }, fileId },
@@ -106,6 +127,16 @@ export class ShareService {
             if (permission == null) return await this.createPermissionForFile(sharedFile, userId, Permission.Read);
             return permission;
         }
+    }
+
+    async removeUserForFile(owner: User, fileId: string, userId: string): Promise<void> {
+        const sharedFile = await this.sharedFilesRepo.findOne({
+            where: { file: { folder: { owner }, }, fileId },
+            relations: { file: { folder: { owner: true } }, permissions: { user: true } }
+        });
+        if (sharedFile == null) throw new NotFoundException(); 
+        const permission = await this.fileUserPermission.findOneBy({ userId, sharedFileId: sharedFile.fileId });
+        await this.fileUserPermission.delete(permission);
     }
 
     async getUsersForSharingFolder(owner: User, folderId): Promise<User[]> {

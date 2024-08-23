@@ -1,8 +1,17 @@
+import { ProviderContext } from "@/app/provider";
 import { FileUserPermission, InvitableUser, InvitedUser } from "@/openapi";
-import { Avatar, List } from "flowbite-react";
+import { Button, List } from "flowbite-react";
+import { useContext } from "react";
 
-export function InvitedUserListItem({ userPermission }: { userPermission: FileUserPermission }) {
+interface InvitedUserListItemProps {
+  userPermission: FileUserPermission;
+  fileId: string;
+  onRemoved: () => void;
+}
+
+export function InvitedUserListItem({ userPermission, fileId, onRemoved }: InvitedUserListItemProps) {
   const { user, permission } = userPermission;
+  const api = useContext(ProviderContext);
   return (
     <List.Item className="group rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-700 sm:p-4">
       <div className="flex items-center space-x-4 rtl:space-x-reverse">
@@ -21,6 +30,9 @@ export function InvitedUserListItem({ userPermission }: { userPermission: FileUs
           </p>
         </div>
         <div>{permission}</div>
+        <Button size="xs" color="red" onClick={() => api.share.shareControllerRemoveUserForFile(fileId, user.id).then(onRemoved)}>
+          Remove
+        </Button>
       </div>
     </List.Item>
   );
