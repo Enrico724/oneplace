@@ -40,6 +40,7 @@ export function ShareFolderModal(props: ShareFolderModalProps) {
   useEffect(() => {
     if (api.loading) return;
     getInvitedUser();
+    getInvitableUser();
   }, [api.loading]);
 
   const shareableLink = `${APP_BASE_URL}/shared/${props.folderId}`
