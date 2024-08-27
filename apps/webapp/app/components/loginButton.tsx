@@ -5,7 +5,7 @@ import { Button } from "flowbite-react";
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
 
-  return <Button onClick={() => loginWithRedirect()}>Log In</Button>;
+  return <Button onClick={() => loginWithRedirect()}>Accedi</Button>;
 };
 
 export default LoginButton;

@@ -51,18 +51,23 @@ export default function ContentPage({ params: { id } }: ContentPageProps) {
               <AppSidebar />
             </div>
             <div className="w-64 grow gap-2 p-3">
-              <h1>Cartelle</h1>
-              <ul>
+              <h1 className="text-xl">Gestione Cartelle Condivise</h1>
+              <ul className="my-3">
                 {folders.map((folder) => (
-                  <li key={folder.id} className="inline">
-                    <span>{folder.name}
+                  <li key={folder.id}>
+                    <span className="mr-2">{folder.name}</span>
                     <Button
+                      outline
+                      className="inline"
+                      size="xs"
                       onClick={() => api.shared.sharedControllerLeaveSharedFolder(folder.id).then(fetchFolders)}
-                    >Esci Condivisione</Button>
-                    </span>
+                    >
+                      Esci Condivisione
+                    </Button>
                   </li>
                 ))}
               </ul>
+              <h1 className="text-xl">Navigazione Cartelle</h1>
               <FolderTable folders={folders} onAction={fetchFolders} />
               <h1>File</h1>
               <FileTable files={files} onAction={fetchFiles} />

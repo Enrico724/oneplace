@@ -15,15 +15,14 @@ export function ContentSidebar() {
     >
       <div className="h-full justify-items-stretch overflow-y-auto bg-gray-50 px-3 py-4 dark:bg-gray-800">
         {selectedFile ? (
-          <ul className="space-y-2 font-medium">
+          <ul className="space-y-2">
             <li className="flex">
               <HiDocumentText className="mr-2 size-6" />
-              <span className="font-semibold">{selectedFile.name}</span>
-              <HiDocumentText className="size-6" />
+              <span>{selectedFile.name}</span>
             </li>
-            <li>{selectedFile.id}</li>
-            <li>{selectedFile.mimeType}</li>
-            <li>{Utils.formatBytes(selectedFile.size)}</li>
+            <li><span className="font-medium">ID: </span>{selectedFile.id}</li>
+            <li><span className="font-medium">Tipo: </span>{selectedFile.mimeType}</li>
+            <li><span className="font-medium">Dimensione: </span>{Utils.formatBytes(selectedFile.size)}</li>
           </ul>
         ) : (
           <ul className="space-y-2 font-medium">

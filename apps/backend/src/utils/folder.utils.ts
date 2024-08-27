@@ -5,6 +5,7 @@ import { readFileSync } from "fs";
 export class FolderUtils {
     static createZipFolder(zip: JSZip, folder: Folder) {
         const { files, subfolders } = folder;
+        console.log(folder)
         if (files)
             files.forEach((file) => {
                 const data = readFileSync(`data/${file.id}`);

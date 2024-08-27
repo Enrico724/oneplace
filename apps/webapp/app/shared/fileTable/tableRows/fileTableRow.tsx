@@ -20,26 +20,29 @@ export function FileTableRow({ file, onDelete }: FileTableRowProps) {
       className="bg-white dark:border-gray-700 dark:bg-gray-800"
       onClick={onClick}
     >
-      <Table.Cell className="p-4">
-        <Checkbox />
-      </Table.Cell>
       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
         {file.name}
       </Table.Cell>
-      <Table.Cell>31/01/2001</Table.Cell>
+      <Table.Cell>{new Date(file.createdAt).toLocaleDateString('it')}</Table.Cell>
       <Table.Cell>{Utils.formatBytes(file.size)}</Table.Cell>
-      <Table.Cell>Privato</Table.Cell>
       <Table.Cell>
         <Button
+          className="inline-block m-1"
           size="xs"
-          color="red"
           onClick={() => {
             api.shared.sharedControllerLeaveSharedFile(file.id)
               .then(deselectFile)
               .then(onDelete);
           }}
         >
-          Delete
+          Esci dalla Condivisione
+        </Button>
+        <Button
+        className="inline-block m-1"
+          size="xs"
+          href={`/documents/${file.id}`}
+        >
+          Apri File
         </Button>
       </Table.Cell>
     </Table.Row>

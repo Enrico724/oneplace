@@ -19,7 +19,7 @@ export class FolderService {
   ) {}
   
   async download(user: User, id: string): Promise<{ filename: string, buffer: Buffer}> {
-    const folder = await this.repository.findOneOrFail({ where: { owner: user, id } });
+    const folder = await this.repository.findOneOrFail({ where: { owner: user, id }, relations: ['files'] });
     const content = await this.repository.findDescendantsTree(folder, { relations: ['files'] });
     const zip = new JSZip()
     FolderUtils.createZipFolder(zip, content);

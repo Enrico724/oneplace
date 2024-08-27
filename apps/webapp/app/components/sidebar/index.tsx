@@ -16,9 +16,7 @@ export default function AppSidebar() {
           <Sidebar.Item href="/shared" icon={SharedIcon}>
             Condivisi Con Me
           </Sidebar.Item>
-          <Sidebar.Item href="/people" icon={UsersIcon}>
-            Persone
-          </Sidebar.Item>
+          
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>

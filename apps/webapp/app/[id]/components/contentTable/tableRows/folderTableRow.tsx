@@ -1,5 +1,6 @@
 import { ProviderContext } from "@/app/provider";
-import { Folder } from "@/openapi";
+import Utils from "@/app/utils";
+import { Folder, ModelFile } from "@/openapi";
 import { AxiosRequestConfig } from "axios";
 import { Button, Checkbox, Dropdown, Table } from "flowbite-react";
 import { useContext } from "react";
@@ -20,14 +21,11 @@ export function FolderTableRow({ folder, isParentShare }: FolderTableRowProps) {
       className="bg-white dark:border-gray-700 dark:bg-gray-800"
       onClick={onClick}
     >
-      <Table.Cell className="p-4">
-        <Checkbox />
-      </Table.Cell>
       <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
         {folder.name}
       </Table.Cell>
-      <Table.Cell>{folder.createdAt.toString().split('T')[0]}</Table.Cell>
-      <Table.Cell className="md:inherit hidden">124.5 MB</Table.Cell>
+      <Table.Cell>{new Date(folder.createdAt).toLocaleDateString('it')}</Table.Cell>
+      <Table.Cell>--</Table.Cell>
       <Table.Cell>
         {isShared ? (
           <div className="flex -space-x-4 rtl:space-x-reverse">
@@ -59,25 +57,36 @@ export function FolderTableRow({ folder, isParentShare }: FolderTableRowProps) {
             </span>
           )}
         >
+        <Dropdown.Item>
+          <button
+            onClick={async (event: any) => {
+              event.stopPropagation();
+              const options: AxiosRequestConfig = { responseType: "blob" };
+              const { data, headers } =
+                await api.folder.folderControllerDownloadFolder(
+                  folder.id,
+                  options,
+                );
+              const imageUrlObject = URL.createObjectURL(data!);
+              const link = document.createElement("a");
+              link.href = imageUrlObject;
+              link.download = `${folder.name}.zip`;
+              link.click();
+              URL.revokeObjectURL(imageUrlObject);
+            }}
+          >
+            Download
+          </button>
+        </Dropdown.Item>
           <Dropdown.Item>
             <button
               onClick={async (event: any) => {
                 event.stopPropagation();
-                const options: AxiosRequestConfig = { responseType: "blob" };
-                const { data, headers } =
-                  await api.folder.folderControllerDownloadFolder(
-                    folder.id,
-                    options,
-                  );
-                const imageUrlObject = URL.createObjectURL(data!);
-                const link = document.createElement("a");
-                link.href = imageUrlObject;
-                link.download = `${folder.name}.zip`;
-                link.click();
-                URL.revokeObjectURL(imageUrlObject);
+                const { data, headers } = await api.folder.folderControllerDeleteFolder(folder.id);
+                
               }}
             >
-              Download
+              Elimina
             </button>
           </Dropdown.Item>
         </Dropdown>

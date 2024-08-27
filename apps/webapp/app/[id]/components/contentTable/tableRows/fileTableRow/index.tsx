@@ -25,9 +25,6 @@ export function FileTableRow({ file, onDelete }: FileTableRowProps) {
       className="bg-white dark:border-gray-700 dark:bg-gray-800"
       onClick={onClick}
     >
-      <Table.Cell className="p-4">
-        <Checkbox />
-      </Table.Cell>
       <Table.Cell className="flex gap-2 items-center whitespace-nowrap font-medium text-gray-900 dark:text-white">
         <div className="w-[30px] m-[1px]">
           <FileIcon color='lavender' extension={ext} />
@@ -35,7 +32,7 @@ export function FileTableRow({ file, onDelete }: FileTableRowProps) {
         {file.name}
       </Table.Cell>
       <Table.Cell>{file.createdAt.toString().split('T')[0]}</Table.Cell>
-      <Table.Cell className="md:inherit hidden">
+      <Table.Cell>
         {Utils.formatBytes(file.size)}
       </Table.Cell>
       <Table.Cell>Privato</Table.Cell>

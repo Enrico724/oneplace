@@ -19,19 +19,16 @@ export function ContentTable(props: ContentTableProps) {
     <div className="overflow-x-auto py-3">
       <Table hoverable>
         <Table.Head>
-          <Table.HeadCell className="p-4">
-            <Checkbox />
-          </Table.HeadCell>
           <Table.HeadCell>Nome</Table.HeadCell>
           <Table.HeadCell>
             Data Creazione
           </Table.HeadCell>
-          <Table.HeadCell className="md:inherit hidden">
-            Dimensione File
+          <Table.HeadCell>
+            Dimensione
           </Table.HeadCell>
           <Table.HeadCell>Condivisione</Table.HeadCell>
           <Table.HeadCell className="flex items-center justify-end px-4 py-3">
-            <span className="sr-only">Actions</span>
+            Actions
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">

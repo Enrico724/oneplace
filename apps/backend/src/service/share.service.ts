@@ -28,6 +28,14 @@ export class ShareService {
         @InjectRepository(FileUserPermission)
         private readonly fileUserPermission: Repository<FileUserPermission>,
     ) {}
+
+    get() {
+        return {
+            from: [],
+            to: [],
+            others: [],
+        }
+    }
     
     getInvitedUsersForFolder(owner: User, folderId: string): Promise<FolderUserPermission[]> {
         return this.folderUserPermission.find(({
